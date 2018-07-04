@@ -8,12 +8,16 @@ import android.widget.Button;
 import android.view.View;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
+
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,13 +48,15 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             if(integer == 1)
                 Toast.makeText(getApplicationContext(), "Login Sukses!", Toast.LENGTH_LONG).show();
-            else
+            else if (integer == 0)
                 Toast.makeText(getApplicationContext(), "Login Gagal", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(getApplicationContext(), "Maaf, ada kesalahan. Silakan laporkan pada pihak berwenang...", Toast.LENGTH_LONG).show();
         }
 
         @Override
         protected Integer doInBackground(String... strings) {
-            Integer resultCall = -1;
+            Integer bitSuccessConnect = -1;
 
             SoapObject reqsWebSvc = new SoapObject(STATIC_VALUES.NAMESPACE, "CallSpExcecution");
 
@@ -75,16 +81,20 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 httpTrans.call(STATIC_VALUES.SOAP_ACTION, env);
-                SoapObject result = (SoapObject) env.bodyIn;
+                SoapObject soapResponse = (SoapObject) env.bodyIn;
 
-                if(result != null)
-                    resultCall = 1;
-                else
-                    resultCall = 0;
+                if(soapResponse.toString().equals("CallSpExcecutionResponse{}") || soapResponse == null)
+                    return bitSuccessConnect;
+                else{
+                    String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
+                    JSONArray jArray = new JSONArray(callSpExcecutionResult);
+                    String bitExeResult = jArray.getJSONObject(0).getString("bitSuccess");
+                    bitSuccessConnect = Integer.parseInt(bitExeResult);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
-            return resultCall;
+            return bitSuccessConnect;
         }
     }
 }
