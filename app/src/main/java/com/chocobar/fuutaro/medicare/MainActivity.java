@@ -1,5 +1,6 @@
 package com.chocobar.fuutaro.medicare;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -13,11 +14,6 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
-
-import com.chocobar.fuutaro.medicare.STATIC_VALUES;
-
-import java.net.Proxy;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,40 +34,57 @@ public class MainActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SoapObject reqsWebSvc = new SoapObject(STATIC_VALUES.NAMESPACE, "CallSpExcecution");
-
-                PropertyInfo SPNameInfo = new PropertyInfo();
-                SPNameInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-                SPNameInfo.setType(PropertyInfo.STRING_CLASS);
-                SPNameInfo.setName("txtSPName");
-                SPNameInfo.setValue("User_Login");
-                reqsWebSvc.addProperty(SPNameInfo);
-
-                PropertyInfo ParamValueInfo = new PropertyInfo();
-                ParamValueInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-                ParamValueInfo.setType(PropertyInfo.STRING_CLASS);
-                ParamValueInfo.setName("txtParamValue");
-                ParamValueInfo.setValue("txtUsername#"+inputUsername.getText().toString()+"~txtPassword#"+inputPassword.getText().toString());
-                reqsWebSvc.addProperty(ParamValueInfo);
-
-                SoapSerializationEnvelope env = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                env.setOutputSoapObject(reqsWebSvc);
-                env.dotNet = true;
-
-                try {
-                    HttpTransportSE httpTrans = new HttpTransportSE(STATIC_VALUES.URL);
-                    httpTrans.call(STATIC_VALUES.SOAP_ACTION, env);
-                    SoapPrimitive result = (SoapPrimitive)env.getResponse();
-
-                    if(result != null)
-                        Toast.makeText(getApplicationContext(), "Login Sukses!", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(getApplicationContext(), "Login Gagal", Toast.LENGTH_LONG).show();
-                }catch (Exception e){
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), "Error :P", Toast.LENGTH_LONG).show();
-                }
+                new WebServiceLogin().execute(inputUsername.getText().toString(), inputPassword.getText().toString());
             }
         });
+    }
+
+    class WebServiceLogin extends AsyncTask<String, Void, Integer> {
+        @Override
+        protected void onPostExecute(Integer integer) {
+            if(integer == 1)
+                Toast.makeText(getApplicationContext(), "Login Sukses!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(getApplicationContext(), "Login Gagal", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Integer doInBackground(String... strings) {
+            Integer resultCall = -1;
+
+            SoapObject reqsWebSvc = new SoapObject(STATIC_VALUES.NAMESPACE, "CallSpExcecution");
+
+            PropertyInfo SPNameInfo = new PropertyInfo();
+            SPNameInfo.setNamespace(STATIC_VALUES.NAMESPACE);
+            SPNameInfo.setType(PropertyInfo.STRING_CLASS);
+            SPNameInfo.setName("txtSPName");
+            SPNameInfo.setValue("User_Login");
+            reqsWebSvc.addProperty(SPNameInfo);
+
+            PropertyInfo ParamValueInfo = new PropertyInfo();
+            ParamValueInfo.setNamespace(STATIC_VALUES.NAMESPACE);
+            ParamValueInfo.setType(PropertyInfo.STRING_CLASS);
+            ParamValueInfo.setName("txtParamValue");
+            ParamValueInfo.setValue("txtUsername#"+strings[0]+"~txtPassword#"+strings[1]);
+            reqsWebSvc.addProperty(ParamValueInfo);
+
+            SoapSerializationEnvelope env = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            env.setOutputSoapObject(reqsWebSvc);
+            env.dotNet = true;
+            HttpTransportSE httpTrans = new HttpTransportSE(STATIC_VALUES.URL);
+
+            try {
+                httpTrans.call(STATIC_VALUES.SOAP_ACTION, env);
+                SoapObject result = (SoapObject) env.bodyIn;
+
+                if(result != null)
+                    resultCall = 1;
+                else
+                    resultCall = 0;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return resultCall;
+        }
     }
 }
