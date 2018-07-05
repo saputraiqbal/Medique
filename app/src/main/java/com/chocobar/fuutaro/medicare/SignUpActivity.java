@@ -52,8 +52,10 @@ public class SignUpActivity extends AppCompatActivity {
         //initialize method when AsyncTask has been executed
         @Override
         protected void onPostExecute(Integer integer) {
-            if(integer == 1)
+            if(integer == 1){
                 Toast.makeText(getApplicationContext(), "Sign up sukses!", Toast.LENGTH_LONG).show();
+                finish();
+            }
             else if (integer == 0)
                 Toast.makeText(getApplicationContext(), "Sign up gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
             else if (integer == 2)
