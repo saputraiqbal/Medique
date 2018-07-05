@@ -1,3 +1,4 @@
+//STATIC_VALUES.java contains static values used for sending request to web services
 package com.chocobar.fuutaro.medicare;
 
 public class STATIC_VALUES {
