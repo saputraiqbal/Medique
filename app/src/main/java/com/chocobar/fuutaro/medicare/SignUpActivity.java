@@ -15,6 +15,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public class SignUpActivity extends AppCompatActivity {
 
     //initialize widget objects app
@@ -37,19 +41,40 @@ public class SignUpActivity extends AppCompatActivity {
         getConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         btnSignup = findViewById(R.id.btnSignUp);
 
+        final List<EditText> getSignupForm = new ArrayList<EditText>();
+        getSignupForm.add(getFullname);
+        getSignupForm.add(getEmail);
+        getSignupForm.add(getUsername);
+        getSignupForm.add(getPassword);
+        getSignupForm.add(getConfirmPassword);
+
+        final boolean isEmptyTxt = isEmpty(getSignupForm);
+
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new WebServiceSignup().execute(getFullname.getText().toString(), getEmail.getText().toString(),
-                        getUsername.getText().toString(), getPassword.getText().toString(), getConfirmPassword.getText().toString());
+                if (isEmptyTxt)
+                    new WebServiceSignup().execute(getSignupForm);
+                else
+                    Toast.makeText(getApplicationContext(),"Kolom daftar kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    //initialize AsyncTask class
-    class WebServiceSignup extends AsyncTask<String, Void, Integer> {
+    private boolean isEmpty(List<EditText> checkTxt){
+        boolean boolIsEmpty = false;
+        for (EditText isEmpty : checkTxt){
+            if(isEmpty.getText().toString().trim().length() == 0)
+                break;
+            else
+                boolIsEmpty = true;
+        }
+        return boolIsEmpty;
+    }
 
-        //initialize method when AsyncTask has been executed
+    //initialize AsyncTask class
+
+    class WebServiceSignup extends AsyncTask<List<EditText>, Void, Integer> {
         @Override
         protected void onPostExecute(Integer integer) {
             if(integer == 1){
@@ -64,39 +89,19 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Maaf, ada kesalahan. Silakan laporkan pada pihak berwenang...", Toast.LENGTH_LONG).show();
         }
 
-        //initialize AsyncTask method
         @Override
-        protected Integer doInBackground(String... strings) {
+        protected Integer doInBackground(List<EditText>... lists) {
             Integer bitSuccessConnect = -1;
 
-            //initializing the process of request first
-            SoapObject reqsWebSvc = new SoapObject(STATIC_VALUES.NAMESPACE, "CallSpExcecution");
-
-            //configuring the envelope before creating it
-            PropertyInfo SPNameInfo = new PropertyInfo();
-            SPNameInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-            SPNameInfo.setType(PropertyInfo.STRING_CLASS);
-            SPNameInfo.setName("txtSPName");
-            SPNameInfo.setValue("User_RegisterApp");
-            reqsWebSvc.addProperty(SPNameInfo);
-
-            PropertyInfo ParamValueInfo = new PropertyInfo();
-            ParamValueInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-            ParamValueInfo.setType(PropertyInfo.STRING_CLASS);
-            ParamValueInfo.setName("txtParamValue");
-            ParamValueInfo.setValue("txtFullName#" + strings[0] +
-                    "~txtEmail#" + strings[1] +
-                    "~txtUsername#" + strings[2] +
-                    "~txtPassword#" + strings[3]);
-            reqsWebSvc.addProperty(ParamValueInfo);
-
-            //creating an envelope
-            SoapSerializationEnvelope env = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            env.setOutputSoapObject(reqsWebSvc);
-            env.dotNet = true;
-
-            //creating the request
-            HttpTransportSE httpTrans = new HttpTransportSE(STATIC_VALUES.URL);
+            //calling request to webservice process from AsyncTaskActivity then store the return value
+            List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_RegisterApp",
+                    "txtFullName#" + lists[0] +
+                    "~txtEmail#" + lists[1] +
+                    "~txtUsername#" + lists[2] +
+                    "~txtPassword#" + lists[3]);
+            //convert each List values with their match object type data
+            SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
+            HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
 
             //transaction for sending the request
             try {
@@ -109,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
                     return bitSuccessConnect;
                     //if request has been retrieved by SoapObject soapResponse
                 else{
-                    if (strings[3].equals(strings[4])){
+                    if (lists[3].equals(lists[4])){
                         String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
                         JSONArray jArray = new JSONArray(callSpExcecutionResult);
                         String bitExeResult = jArray.getJSONObject(0).getString("bitSuccess");

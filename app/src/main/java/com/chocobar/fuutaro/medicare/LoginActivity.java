@@ -18,6 +18,8 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.List;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,8 +44,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //execute webservice using AsyncTask
-                new WebServiceLogin().execute(inputUsername.getText().toString(), inputPassword.getText().toString());
+                if(!inputUsername.getText().toString().equals("") || !inputPassword.getText().toString().equals(""))
+                    //execute webservice using AsyncTask
+                    new WebServiceLogin().execute(inputUsername.getText().toString(), inputPassword.getText().toString());
+                else
+                    Toast.makeText(getApplicationContext(),"Kolom Login kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -74,33 +79,14 @@ public class LoginActivity extends AppCompatActivity {
         //initialize AsyncTask method
         @Override
         protected Integer doInBackground(String... strings) {
+            //initialize return value
             Integer bitSuccessConnect = -1;
 
-            //initializing the process of request first
-            SoapObject reqsWebSvc = new SoapObject(STATIC_VALUES.NAMESPACE, "CallSpExcecution");
-
-            //configuring the envelope before creating it
-            PropertyInfo SPNameInfo = new PropertyInfo();
-            SPNameInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-            SPNameInfo.setType(PropertyInfo.STRING_CLASS);
-            SPNameInfo.setName("txtSPName");
-            SPNameInfo.setValue("User_Login");
-            reqsWebSvc.addProperty(SPNameInfo);
-
-            PropertyInfo ParamValueInfo = new PropertyInfo();
-            ParamValueInfo.setNamespace(STATIC_VALUES.NAMESPACE);
-            ParamValueInfo.setType(PropertyInfo.STRING_CLASS);
-            ParamValueInfo.setName("txtParamValue");
-            ParamValueInfo.setValue("txtUsername#"+strings[0]+"~txtPassword#"+strings[1]);
-            reqsWebSvc.addProperty(ParamValueInfo);
-
-            //creating an envelope
-            SoapSerializationEnvelope env = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            env.setOutputSoapObject(reqsWebSvc);
-            env.dotNet = true;
-
-            //creating the request
-            HttpTransportSE httpTrans = new HttpTransportSE(STATIC_VALUES.URL);
+            //calling request to webservice process from AsyncTaskActivity then store the return value
+            List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_Login", "txtUsername#"+strings[0]+"~txtPassword#"+strings[1]);
+            //convert each List values with their match object type data
+            SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
+            HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
 
             //transaction for sending the request
             try {
