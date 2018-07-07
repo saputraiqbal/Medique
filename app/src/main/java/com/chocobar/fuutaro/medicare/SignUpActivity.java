@@ -1,5 +1,6 @@
 package com.chocobar.fuutaro.medicare;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -9,14 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -25,13 +24,17 @@ public class SignUpActivity extends AppCompatActivity {
     EditText getFullname, getEmail, getPassword, getUsername, getConfirmPassword;
     Button btnSignup;
 
+    String setFullname, setEmail, setUsername, setPassword;
+
+    ArrayList<String> setSignupForm = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
         //receive Intent from LoginActivity
-        Bundle getSignUpIntent = getIntent().getExtras();
+        final Bundle getSignUpIntent = getIntent().getExtras();
 
         //initialize object widgets to UI widget elements
         getFullname = findViewById(R.id.signUpFullName);
@@ -41,64 +44,70 @@ public class SignUpActivity extends AppCompatActivity {
         getConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         btnSignup = findViewById(R.id.btnSignUp);
 
-        final List<EditText> getSignupForm = new ArrayList<EditText>();
-        getSignupForm.add(getFullname);
-        getSignupForm.add(getEmail);
-        getSignupForm.add(getUsername);
-        getSignupForm.add(getPassword);
-        getSignupForm.add(getConfirmPassword);
-
-        final boolean isEmptyTxt = isEmpty(getSignupForm);
-
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isEmptyTxt)
-                    new WebServiceSignup().execute(getSignupForm);
+                setSignupForm.addAll(Arrays.asList(getFullname.getText().toString(), getEmail.getText().toString(), getUsername.getText().toString(), getPassword.getText().toString()));
+                if(isEditTxtEmpty(setSignupForm) && !getConfirmPassword.getText().toString().isEmpty()){
+                    if (getConfirmPassword.getText().toString().equals(setSignupForm.get(3)))
+                        new WebServiceSignup(SignUpActivity.this).execute(setSignupForm);
+                    else
+                        Toast.makeText(getApplicationContext(),"Harap ulangi password Anda dengan benar", Toast.LENGTH_LONG).show();
+                }
                 else
                     Toast.makeText(getApplicationContext(),"Kolom daftar kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
-            }
+           }
         });
     }
 
-    private boolean isEmpty(List<EditText> checkTxt){
-        boolean boolIsEmpty = false;
-        for (EditText isEmpty : checkTxt){
-            if(isEmpty.getText().toString().trim().length() == 0)
-                break;
-            else
-                boolIsEmpty = true;
+    public static boolean isEditTxtEmpty(ArrayList<String> checkTxt){
+        for (String check : checkTxt){
+            if(check.isEmpty())
+            return false;
         }
-        return boolIsEmpty;
+        return true;
     }
 
     //initialize AsyncTask class
+    class WebServiceSignup extends AsyncTask<List<String>, Void, Integer> {
+        private ProgressDialog signupLoad;
 
-    class WebServiceSignup extends AsyncTask<List<EditText>, Void, Integer> {
+        private WebServiceSignup(SignUpActivity signupActivity){
+            signupLoad = new ProgressDialog(signupActivity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            signupLoad.setMessage("Tunggu sebentar...");
+            signupLoad.show();
+        }
+
         @Override
         protected void onPostExecute(Integer integer) {
+            if(signupLoad.isShowing())
+                signupLoad.dismiss();
             if(integer == 1){
                 Toast.makeText(getApplicationContext(), "Sign up sukses!", Toast.LENGTH_LONG).show();
                 finish();
             }
             else if (integer == 0)
                 Toast.makeText(getApplicationContext(), "Sign up gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
-            else if (integer == 2)
-                Toast.makeText(getApplicationContext(), "Ulangi password Anda dengan benar", Toast.LENGTH_LONG).show();
             else
                 Toast.makeText(getApplicationContext(), "Maaf, ada kesalahan. Silakan laporkan pada pihak berwenang...", Toast.LENGTH_LONG).show();
         }
 
         @Override
-        protected Integer doInBackground(List<EditText>... lists) {
+        protected Integer doInBackground(List<String>... lists) {
             Integer bitSuccessConnect = -1;
+
+            List<String> setSignup = lists[0];
 
             //calling request to webservice process from AsyncTaskActivity then store the return value
             List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_RegisterApp",
-                    "txtFullName#" + lists[0] +
-                    "~txtEmail#" + lists[1] +
-                    "~txtUsername#" + lists[2] +
-                    "~txtPassword#" + lists[3]);
+                    "txtFullName#" + setSignup.get(0)+
+                    "~txtEmail#" + setSignup.get(1)+
+                    "~txtUsername#" + setSignup.get(2)+
+                    "~txtPassword#" + setSignup.get(3));
             //convert each List values with their match object type data
             SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
             HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
@@ -114,14 +123,10 @@ public class SignUpActivity extends AppCompatActivity {
                     return bitSuccessConnect;
                     //if request has been retrieved by SoapObject soapResponse
                 else{
-                    if (lists[3].equals(lists[4])){
-                        String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
-                        JSONArray jArray = new JSONArray(callSpExcecutionResult);
-                        String bitExeResult = jArray.getJSONObject(0).getString("bitSuccess");
-                        bitSuccessConnect = Integer.parseInt(bitExeResult);
-                    }
-                    else
-                        bitSuccessConnect = 2;
+                    String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
+                    JSONArray jArray = new JSONArray(callSpExcecutionResult);
+                    String bitExeResult = jArray.getJSONObject(0).getString("bitSuccess");
+                    bitSuccessConnect = Integer.parseInt(bitExeResult);
                 }
                 //if transaction failed
             }catch (Exception e){

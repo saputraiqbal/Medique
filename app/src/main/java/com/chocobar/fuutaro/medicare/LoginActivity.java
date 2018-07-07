@@ -1,9 +1,11 @@
 package com.chocobar.fuutaro.medicare;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Button;
@@ -46,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(!inputUsername.getText().toString().equals("") || !inputPassword.getText().toString().equals(""))
                     //execute webservice using AsyncTask
-                    new WebServiceLogin().execute(inputUsername.getText().toString(), inputPassword.getText().toString());
+                    new WebServiceLogin(LoginActivity.this).execute(inputUsername.getText().toString(), inputPassword.getText().toString());
                 else
                     Toast.makeText(getApplicationContext(),"Kolom Login kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
             }
@@ -64,10 +66,23 @@ public class LoginActivity extends AppCompatActivity {
 
     //initialize AsyncTask class
     class WebServiceLogin extends AsyncTask<String, Void, Integer> {
+        private ProgressDialog loginLoad;
+
+        private WebServiceLogin (LoginActivity loginActivity){
+            loginLoad = new ProgressDialog(loginActivity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            loginLoad.setMessage("Tunggu sebentar...");
+            loginLoad.show();
+        }
 
         //initialize method when AsyncTask has been executed
         @Override
         protected void onPostExecute(Integer integer) {
+            if(loginLoad.isShowing())
+                loginLoad.dismiss();
             if(integer == 1)
                 Toast.makeText(getApplicationContext(), "Login Sukses!", Toast.LENGTH_LONG).show();
             else if (integer == 0)
