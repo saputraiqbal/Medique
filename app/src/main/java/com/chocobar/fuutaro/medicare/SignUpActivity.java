@@ -1,5 +1,6 @@
 package com.chocobar.fuutaro.medicare;
 
+//import anything needed for this Activity
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,8 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText getFullname, getEmail, getPassword, getUsername, getConfirmPassword;
     Button btnSignup;
 
-    String setFullname, setEmail, setUsername, setPassword;
-
+    //initalize ArrayList for storing EditText values
     ArrayList<String> setSignupForm = new ArrayList<>();
 
     @Override
@@ -44,12 +44,17 @@ public class SignUpActivity extends AppCompatActivity {
         getConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         btnSignup = findViewById(R.id.btnSignUp);
 
+        //action takes when button is clicked
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //store sign up datas to the ArrayList
                 setSignupForm.addAll(Arrays.asList(getFullname.getText().toString(), getEmail.getText().toString(), getUsername.getText().toString(), getPassword.getText().toString()));
+                //checked if form is fulfilled
                 if(isEditTxtEmpty(setSignupForm) && !getConfirmPassword.getText().toString().isEmpty()){
+                    //checked whether confirmed password is equal by password entered by user or not
                     if (getConfirmPassword.getText().toString().equals(setSignupForm.get(3)))
+                        //execute webservice using AsyncTask
                         new WebServiceSignup(SignUpActivity.this).execute(setSignupForm);
                     else
                         Toast.makeText(getApplicationContext(),"Harap ulangi password Anda dengan benar", Toast.LENGTH_LONG).show();
@@ -60,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    //method for check whether form data is fulfilled or not
     public static boolean isEditTxtEmpty(ArrayList<String> checkTxt){
         for (String check : checkTxt){
             if(check.isEmpty())
@@ -70,18 +76,21 @@ public class SignUpActivity extends AppCompatActivity {
 
     //initialize AsyncTask class
     class WebServiceSignup extends AsyncTask<List<String>, Void, Integer> {
+        //initialize ProgressDialog
         private ProgressDialog signupLoad;
 
         private WebServiceSignup(SignUpActivity signupActivity){
             signupLoad = new ProgressDialog(signupActivity);
         }
 
+        //action takes before apps AsyncTask is working
         @Override
         protected void onPreExecute() {
             signupLoad.setMessage("Tunggu sebentar...");
             signupLoad.show();
         }
 
+        //action takes when apps AsyncTask is done
         @Override
         protected void onPostExecute(Integer integer) {
             if(signupLoad.isShowing())
@@ -96,10 +105,13 @@ public class SignUpActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Maaf, ada kesalahan. Silakan laporkan pada pihak berwenang...", Toast.LENGTH_LONG).show();
         }
 
+        //main operation of AsyncTask is work here
         @Override
         protected Integer doInBackground(List<String>... lists) {
+            //initialize return value
             Integer bitSuccessConnect = -1;
 
+            //initalize variable to store parameter value
             List<String> setSignup = lists[0];
 
             //calling request to webservice process from AsyncTaskActivity then store the return value

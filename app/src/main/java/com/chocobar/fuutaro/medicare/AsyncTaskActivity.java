@@ -1,5 +1,8 @@
+//AsyncTaskActivity used for do a main operation of calling webservice that will be used in AsyncTask
+
 package com.chocobar.fuutaro.medicare;
 
+//import anything needed for this Activity
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class AsyncTaskActivity {
     public static List<Object> doAsyncTask(String varName, String paramValue){
+        //initialize List for return object
         List<Object> dataSent = new ArrayList<Object>();
 
         //initializing the process of request first
@@ -39,6 +43,7 @@ public class AsyncTaskActivity {
         //creating the request
         HttpTransportSE httpTrans = new HttpTransportSE(STATIC_VALUES.URL);
 
+        //add to the List
         dataSent.add(env);
         dataSent.add(httpTrans);
 

@@ -1,11 +1,11 @@
 package com.chocobar.fuutaro.medicare;
 
+//import anything needed for this Activity
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Button;
@@ -14,8 +14,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
@@ -66,12 +64,14 @@ public class LoginActivity extends AppCompatActivity {
 
     //initialize AsyncTask class
     class WebServiceLogin extends AsyncTask<String, Void, Integer> {
+        //initialize ProgressDialog
         private ProgressDialog loginLoad;
 
         private WebServiceLogin (LoginActivity loginActivity){
             loginLoad = new ProgressDialog(loginActivity);
         }
 
+        //action takes before apps AsyncTask is working
         @Override
         protected void onPreExecute() {
             loginLoad.setMessage("Tunggu sebentar...");
