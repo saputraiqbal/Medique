@@ -83,8 +83,11 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Integer integer) {
             if(loginLoad.isShowing())
                 loginLoad.dismiss();
-            if(integer == 1)
+            if(integer == 1){
                 Toast.makeText(getApplicationContext(), "Login Sukses!", Toast.LENGTH_LONG).show();
+                Intent enterApps = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(enterApps);
+            }
             else if (integer == 0)
                 Toast.makeText(getApplicationContext(), "Login Gagal", Toast.LENGTH_LONG).show();
             else
