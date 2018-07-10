@@ -17,7 +17,7 @@ import com.chocobar.fuutaro.medicare.model.Dokter;
 import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 import java.util.List;
-
+//
 public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> {
 
     private LayoutInflater inflater;
