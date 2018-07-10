@@ -1,5 +1,6 @@
 package com.chocobar.fuutaro.medicare;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -8,28 +9,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.chocobar.fuutaro.medicare.model.Dokter;
 
 import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdapterData extends RecyclerView.Adapter<AdapterData.CustomViewHolder> {
+public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> {
 
     private LayoutInflater inflater;
     private Context ctx;
+    private ArrayList<Dokter> mData;
+    private Activity mACtivity;
 
-    public AdapterData(Context ctx){
-
+    public AdapterData(ArrayList<Dokter> data, Activity activity) {
+        this.mData = data;
+        this.mACtivity = activity;
     }
 
     @Override
-    public AdapterData.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public DokterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data, parent, false);
+        return new DokterHolder(view);
     }
 
     @Override
-    public void onBindViewHolder( final CustomViewHolder holder, int position) {
+    public void onBindViewHolder( final DokterHolder holder, int position) {
+        Dokter dokter = mData.get(position);
 
     }
 
@@ -38,10 +47,35 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.CustomViewHold
         return 0;
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder{
-        public CustomViewHolder(View itemView) {
+    public class DokterHolder extends RecyclerView.ViewHolder{
+        ImageView viewAvatar;
+        TextView viewName, viewAddress, viewCallNum, viewSpecialist;
+
+        public DokterHolder(View itemView) {
             super(itemView);
+            viewAvatar = itemView.findViewById(R.id.viewPersonPhoto);
+            viewName = itemView.findViewById(R.id.txtPersonName);
+            viewAddress = itemView.findViewById(R.id.txtPersonAddress);
+            viewCallNum = itemView.findViewById(R.id.txtPersonCallNum);
+            viewSpecialist = itemView.findViewById(R.id.txtPersonSpecialist);
         }
+
+        public void setName(String name){
+            viewName.setText(name);
+        }
+
+        public void setAddress(String alamat, String provinsi, String kota){
+            viewAddress.setText(alamat + ", " + kota + ", " + provinsi);
+        }
+
+        public void setCallNum(String callNum){
+            viewCallNum.setText(callNum);
+        }
+
+        public void setSpecialist(String specialist){
+            viewSpecialist.setText(specialist);
+        }
+
     }
 
 }
