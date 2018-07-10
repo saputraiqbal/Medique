@@ -17,7 +17,8 @@ import com.chocobar.fuutaro.medicare.model.Dokter;
 import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 import java.util.List;
-//
+import com.squareup.picasso.Picasso;
+
 public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> {
 
     private LayoutInflater inflater;
@@ -37,14 +38,17 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> 
     }
 
     @Override
-    public void onBindViewHolder( final DokterHolder holder, int position) {
-        Dokter dokter = mData.get(position);
-
+    public void onBindViewHolder(DokterHolder holder, final int position) {
+        holder.viewName.setText(((Dokter)mData.get(position)).getNama());
+        holder.viewAddress.setText(((Dokter)mData.get(position)).getAlamat()+", "+((Dokter)mData.get(position)).getKota()+", "+((Dokter)mData.get(position)).getProvinsi());
+        holder.viewCallNum.setText(((Dokter)mData.get(position)).getNoTelp());
+        holder.viewSpecialist.setText(((Dokter)mData.get(position)).getSpesialis());
+        Picasso.with(ctx).load(((Dokter)mData.get(position)).getImg()).into(holder.viewAvatar);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mData.size();
     }
 
     public class DokterHolder extends RecyclerView.ViewHolder{
@@ -60,21 +64,21 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> 
             viewSpecialist = itemView.findViewById(R.id.txtPersonSpecialist);
         }
 
-        public void setName(String name){
-            viewName.setText(name);
-        }
+        //public void setName(String name){
+            //viewName.setText(name);
+        //}
 
-        public void setAddress(String alamat, String provinsi, String kota){
-            viewAddress.setText(alamat + ", " + kota + ", " + provinsi);
-        }
+        //public void setAddress(String alamat, String provinsi, String kota){
+            //viewAddress.setText(alamat + ", " + kota + ", " + provinsi);
+        //}
 
-        public void setCallNum(String callNum){
-            viewCallNum.setText(callNum);
-        }
+        //public void setCallNum(String callNum){
+           // viewCallNum.setText(callNum);
+        //}
 
-        public void setSpecialist(String specialist){
-            viewSpecialist.setText(specialist);
-        }
+        //public void setSpecialist(String specialist){
+            //viewSpecialist.setText(specialist);
+        //}
 
     }
 

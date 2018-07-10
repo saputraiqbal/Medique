@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         rView = findViewById(R.id.listData);
 
         rView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AdapterData(arrayList,this);
-        rView.setAdapter(adapter);
+
 
         btnBeginSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                     dokter.setImg(jArray.getJSONObject(6).getString("imgAvatar"));
 
                     arrayList.add(dokter);
+                    adapter = new AdapterData(arrayList, MainActivity.this);
+                    rView.setAdapter(adapter);
 
                     //Dokter dokter = new Dokter(nama, noTelp, alamat, kota, provinsi, spesialis, img);
 
