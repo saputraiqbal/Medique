@@ -39,11 +39,13 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> 
 
     @Override
     public void onBindViewHolder(DokterHolder holder, final int position) {
-        holder.viewName.setText(((Dokter)mData.get(position)).getNama());
-        holder.viewAddress.setText(((Dokter)mData.get(position)).getAlamat()+", "+((Dokter)mData.get(position)).getKota()+", "+((Dokter)mData.get(position)).getProvinsi());
-        holder.viewCallNum.setText(((Dokter)mData.get(position)).getNoTelp());
-        holder.viewSpecialist.setText(((Dokter)mData.get(position)).getSpesialis());
-        Picasso.with(ctx).load(((Dokter)mData.get(position)).getImg()).into(holder.viewAvatar);
+        //baris ini awalnya di bagian manggil method with(), parameternya diisi ctx, sedangkan ctx sendiri isinya kosong
+        Picasso.with(mACtivity).load(mData.get(position).getImg()).into(holder.viewAvatar);
+
+        holder.viewName.setText((mData.get(position)).getNama());
+        holder.viewAddress.setText(mData.get(position).getAlamat()+", "+mData.get(position).getKota()+", "+mData.get(position).getProvinsi());
+        holder.viewCallNum.setText(mData.get(position).getNoTelp());
+        holder.viewSpecialist.setText(mData.get(position).getSpesialis());
     }
 
     @Override

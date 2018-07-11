@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.model.Dokter;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
@@ -38,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btnSearchFilter = findViewById(R.id.imageFilter);
         rView = findViewById(R.id.listData);
 
+
         rView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AdapterData(arrayList, MainActivity.this);
 
 
         btnBeginSearch.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +80,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList arrayList) {
             if(searchLoad.isShowing())
                 searchLoad.dismiss();
-                super.onPostExecute(arrayList);
+
+            //adapter ini yang tadinya di dalam try transaction di method doInBackground
+            adapter = new AdapterData(arrayList, MainActivity.this);
+            rView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -103,19 +111,20 @@ public class MainActivity extends AppCompatActivity {
                     String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
                     JSONArray jArray = new JSONArray(callSpExcecutionResult);
 
-                    Dokter dokter = new Dokter();
+                    for (int i = 0; i < jArray.length(); i++){
+                        Dokter dokter = new Dokter();
 
-                    dokter.setNama(jArray.getJSONObject(0).getString("txtNamaDokter"));
-                    dokter.setNoTelp(jArray.getJSONObject(1).getString("txtNoHP"));
-                    dokter.setAlamat(jArray.getJSONObject(2).getString("txtAlamat"));
-                    dokter.setProvinsi(jArray.getJSONObject(3).getString("txtProvinsi"));
-                    dokter.setKota(jArray.getJSONObject(4).getString("txtKota"));
-                    dokter.setSpesialis(jArray.getJSONObject(5).getString("txtSpesialis"));
-                    dokter.setImg(jArray.getJSONObject(6).getString("imgAvatar"));
+                        JSONObject dataDokter = jArray.getJSONObject(i);
+                        dokter.setNama(dataDokter.getString("txtNamaDokter"));
+                        dokter.setNoTelp(dataDokter.getString("txtNoHP"));
+                        dokter.setAlamat(dataDokter.getString("txtAlamat"));
+                        dokter.setProvinsi(dataDokter.getString("txtProvinsi"));
+                        dokter.setKota(dataDokter.getString("txtKota"));
+                        dokter.setSpesialis(dataDokter.getString("txtSpesialis"));
+                        dokter.setImg(dataDokter.getString("imgAvatar"));
 
-                    arrayList.add(dokter);
-                    adapter = new AdapterData(arrayList, MainActivity.this);
-                    rView.setAdapter(adapter);
+                        arrayList.add(dokter);
+                    }
 
                     //Dokter dokter = new Dokter(nama, noTelp, alamat, kota, provinsi, spesialis, img);
 
