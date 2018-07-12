@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Search"
+        android:id="@+id/action_search"
+        android:icon="?android:attr/actionModeWebSearchDrawable"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView"/>
+    <item
+        android:title="Filter"
+        android:id="@+id/action_filter"
+        android:icon="?android:attr/actionModeFindDrawable"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass=""/>
+</menu>

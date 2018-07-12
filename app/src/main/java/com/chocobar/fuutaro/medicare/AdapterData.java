@@ -40,7 +40,12 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> 
     @Override
     public void onBindViewHolder(DokterHolder holder, final int position) {
         //baris ini awalnya di bagian manggil method with(), parameternya diisi ctx, sedangkan ctx sendiri isinya kosong
-        Picasso.with(mACtivity).load(mData.get(position).getImg()).into(holder.viewAvatar);
+        if(mData.get(position).getImg().equals("null")){
+            holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
+        }
+        else {
+            Picasso.with(mACtivity).load(mData.get(position).getImg()).into(holder.viewAvatar);
+        }
 
         holder.viewName.setText((mData.get(position)).getNama());
         holder.viewAddress.setText(mData.get(position).getAlamat()+", "+mData.get(position).getKota()+", "+mData.get(position).getProvinsi());
@@ -65,23 +70,12 @@ public class AdapterData extends RecyclerView.Adapter<AdapterData.DokterHolder> 
             viewCallNum = itemView.findViewById(R.id.txtPersonCallNum);
             viewSpecialist = itemView.findViewById(R.id.txtPersonSpecialist);
         }
+    }
 
-        //public void setName(String name){
-            //viewName.setText(name);
-        //}
-
-        //public void setAddress(String alamat, String provinsi, String kota){
-            //viewAddress.setText(alamat + ", " + kota + ", " + provinsi);
-        //}
-
-        //public void setCallNum(String callNum){
-           // viewCallNum.setText(callNum);
-        //}
-
-        //public void setSpecialist(String specialist){
-            //viewSpecialist.setText(specialist);
-        //}
-
+    public void updateList(ArrayList<Dokter> newList){
+        mData = new ArrayList<Dokter>();
+        mData.addAll(newList);
+        notifyDataSetChanged();
     }
 
 }

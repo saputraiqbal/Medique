@@ -4,16 +4,21 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.model.Dokter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -23,41 +28,43 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.transport.HttpTransportSE;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
     private EditText searchBox;
     private ImageButton btnBeginSearch, btnSearchFilter;
     private RecyclerView rView;
     private AdapterData adapter;
-    ArrayList<Dokter> arrayList = new ArrayList<Dokter>();
+    private ArrayList<Dokter> arrayList = new ArrayList<Dokter>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        searchBox = findViewById(R.id.txtSearchKeywords);
-        btnBeginSearch = findViewById(R.id.imageSearch);
-        btnSearchFilter = findViewById(R.id.imageFilter);
         rView = findViewById(R.id.listData);
 
 
         rView.setLayoutManager(new LinearLayoutManager(this));
+        //arrayList.clear();
+        new WebServiceSearch(MainActivity.this).execute("0");
         adapter = new AdapterData(arrayList, MainActivity.this);
+        rView.setAdapter(adapter);
+        //new WebServiceSearch(MainActivity.this).execute("0");
 
 
-        btnBeginSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new WebServiceSearch(MainActivity.this).execute(searchBox.getText().toString());
-            }
-        });
+//        btnBeginSearch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                new WebServiceSearch(MainActivity.this).execute(searchBox.getText().toString());
+//                adapter.updateList(arrayList);
+//            }
+//        });
 
-        btnSearchFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+//        btnSearchFilter.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
     }
 
@@ -69,12 +76,12 @@ public class MainActivity extends AppCompatActivity {
             searchLoad = new ProgressDialog(loginActivity);
         }
 
-        @Override
-        protected void onPreExecute() {
-            searchLoad.setMessage("Tunggu sebentar...");
-            searchLoad.show();
-            super.onPreExecute();
-        }
+//        @Override
+//        protected void onPreExecute() {
+//            searchLoad.setMessage("Tunggu sebentar...");
+//            searchLoad.show();
+//            super.onPreExecute();
+//        }
 
         @Override
         protected void onPostExecute(ArrayList arrayList) {
@@ -122,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
                         dokter.setKota(dataDokter.getString("txtKota"));
                         dokter.setSpesialis(dataDokter.getString("txtSpesialis"));
                         dokter.setImg(dataDokter.getString("imgAvatar"));
-
                         arrayList.add(dokter);
                     }
 
@@ -147,5 +153,41 @@ public class MainActivity extends AppCompatActivity {
         protected ArrayList doInBackground(String... strings) {
             return null;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu,menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return true;
+    }
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        String userInput = newText.toLowerCase();
+//        if(userInput.isEmpty()){
+//            arrayList.clear();
+//            new WebServiceSearch(MainActivity.this).execute("0");
+//
+//        }
+//        else
+            arrayList.clear();
+            new WebServiceSearch(MainActivity.this).execute(userInput);
+            rView.setAdapter(adapter);
+
+//        Dokter dokter = new Dokter();
+//        for(String name : names){
+//            if(name.toLowerCase().contains(userInput)){
+//
+//            }
+//
+//        }
+        return false;
     }
 }
