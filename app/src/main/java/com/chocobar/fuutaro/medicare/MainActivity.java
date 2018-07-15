@@ -6,19 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.chocobar.fuutaro.medicare.model.Dokter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -29,11 +25,11 @@ import org.ksoap2.transport.HttpTransportSE;
 
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
-    private EditText searchBox;
-    private ImageButton btnBeginSearch, btnSearchFilter;
     private RecyclerView rView;
     private AdapterData adapter;
     private ArrayList<Dokter> arrayList = new ArrayList<Dokter>();
+
+    private MenuItem search, filter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,30 +38,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         rView = findViewById(R.id.listData);
 
-
         rView.setLayoutManager(new LinearLayoutManager(this));
-        //arrayList.clear();
         new WebServiceSearch(MainActivity.this).execute("0");
         adapter = new AdapterData(arrayList, MainActivity.this);
         rView.setAdapter(adapter);
-        //new WebServiceSearch(MainActivity.this).execute("0");
-
-
-//        btnBeginSearch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new WebServiceSearch(MainActivity.this).execute(searchBox.getText().toString());
-//                adapter.updateList(arrayList);
-//            }
-//        });
-
-//        btnSearchFilter.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
     }
 
     class WebServiceSearch extends AsyncTask<String, Void, ArrayList>{
@@ -76,19 +52,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             searchLoad = new ProgressDialog(loginActivity);
         }
 
-//        @Override
-//        protected void onPreExecute() {
-//            searchLoad.setMessage("Tunggu sebentar...");
-//            searchLoad.show();
-//            super.onPreExecute();
-//        }
-
         @Override
         protected void onPostExecute(ArrayList arrayList) {
             if(searchLoad.isShowing())
                 searchLoad.dismiss();
 
-            //adapter ini yang tadinya di dalam try transaction di method doInBackground
             adapter = new AdapterData(arrayList, MainActivity.this);
             rView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
@@ -96,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         @Override
         protected ArrayList doInBackground(String... strings) {
-            //initialize return value
-
             //calling request to webservice process from AsyncTaskActivity then store the return value
             List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Dokter", "txtKeywords#"+strings[0]+"~intIDKota#0"+"~intIDSpesialisDokter#0"+"~intIDJenisKelamin#0");
             //convert each List values with their match object type data
@@ -131,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                         dokter.setImg(dataDokter.getString("imgAvatar"));
                         arrayList.add(dokter);
                     }
-
-                    //Dokter dokter = new Dokter(nama, noTelp, alamat, kota, provinsi, spesialis, img);
-
                 }
                 //if transaction failed
             }catch (Exception e){
@@ -158,9 +121,23 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        search = menu.findItem(R.id.action_search);
+        filter = menu.findItem(R.id.action_filter);
+        SearchView searchView = (SearchView) search.getActionView();
         searchView.setOnQueryTextListener(this);
+        filter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction filterTransaction = fragmentManager.beginTransaction();
+
+                final SearchFilterFragment searchFilterFrag = new SearchFilterFragment();
+                filterTransaction.add(R.id.activity_main, searchFilterFrag);
+                filterTransaction.commit();
+
+                return true;
+            }
+        });
         return true;
     }
     @Override
