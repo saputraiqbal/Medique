@@ -29,6 +29,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:dropDownWidth="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtGetKotaTitle" />
@@ -50,6 +51,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:dropDownWidth="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtGetSpesialisTitle" />
@@ -64,34 +66,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinnerSpesialis" />
 
-        <RadioButton
-            android:id="@+id/radioAllGender"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Semua"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtGetGenderTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/txtGetGenderTitle">
 
-        <RadioButton
-            android:id="@+id/radioGenderMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:text="Laki-Laki"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioAllGender" />
 
-        <RadioButton
-            android:id="@+id/radioGenderFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Perempuan"
-            app:layout_constraintBaseline_toBaselineOf="@+id/radioGenderMale"
-            app:layout_constraintStart_toEndOf="@+id/radioGenderMale" />
+            <RadioButton
+                android:id="@+id/radioGenderMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="Laki-Laki"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioAllGender" />
+
+            <RadioButton
+                android:id="@+id/radioGenderFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Perempuan"
+                app:layout_constraintBaseline_toBaselineOf="@+id/radioGenderMale"
+                app:layout_constraintStart_toEndOf="@+id/radioGenderMale" />
+
+            <RadioButton
+                android:id="@+id/radioAllGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:text="Semua"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </RadioGroup>
 
         <Button
             android:id="@+id/btnSearchFilter"
@@ -100,12 +122,14 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
             android:text="Search"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGenderFemale" />
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
     </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>
