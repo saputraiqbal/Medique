@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ public class SearchFilterFragment extends Fragment {
             }
         }).execute();
 
+        RadioButton rBtnDefault = viewFragment.findViewById(R.id.radioAllGender);
+        rBtnDefault.setChecked(true);
         rGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
