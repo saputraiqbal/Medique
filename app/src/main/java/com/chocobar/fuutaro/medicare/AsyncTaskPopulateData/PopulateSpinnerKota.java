@@ -25,20 +25,27 @@ public class PopulateSpinnerKota extends AsyncTask<Void, Void, ArrayList<Kota>> 
     Spinner spin;
     ArrayList<String>arrList = new ArrayList<String>();
     ArrayList<Kota>populateKota = new ArrayList<>();
+    public OnPopulateSpinnerFinished listener = null;
 
-    public PopulateSpinnerKota(Context ctx, Spinner spin) {
+    public interface OnPopulateSpinnerFinished{
+        void onPopulateSpinnerFinished(ArrayList<Kota> dataKota);
+    }
+
+    public PopulateSpinnerKota(Context ctx, Spinner spin, OnPopulateSpinnerFinished listener) {
         this.ctx = ctx;
         this.spin = spin;
+        this.listener = listener;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Kota> arrKota) {
         for (int i = 0; i < arrKota.size(); i++){
-            arrList.add(arrKota.get(i).getNamaKota());
+            this.arrList.add(arrKota.get(i).getNamaKota());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(ctx, android.R.layout.simple_spinner_item, arrList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(spinnerAdapter);
+        listener.onPopulateSpinnerFinished(arrKota);
     }
 
     @Override
