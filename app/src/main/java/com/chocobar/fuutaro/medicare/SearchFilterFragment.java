@@ -1,16 +1,12 @@
 package com.chocobar.fuutaro.medicare;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.TaskStackBuilder;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -44,15 +40,18 @@ public class SearchFilterFragment extends Fragment {
         rGroupGender = viewFragment.findViewById(R.id.radioGroup);
         getSearchFilter = viewFragment.findViewById(R.id.btnSearchFilter);
 
-        new PopulateSpinnerKota(getContext(), spinnerKota, new PopulateSpinnerKota.OnPopulateSpinnerFinished(){
+        new PopulateSpinnerKota(getContext(), spinnerKota, new PopulateSpinnerKota.OnFinishedPopulate(){
             @Override
-            public void onPopulateSpinnerFinished(ArrayList<Kota> dataKota) {
+            public void onFinishedPopulate(ArrayList<Kota> dataKota) {
                 arrListKota = new ArrayList<>(dataKota);
             }
         }).execute();
-
-
-        new PopulateSpinnerSpesialis(getContext(), spinnerSpesialis).execute();
+        new PopulateSpinnerSpesialis(getContext(), spinnerSpesialis, new PopulateSpinnerSpesialis.OnFinishedPopulate() {
+            @Override
+            public void OnFinishedPopulate(ArrayList<Spesialis> dataSpesialis) {
+                arrListSpesialis = new ArrayList<>(dataSpesialis);
+            }
+        }).execute();
 
         rGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -79,9 +78,13 @@ public class SearchFilterFragment extends Fragment {
         getSearchFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String val = spinnerKota.getSelectedItem().toString();
-                val = chooseSpinnerVal(val);
-                Toast.makeText(getContext(), "Choose " + val, Toast.LENGTH_SHORT).show();
+                String valKota = spinnerKota.getSelectedItem().toString();
+                String valSpesialis = spinnerSpesialis.getSelectedItem().toString();
+                String valGender = Integer.toString(chooseGender);
+                valKota = chooseKotaVal(valKota);
+                valSpesialis = chooseSpesialisVal(valSpesialis);
+                new Search(new MainActivity()).execute("", valKota, valSpesialis, valGender);
+                MainActivity.rView.setAdapter(MainActivity.adapter);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 if(fm.getBackStackEntryCount() > 0)
                     fm.popBackStackImmediate();
@@ -89,15 +92,36 @@ public class SearchFilterFragment extends Fragment {
         });
     }
 
-    private String chooseSpinnerVal(String valChosen){
-        String v = null;
-        for (Kota arrList : arrListKota){
-            if(arrList.getNamaKota().equals(valChosen)){
-                v = Integer.toString(arrList.getIdKota());
-                break;
+    private String chooseKotaVal(String valChosen){
+        String val = "";
+        if(valChosen.equals("Semua kota")){
+            return val = "0";
+        }
+        else{
+            for (Kota arrList : arrListKota){
+                if(arrList.getNamaKota().equals(valChosen)){
+                    val = Integer.toString(arrList.getIdKota());
+                    break;
+                }
             }
         }
-        return v;
+        return val;
+    }
+
+    private String chooseSpesialisVal(String valChosen){
+        String val = "";
+        if(valChosen.equals("Semua spesialis")){
+            return val = "0";
+        }
+        else{
+            for (Spesialis arrList : arrListSpesialis){
+                if(arrList.getSpesialis().equals(valChosen)){
+                    val = Integer.toString(arrList.getIdSpesialis());
+                    break;
+                }
+            }
+        }
+        return val;
     }
 
 }

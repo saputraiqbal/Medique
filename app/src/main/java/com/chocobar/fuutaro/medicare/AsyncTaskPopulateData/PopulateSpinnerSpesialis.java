@@ -24,20 +24,28 @@ public class PopulateSpinnerSpesialis extends AsyncTask<Void, Void, ArrayList<Sp
     Spinner spin;
     ArrayList<String> arrList = new ArrayList<String>();
     ArrayList<Spesialis>populateSpesialis = new ArrayList<>();
+    public OnFinishedPopulate listener = null;
 
-    public PopulateSpinnerSpesialis(Context ctx, Spinner spin) {
+    public interface OnFinishedPopulate{
+        void OnFinishedPopulate(ArrayList<Spesialis> dataSpesialis);
+    }
+
+    public PopulateSpinnerSpesialis(Context ctx, Spinner spin, OnFinishedPopulate listener) {
         this.ctx = ctx;
         this.spin = spin;
+        this.listener = listener;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Spesialis> arrSpesialis) {
+        this.arrList.add(0, "Semua spesialis");
         for (int i = 0; i < arrSpesialis.size(); i++){
             arrList.add(arrSpesialis.get(i).getSpesialis());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(ctx, android.R.layout.simple_spinner_item, arrList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(spinnerAdapter);
+        listener.OnFinishedPopulate(arrSpesialis);
     }
 
     @Override

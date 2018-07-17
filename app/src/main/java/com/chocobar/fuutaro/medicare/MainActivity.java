@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         rView = findViewById(R.id.listData);
 
         rView.setLayoutManager(new LinearLayoutManager(this));
-//        new WebServiceSearch(MainActivity.this).execute(null, null);
-        new Search(MainActivity.this).execute("", "0");
+        new Search(MainActivity.this).execute("", "0", "0", "0");
         adapter = new AdapterData(arrayList, MainActivity.this);
         rView.setAdapter(adapter);
     }
@@ -135,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 FragmentTransaction filterTransaction = fragmentManager.beginTransaction();
 
                 final SearchFilterFragment searchFilterFrag = new SearchFilterFragment();
+                arrayList.clear();
                 filterTransaction.add(R.id.activity_main, searchFilterFrag);
                 filterTransaction.addToBackStack(null);
                 filterTransaction.commit();
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 //        }
 //        else
             arrayList.clear();
-            new Search(MainActivity.this).execute(userInput, "0");
+            new Search(MainActivity.this).execute(userInput, "0", "0", "0");
             rView.setAdapter(adapter);
 
 //        Dokter dokter = new Dokter();

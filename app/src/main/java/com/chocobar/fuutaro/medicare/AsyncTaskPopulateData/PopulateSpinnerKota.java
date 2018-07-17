@@ -6,9 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.chocobar.fuutaro.medicare.AsyncTaskActivity;
-import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
-import com.chocobar.fuutaro.medicare.SearchFilterFragment;
 import com.chocobar.fuutaro.medicare.model.Kota;
 
 import org.json.JSONArray;
@@ -25,13 +23,13 @@ public class PopulateSpinnerKota extends AsyncTask<Void, Void, ArrayList<Kota>> 
     Spinner spin;
     ArrayList<String>arrList = new ArrayList<String>();
     ArrayList<Kota>populateKota = new ArrayList<>();
-    public OnPopulateSpinnerFinished listener = null;
+    public OnFinishedPopulate listener = null;
 
-    public interface OnPopulateSpinnerFinished{
-        void onPopulateSpinnerFinished(ArrayList<Kota> dataKota);
+    public interface OnFinishedPopulate {
+        void onFinishedPopulate(ArrayList<Kota> dataKota);
     }
 
-    public PopulateSpinnerKota(Context ctx, Spinner spin, OnPopulateSpinnerFinished listener) {
+    public PopulateSpinnerKota(Context ctx, Spinner spin, OnFinishedPopulate listener) {
         this.ctx = ctx;
         this.spin = spin;
         this.listener = listener;
@@ -39,13 +37,14 @@ public class PopulateSpinnerKota extends AsyncTask<Void, Void, ArrayList<Kota>> 
 
     @Override
     protected void onPostExecute(ArrayList<Kota> arrKota) {
+        this.arrList.add(0, "Semua kota");
         for (int i = 0; i < arrKota.size(); i++){
             this.arrList.add(arrKota.get(i).getNamaKota());
         }
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(ctx, android.R.layout.simple_spinner_item, arrList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(spinnerAdapter);
-        listener.onPopulateSpinnerFinished(arrKota);
+        listener.onFinishedPopulate(arrKota);
     }
 
     @Override

@@ -49,7 +49,8 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
     @Override
     protected ArrayList doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Dokter", "txtKeywords#"+ strings[0] +"~intIDKota#"+ strings[1] +"~intIDSpesialisDokter#0"+"~intIDJenisKelamin#0");
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Dokter", "txtKeywords#"+ strings[0] +"~intIDKota#"+ strings[1]
+                +"~intIDSpesialisDokter#"+ strings[2] +"~intIDJenisKelamin#" + strings[3]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
