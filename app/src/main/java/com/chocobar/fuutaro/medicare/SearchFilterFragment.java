@@ -25,7 +25,7 @@ public class SearchFilterFragment extends Fragment {
     private Spinner spinnerKota, spinnerSpesialis;
     private RadioGroup rGroupGender;
     private Button getSearchFilter;
-    private int chooseKota = 0, chooseSpesialis = 0, chooseGender = -1;
+    private int chooseKota = 0, chooseSpesialis = 0, chooseGender = 0;
 
     private ArrayList<Kota> arrListKota = new ArrayList<>();
     private ArrayList<Spesialis> arrListSpesialis = new ArrayList<>();
@@ -87,7 +87,7 @@ public class SearchFilterFragment extends Fragment {
                 valKota = chooseKotaVal(valKota);
                 valSpesialis = chooseSpesialisVal(valSpesialis);
                 new Search(new MainActivity()).execute("", valKota, valSpesialis, valGender);
-                MainActivity.rView.setAdapter(MainActivity.adapter);
+
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 if(fm.getBackStackEntryCount() > 0)
                     fm.popBackStackImmediate();
