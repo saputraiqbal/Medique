@@ -4,6 +4,7 @@
     <string name="see_profile"><u>Lihat Profil</u></string>
     <string name="change_date"><u>Ubah Tanggal</u></string>
     <string name="set_colon">:</string>
+    <string name="set_date_reserved">Pendaftaran Layanan</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
