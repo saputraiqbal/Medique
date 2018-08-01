@@ -20,16 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSchedule extends AsyncTask<String, Void, ArrayList<DokterSchedule>> {
+    //initiate some objects
     private RecyclerView rViewSchedule;
     private AdapterDataSchedule adapterSchedule;
-    ArrayList<DokterSchedule> arrSchedule = new ArrayList<>();
-
     private Activity activity;
 
-    public ViewSchedule(Activity activity){
+    //declare ArrayList
+    ArrayList<DokterSchedule> arrSchedule = new ArrayList<>();
+
+    //declare constructor
+    public ViewSchedule(Activity activity, RecyclerView rViewSchedule, AdapterDataSchedule adapterSchedule){
         this.activity = activity;
-        this.rViewSchedule = DetailDokterActivity.rViewSchedule;
-        this.adapterSchedule = DetailDokterActivity.adapterSchedule;
+        this.rViewSchedule = rViewSchedule;
+        this.adapterSchedule = adapterSchedule;
     }
 
     @Override

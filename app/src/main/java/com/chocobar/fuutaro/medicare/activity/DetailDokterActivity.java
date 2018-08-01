@@ -54,7 +54,6 @@ public class DetailDokterActivity extends AppCompatActivity {
         /**initiate Bundle for receiving data from AdapterDataSearch applied at MainActivity
            and store it to idDokter variable**/
         Bundle getBundle = getIntent().getExtras();
-
         idDokter = getBundle.getString("setIdDokter");
 
         //connecting widget objects with widget layout
@@ -77,7 +76,7 @@ public class DetailDokterActivity extends AppCompatActivity {
 
         //set RecyclerView and populate it using ViewSchedule AsynTask
         rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
-        new ViewSchedule(DetailDokterActivity.this).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
+        new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
 
         //set action when linkProfile is clicked
         linkProfile.setOnClickListener(new View.OnClickListener() {
@@ -117,8 +116,9 @@ public class DetailDokterActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
+                //clear teh ArrayList that used for RecyclerView
                 arrSchedule.clear();
-                new ViewSchedule(DetailDokterActivity.this).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+                new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
             }
         };
     }

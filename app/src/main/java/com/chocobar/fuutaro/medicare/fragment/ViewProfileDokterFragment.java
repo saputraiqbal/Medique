@@ -17,23 +17,28 @@ import android.widget.TextView;
 import com.chocobar.fuutaro.medicare.R;
 
 public class ViewProfileDokterFragment extends DialogFragment {
+    //initiate widget objects
     private ImageView imgProfile;
     private TextView txtDokter;
     private TextView txtProfile;
     private Button btnBack;
 
+    //initiate some variables
     private String base64Avatar;
     private String getDokterName;
     private String getDokterProfile;
 
+    //declare default constructor
     public ViewProfileDokterFragment(){
     }
 
+    //declare onCreateView to create view of DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_dokter_profile, container, false);
     }
 
+    //declared to create Dialog of DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -41,12 +46,14 @@ public class ViewProfileDokterFragment extends DialogFragment {
         return dialog;
     }
 
+    //declare onResume
     @Override
     public void onResume() {
         super.onResume();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 
+    //declare newInstance to send data from source and will be used for DialogFragment
     public static ViewProfileDokterFragment newInstance(String base64Avatar, String getDokterName, String getDokterProfile){
         ViewProfileDokterFragment viewProfile = new ViewProfileDokterFragment();
         Bundle args = new Bundle();
@@ -57,6 +64,7 @@ public class ViewProfileDokterFragment extends DialogFragment {
         return viewProfile;
     }
 
+    //declare onViewCreated to view widgets after DialogFragment has been created
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -81,6 +89,7 @@ public class ViewProfileDokterFragment extends DialogFragment {
         txtProfile.setText(getDokterProfile);
     }
 
+    //declared when activity of fragment has been created
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

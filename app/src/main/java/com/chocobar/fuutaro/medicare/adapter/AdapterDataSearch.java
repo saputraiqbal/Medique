@@ -21,26 +21,29 @@ import com.chocobar.fuutaro.medicare.model.Dokter;
 import java.util.ArrayList;
 
 public class AdapterDataSearch extends RecyclerView.Adapter<AdapterDataSearch.DokterHolder> {
-
+    //initiate some objects
     private LayoutInflater inflater;
     private Context ctx;
     private ArrayList<Dokter> mData;
     private Activity mACtivity;
 
+    //declare adapter constructor
     public AdapterDataSearch(ArrayList<Dokter> data, Activity activity) {
         this.mData = data;
         this.mACtivity = activity;
     }
 
+    //declare onCreateViewHolder to create a ViewHolder on RecyclerView
     @Override
     public DokterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data, parent, false);
         return new DokterHolder(view);
     }
 
+    /**declare onBindViewHolder to set data on specicfied position
+     * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(DokterHolder holder, final int position) {
-        //baris ini awalnya di bagian manggil method with(), parameternya diisi ctx, sedangkan ctx sendiri isinya kosong
         if(mData.get(position).getImg().equals("null")){
             holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
         }
@@ -50,33 +53,39 @@ public class AdapterDataSearch extends RecyclerView.Adapter<AdapterDataSearch.Do
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);
             holder.viewAvatar.setImageBitmap(imgDecode);
         }
-
         holder.viewName.setText((mData.get(position)).getNama());
         holder.viewAddress.setText(mData.get(position).getAlamat()+", "+mData.get(position).getKota()+", "+mData.get(position).getProvinsi());
         holder.viewCallNum.setText(mData.get(position).getNoTelp());
         holder.viewSpecialist.setText(mData.get(position).getSpesialis());
+        //action taken when one of items is clicked
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context ctx = v.getContext();
-                Intent sendIdDokter = new Intent(ctx, DetailDokterActivity.class);
+                /**set Intent and Bundle to initiate which activity will be activated
+                 * and bundle some datas that will bring to another activity**/
+                Intent intent = new Intent(ctx, DetailDokterActivity.class);
                 Bundle setBundle = new Bundle();
                 setBundle.putString("setIdDokter", mData.get(position).getIdDokter());
-                sendIdDokter.putExtras(setBundle);
-                ctx.startActivity(sendIdDokter);
+                intent.putExtras(setBundle);
+                ctx.startActivity(intent);
             }
         });
     }
 
+    //declare getItemCount to get item amount that mounted to RecyclerView
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
+    //declare Holder class inside adapter class
     public class DokterHolder extends RecyclerView.ViewHolder{
+        //declare widget objects
         ImageView viewAvatar;
         TextView viewName, viewAddress, viewCallNum, viewSpecialist;
 
+        //declare constructor and apply widget objects to connected to the widgets at layout
         public DokterHolder(View itemView) {
             super(itemView);
             viewAvatar = itemView.findViewById(R.id.viewPersonPhoto);
@@ -87,10 +96,10 @@ public class AdapterDataSearch extends RecyclerView.Adapter<AdapterDataSearch.Do
         }
     }
 
+    //declare method that used to change item list
     public void updateList(ArrayList<Dokter> newList){
         mData = new ArrayList<Dokter>();
         mData.addAll(newList);
         notifyDataSetChanged();
     }
-
 }

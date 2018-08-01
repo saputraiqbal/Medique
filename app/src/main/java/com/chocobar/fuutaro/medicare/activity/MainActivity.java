@@ -1,5 +1,7 @@
 package com.chocobar.fuutaro.medicare.activity;
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -181,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void showSearchFilter(){
         //call SearchFilterFragment to show DialogFragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        SearchFilterFragment searchFilterFragment = SearchFilterFragment.newInstance();
-        searchFilterFragment.show(fragmentManager, "fragment_search_filter");
+        DialogFragment searchFrag = new SearchFilterFragment();
+        searchFrag.show(getSupportFragmentManager(), "fragment_search_filter");
     }
 }

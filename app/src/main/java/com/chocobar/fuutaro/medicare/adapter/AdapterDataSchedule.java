@@ -18,28 +18,27 @@ import com.chocobar.fuutaro.medicare.model.DokterSchedule;
 import java.util.ArrayList;
 
 public class AdapterDataSchedule extends RecyclerView.Adapter<AdapterDataSchedule.DokterScheduleHolder>{
+    //initiate some objects
     private LayoutInflater inflater;
     private Context ctx;
     private ArrayList<DokterSchedule> mData;
     private Activity mActivity;
 
-    OnBookingClicked listener;
-
+    //declare constructor
     public AdapterDataSchedule(ArrayList<DokterSchedule> data, Activity activity) {
         this.mData = data;
         this.mActivity = activity;
     }
 
-    public interface OnBookingClicked{
-        void sendData(String idPartner, String idPelayanan, String idJadwalPraktik);
-    }
-
+    //declare onCreateViewHolder to create a ViewHolder on RecyclerView
     @Override
     public DokterScheduleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data_jadwal_praktek, parent, false);
         return new DokterScheduleHolder(v);
     }
 
+    /**declare onBindViewHolder to set data on specicfied position
+     * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(DokterScheduleHolder holder, final int position) {
         holder.instance.setText((mData.get(position)).getPartner());
@@ -52,9 +51,11 @@ public class AdapterDataSchedule extends RecyclerView.Adapter<AdapterDataSchedul
         final String idPartner = Integer.toString((mData.get(position)).getIdPartner());
         final String idPelayanan = Integer.toString((mData.get(position)).getIdJenisPelayanan());
         final String idJadwalPraktik = Integer.toString((mData.get(position)).getIdJadwal());
+        //action taken when one of items is clicked
         holder.booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //set DialogFragment
                 DetailDokterActivity activity = (DetailDokterActivity) v.getContext();
                 GetLoketFragment loketFrag = GetLoketFragment.newInstance(idPartner, idPelayanan, idJadwalPraktik);
                 loketFrag.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
@@ -63,15 +64,19 @@ public class AdapterDataSchedule extends RecyclerView.Adapter<AdapterDataSchedul
         });
     }
 
+    //declare getItemCount to get item amount that mounted to RecyclerView
     @Override
     public int getItemCount() {
         return mData.size();
     }
 
+    //declare Holder class inside adapter class
     public class DokterScheduleHolder extends RecyclerView.ViewHolder{
+        //declare widget objects
         TextView instance, instanceType, viewTime, kuota, antrian;
         Button booking;
 
+        //declare constructor and apply widget objects to connected to the widgets at layout
         public DokterScheduleHolder(View itemView) {
             super(itemView);
             instance = itemView.findViewById(R.id.txtViewInstance);

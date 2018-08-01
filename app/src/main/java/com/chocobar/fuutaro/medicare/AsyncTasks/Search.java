@@ -57,7 +57,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
             //selection either SoapObject soapResponse retrieve the request or not
             if(soapResponse.toString().equals("CallSpExcecutionResponse{}") || soapResponse == null)
                 return arrayList;
-                //if request has been retrieved by SoapObject soapResponse
+            //if request has been retrieved by SoapObject soapResponse
             else{
                 String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
                 JSONArray jArray = new JSONArray(callSpExcecutionResult);
@@ -65,6 +65,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
                 for (int i = 0; i < jArray.length(); i++){
                     Dokter dokter = new Dokter();
 
+                    //set item values and store at ArrayList
                     JSONObject dataDokter = jArray.getJSONObject(i);
                     dokter.setNama(dataDokter.getString("txtNamaDokter"));
                     dokter.setNoTelp(dataDokter.getString("txtNoHP"));
