@@ -5,19 +5,49 @@ public class DokterSchedule {
     private String jenisPelayanan;
     private String startAt;
     private String endAt;
+    private int idPartner;
+    private int idJenisPelayanan;
+    private int idJadwal;
     private int kuota;
     private int jumlahAntrian;
 
     public DokterSchedule() {
     }
 
-    public DokterSchedule(String partner, String jenisPelayanan, String startAt, String endAt, int kuota, int jumlahAntrian) {
+    public DokterSchedule(String partner, String jenisPelayanan, String startAt, String endAt, int idPartner, int idJenisPelayanan, int idJadwal, int kuota, int jumlahAntrian) {
         this.partner = partner;
         this.jenisPelayanan = jenisPelayanan;
         this.startAt = startAt;
         this.endAt = endAt;
+        this.idPartner = idPartner;
+        this.idJenisPelayanan = idJenisPelayanan;
+        this.idJadwal = idJadwal;
         this.kuota = kuota;
         this.jumlahAntrian = jumlahAntrian;
+    }
+
+    public int getIdPartner() {
+        return idPartner;
+    }
+
+    public void setIdPartner(int idPartner) {
+        this.idPartner = idPartner;
+    }
+
+    public int getIdJenisPelayanan() {
+        return idJenisPelayanan;
+    }
+
+    public void setIdJenisPelayanan(int idJenisPelayanan) {
+        this.idJenisPelayanan = idJenisPelayanan;
+    }
+
+    public int getIdJadwal() {
+        return idJadwal;
+    }
+
+    public void setIdJadwal(int idJadwal) {
+        this.idJadwal = idJadwal;
     }
 
     public String getPartner() {

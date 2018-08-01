@@ -117,6 +117,7 @@
 
             <Button
                 android:id="@+id/btnBooking"
+                style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

@@ -1,5 +1,7 @@
 package com.chocobar.fuutaro.medicare.model;
 
+import android.graphics.Bitmap;
+
 public class DetailDokter {
     private String nama;
     private String profileDetail;

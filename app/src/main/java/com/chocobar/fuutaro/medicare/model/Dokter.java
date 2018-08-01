@@ -13,10 +13,11 @@ public class Dokter {
     private String provinsi;
     private String spesialis;
     private String img;
+    private String idDokter;
 
     public Dokter(){}
 
-    public Dokter(String nama, String noTelp, String alamat, String kota, String provinsi, String spesialis, String img){
+    public Dokter(String nama, String noTelp, String alamat, String kota, String provinsi, String spesialis, String img, String idDokter){
         this.nama = nama;
         this.noTelp = noTelp;
         this.alamat = alamat;
@@ -24,6 +25,15 @@ public class Dokter {
         this.provinsi = provinsi;
         this.spesialis = spesialis;
         this.img = img;
+        this.idDokter = idDokter;
+    }
+
+    public String getIdDokter() {
+        return idDokter;
+    }
+
+    public void setIdDokter(String idDokter) {
+        this.idDokter = idDokter;
     }
 
     public String getNama() {

@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_margin="8dp">
 
             <ImageView
                 android:id="@+id/viewPersonPhoto"
@@ -33,15 +32,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_weight="0"
+            android:layout_margin="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/txtPersonName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 android:text="dr. Strange, SpPD-KPTI"
                 android:textSize="18dp"
                 app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
@@ -51,9 +48,8 @@
                 android:id="@+id/txtPersonAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 android:text="Jl. Bersamamu 16, Malang"
+                android:layout_marginTop="8dp"
                 android:textSize="10dp"
                 app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
                 app:layout_constraintTop_toBottomOf="@+id/txtPersonName" />
@@ -62,7 +58,6 @@
                 android:id="@+id/txtPersonCallNum"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:text="08123456789"
                 android:textSize="10dp"
@@ -73,9 +68,8 @@
                 android:id="@+id/txtPersonSpecialist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="4dp"
                 android:text="Spesialis Dokter Kandungan"
+                android:layout_marginTop="4dp"
                 android:textSize="10dp"
                 app:layout_constraintBottom_toBottomOf="@+id/viewPersonPhoto"
                 app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"

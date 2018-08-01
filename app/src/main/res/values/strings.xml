@@ -5,6 +5,8 @@
     <string name="change_date"><u>Ubah Tanggal</u></string>
     <string name="set_colon">:</string>
     <string name="set_date_reserved">Pendaftaran Layanan</string>
+    <string name="antrian_popup">Antrian berhasil dipesan. Nomor antrian loket Anda</string>
+    <string name="loket_popup">Nomor loket Anda</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
