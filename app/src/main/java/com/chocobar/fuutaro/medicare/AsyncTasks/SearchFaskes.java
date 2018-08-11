@@ -5,10 +5,13 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
-import com.chocobar.fuutaro.medicare.adapter.AdapterDataSearch;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
+import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
+import com.chocobar.fuutaro.medicare.adapter.AdapterFaskes;
+import com.chocobar.fuutaro.medicare.fragment.DokterFragment;
+import com.chocobar.fuutaro.medicare.fragment.FaskesFragment;
 import com.chocobar.fuutaro.medicare.model.Dokter;
-import com.chocobar.fuutaro.medicare.activity.MainActivity;
+import com.chocobar.fuutaro.medicare.model.Faskes;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,22 +22,21 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
+public class SearchFaskes extends AsyncTask<String, Void, ArrayList<Faskes>> {
     private RecyclerView rView;
-    private AdapterDataSearch adapter;
-    ArrayList<Dokter> arrayList = new ArrayList<>();
+    private AdapterFaskes adapter;
+    ArrayList<Faskes> arrayList = new ArrayList<>();
 
     private Activity activity;
 
-    public Search(Activity activity) {
+    public SearchFaskes(Activity activity) {
         this.activity = activity;
-        this.rView = MainActivity.rView;
-        this.adapter = MainActivity.adapter;
+        this.rView = FaskesFragment.rView;
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Dokter> arrayList) {
-        adapter = new AdapterDataSearch(arrayList, this.activity);
+    protected void onPostExecute(ArrayList<Faskes> arrayList) {
+        adapter = new AdapterFaskes(arrayList, this.activity);
         rView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -42,8 +44,12 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
     @Override
     protected ArrayList doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Dokter", "txtKeywords#"+ strings[0] +"~intIDKota#"+ strings[1]
-                +"~intIDSpesialisDokter#"+ strings[2] +"~intIDJenisKelamin#" + strings[3]);
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Faskes",
+                "txtKeywords	#" + strings[0] + "~intIDKota#" + strings[1] + "~intIDJenisPelayanan#" + strings[2] +
+                "~intIDJenisJamKes1#" + strings[3] + "~intIDJenisJamKes2#" + strings[4] + "~intIDJenisJamKes3#" + strings[5] +
+                "~intIDJenisJamKes4#" + strings[6] + "~intIDJenisJamKes5#" + strings[7] + "~intIDJenisJamKes6#" + strings[8] +
+                "~intIDJenisJamKes7#" + strings[9] + "~intIDJenisJamKes8#" + strings[10] + "~intIDJenisJamKes9#" + strings[11] +
+                "~intIDJenisJamKes10#" + strings[12]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
@@ -63,19 +69,17 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
                 JSONArray jArray = new JSONArray(callSpExcecutionResult);
 
                 for (int i = 0; i < jArray.length(); i++){
-                    Dokter dokter = new Dokter();
+                    Faskes faskes = new Faskes();
 
                     //set item values and store at ArrayList
-                    JSONObject dataDokter = jArray.getJSONObject(i);
-                    dokter.setNama(dataDokter.getString("txtNamaDokter"));
-                    dokter.setNoTelp(dataDokter.getString("txtNoHP"));
-                    dokter.setAlamat(dataDokter.getString("txtAlamat"));
-                    dokter.setProvinsi(dataDokter.getString("txtProvinsi"));
-                    dokter.setKota(dataDokter.getString("txtKota"));
-                    dokter.setSpesialis(dataDokter.getString("txtSpesialis"));
-                    dokter.setImg(dataDokter.getString("imgAvatar"));
-                    dokter.setIdDokter(Integer.toString(dataDokter.getInt("intIDDokter")));
-                    arrayList.add(dokter);
+                    JSONObject dataFaskes = jArray.getJSONObject(i);
+                    faskes.setId(Integer.toString(dataFaskes.getInt("intIDPartner")));
+                    faskes.setNamaFaskes(dataFaskes.getString("txtPartnerName"));
+                    faskes.setAlamat(dataFaskes.getString("txtAlamat"));
+                    faskes.setKota(dataFaskes.getString("txtKota"));
+                    faskes.setProvinsi(dataFaskes.getString("txtProvinsi"));
+                    faskes.setImgFaskes(dataFaskes.getString("imgAvatar"));
+                    arrayList.add(faskes);
                 }
             }
             //if transaction failed

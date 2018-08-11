@@ -42,7 +42,7 @@ public class GetLoketFragment extends DialogFragment {
         GetLoketFragment loketFrag = new GetLoketFragment();
         Bundle args = new Bundle();
         args.putString("getIdPartner", getIdPartner);
-        args.putString("getIdPelayanan", getIdPelayanan);
+        args.putString("getIdJamKes", getIdPelayanan);
         args.putString("getIdJadwal", getIdJadwal);
         loketFrag.setArguments(args);
         return loketFrag;
@@ -75,7 +75,7 @@ public class GetLoketFragment extends DialogFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getIdPartner = getArguments().getString("getIdPartner");
-        getIdPelayanan = getArguments().getString("getIdPelayanan");
+        getIdPelayanan = getArguments().getString("getIdJamKes");
         getIdJadwal = getArguments().getString("getIdJadwal");
         spinnerLoket = view.findViewById(R.id.spinnerJenisLoket);
         getBooking = view.findViewById(R.id.btnGetLoket);

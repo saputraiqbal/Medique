@@ -16,7 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailDokter;
 import com.chocobar.fuutaro.medicare.AsyncTasks.ViewSchedule;
 import com.chocobar.fuutaro.medicare.R;
-import com.chocobar.fuutaro.medicare.adapter.AdapterDataSchedule;
+import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
 import com.chocobar.fuutaro.medicare.fragment.ViewProfileDokterFragment;
 import com.chocobar.fuutaro.medicare.model.DetailDokter;
 import com.chocobar.fuutaro.medicare.model.DokterSchedule;
@@ -44,14 +44,14 @@ public class DetailDokterActivity extends AppCompatActivity {
     ArrayList<DetailDokter> arrDetail = new ArrayList<>();
 
     //initiate adapter
-    public static AdapterDataSchedule adapterSchedule;
+    public static AdapterDokterSchedule adapterSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_dokter);
 
-        /**initiate Bundle for receiving data from AdapterDataSearch applied at MainActivity
+        /**initiate Bundle for receiving data from AdapterDokter applied at MainActivity_recs
            and store it to idDokter variable**/
         Bundle getBundle = getIntent().getExtras();
         idDokter = getBundle.getString("setIdDokter");

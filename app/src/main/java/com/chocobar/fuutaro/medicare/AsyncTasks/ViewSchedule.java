@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
-import com.chocobar.fuutaro.medicare.adapter.AdapterDataSchedule;
-import com.chocobar.fuutaro.medicare.activity.DetailDokterActivity;
+import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.model.DokterSchedule;
 
@@ -22,14 +21,14 @@ import java.util.List;
 public class ViewSchedule extends AsyncTask<String, Void, ArrayList<DokterSchedule>> {
     //initiate some objects
     private RecyclerView rViewSchedule;
-    private AdapterDataSchedule adapterSchedule;
+    private AdapterDokterSchedule adapterSchedule;
     private Activity activity;
 
     //declare ArrayList
     ArrayList<DokterSchedule> arrSchedule = new ArrayList<>();
 
     //declare constructor
-    public ViewSchedule(Activity activity, RecyclerView rViewSchedule, AdapterDataSchedule adapterSchedule){
+    public ViewSchedule(Activity activity, RecyclerView rViewSchedule, AdapterDokterSchedule adapterSchedule){
         this.activity = activity;
         this.rViewSchedule = rViewSchedule;
         this.adapterSchedule = adapterSchedule;
@@ -37,7 +36,7 @@ public class ViewSchedule extends AsyncTask<String, Void, ArrayList<DokterSchedu
 
     @Override
     protected void onPostExecute(ArrayList<DokterSchedule> dokterSchedules) {
-        adapterSchedule = new AdapterDataSchedule(dokterSchedules, this.activity);
+        adapterSchedule = new AdapterDokterSchedule(dokterSchedules, this.activity);
         rViewSchedule.setAdapter(adapterSchedule);
         adapterSchedule.notifyDataSetChanged();
     }

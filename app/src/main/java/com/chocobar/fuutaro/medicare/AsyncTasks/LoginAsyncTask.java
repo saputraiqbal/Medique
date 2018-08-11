@@ -1,6 +1,5 @@
 package com.chocobar.fuutaro.medicare.AsyncTasks;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,7 @@ import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
-import com.chocobar.fuutaro.medicare.activity.MainActivity;
+import com.chocobar.fuutaro.medicare.MainActivity_recs;
 
 import org.json.JSONArray;
 import org.ksoap2.serialization.SoapObject;
@@ -42,7 +41,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
             loginLoad.dismiss();
         if(integer == 1){
             Toast.makeText(ctx, "Login Sukses!", Toast.LENGTH_LONG).show();
-            Intent enterApps = new Intent(ctx, MainActivity.class);
+            Intent enterApps = new Intent(ctx, MainActivity_recs.class);
             ctx.startActivity(enterApps);
         }
         else if (integer == 0)

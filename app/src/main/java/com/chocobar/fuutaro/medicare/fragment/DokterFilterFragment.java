@@ -1,9 +1,7 @@
-package com.chocobar.fuutaro.medicare;
+package com.chocobar.fuutaro.medicare.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,36 +9,56 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.chocobar.fuutaro.medicare.AsyncTaskPopulateData.PopulateSpinnerKota;
-import com.chocobar.fuutaro.medicare.AsyncTaskPopulateData.PopulateSpinnerSpesialis;
-import com.chocobar.fuutaro.medicare.AsyncTaskPopulateData.Search;
+import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerKota;
+import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerSpesialis;
+import com.chocobar.fuutaro.medicare.AsyncTasks.SearchDokter;
+import com.chocobar.fuutaro.medicare.R;
+import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
 import com.chocobar.fuutaro.medicare.model.Kota;
 import com.chocobar.fuutaro.medicare.model.Spesialis;
 
 import java.util.ArrayList;
 
-public class SearchFilterFragment extends Fragment {
+public class DokterFilterFragment extends DialogFragment {
+    //initiate widget objects
     private Spinner spinnerKota, spinnerSpesialis;
     private RadioGroup rGroupGender;
     private Button getSearchFilter;
-    private int chooseKota = 0, chooseSpesialis = 0, chooseGender = 0;
 
+    //initiate some other objects
+    private int chooseGender = 0;
     private ArrayList<Kota> arrListKota = new ArrayList<>();
     private ArrayList<Spesialis> arrListSpesialis = new ArrayList<>();
+    AdapterDokter adapter;
 
+    //declare default constructor
+    public DokterFilterFragment() {
+    }
+
+    //declare onCreateView to create view of DialogFragment
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View viewFragment = inflater.inflate(R.layout.fragment_search_filter, container, false);
-        viewFragment.setBackgroundColor(Color.WHITE);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search_filter, container, false);
+    }
 
-        spinnerKota = viewFragment.findViewById(R.id.spinnerKota);
-        spinnerSpesialis = viewFragment.findViewById(R.id.spinnerSpesialis);
-        rGroupGender = viewFragment.findViewById(R.id.radioGroup);
-        getSearchFilter = viewFragment.findViewById(R.id.btnSearchFilter);
+    //declare onResume
+    @Override
+    public void onResume() {
+        super.onResume();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
 
+    //declare onViewCreated to view widgets after DialogFragment has been created
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        spinnerKota = view.findViewById(R.id.spinnerKota);
+        spinnerSpesialis = view.findViewById(R.id.spinnerSpesialis);
+        rGroupGender = view.findViewById(R.id.radioGroup);
+        getSearchFilter = view.findViewById(R.id.btnSearchFilter);
+
+        //populate spinner using AsyncTask
         new PopulateSpinnerKota(getContext(), spinnerKota, new PopulateSpinnerKota.OnFinishedPopulate(){
             @Override
             public void onFinishedPopulate(ArrayList<Kota> dataKota) {
@@ -54,7 +72,8 @@ public class SearchFilterFragment extends Fragment {
             }
         }).execute();
 
-        RadioButton rBtnDefault = viewFragment.findViewById(R.id.radioAllGender);
+        //declare RadioButton, set default checked value, and  set value when one of choices has been chosen
+        RadioButton rBtnDefault = view.findViewById(R.id.radioAllGender);
         rBtnDefault.setChecked(true);
         rGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -72,9 +91,11 @@ public class SearchFilterFragment extends Fragment {
                 };
             }
         });
-        return viewFragment;
+        //set dialog title become null (hiding)
+        getDialog().setTitle(null);
     }
 
+    //declared when activity of fragment has been created
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -86,15 +107,13 @@ public class SearchFilterFragment extends Fragment {
                 String valGender = Integer.toString(chooseGender);
                 valKota = chooseKotaVal(valKota);
                 valSpesialis = chooseSpesialisVal(valSpesialis);
-                new Search(new MainActivity()).execute("", valKota, valSpesialis, valGender);
-
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                if(fm.getBackStackEntryCount() > 0)
-                    fm.popBackStackImmediate();
+                new SearchDokter(getActivity()).execute("", valKota, valSpesialis, valGender);
+                getDialog().dismiss();
             }
         });
     }
 
+    //declare to choose value chosen from spinner and store it to String variable type
     private String chooseKotaVal(String valChosen){
         String val = "";
         if(valChosen.equals("Semua kota")){
@@ -111,6 +130,7 @@ public class SearchFilterFragment extends Fragment {
         return val;
     }
 
+    //declare to choose value chosen from spinner and store it to String variable type
     private String chooseSpesialisVal(String valChosen){
         String val = "";
         if(valChosen.equals("Semua spesialis")){

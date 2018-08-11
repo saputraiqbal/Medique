@@ -19,7 +19,7 @@
             android:layout_margin="8dp">
 
             <ImageView
-                android:id="@+id/viewPersonPhoto"
+                android:id="@+id/vImage"
                 android:layout_width="87dp"
                 android:layout_height="90dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,44 +36,44 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtPersonName"
+                android:id="@+id/txtName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="dr. Strange, SpPD-KPTI"
                 android:textSize="18dp"
-                app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
-                app:layout_constraintTop_toTopOf="@+id/viewPersonPhoto" />
+                app:layout_constraintStart_toEndOf="@+id/vImage"
+                app:layout_constraintTop_toTopOf="@+id/vImage" />
 
             <TextView
-                android:id="@+id/txtPersonAddress"
+                android:id="@+id/txtAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jl. Bersamamu 16, Malang"
                 android:layout_marginTop="8dp"
                 android:textSize="10dp"
-                app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtPersonName" />
+                app:layout_constraintStart_toEndOf="@+id/vImage"
+                app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
             <TextView
-                android:id="@+id/txtPersonCallNum"
+                android:id="@+id/txtInfoRow1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="08123456789"
                 android:textSize="10dp"
-                app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtPersonAddress" />
+                app:layout_constraintStart_toEndOf="@+id/vImage"
+                app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
 
             <TextView
-                android:id="@+id/txtPersonSpecialist"
+                android:id="@+id/txtInfoRow2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Spesialis Dokter Kandungan"
                 android:layout_marginTop="4dp"
+                android:text="Spesialis Dokter Kandungan"
                 android:textSize="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/viewPersonPhoto"
-                app:layout_constraintStart_toEndOf="@+id/viewPersonPhoto"
-                app:layout_constraintTop_toBottomOf="@+id/txtPersonCallNum"
+                app:layout_constraintBottom_toBottomOf="@+id/vImage"
+                app:layout_constraintStart_toEndOf="@+id/vImage"
+                app:layout_constraintTop_toBottomOf="@+id/txtInfoRow1"
                 app:layout_constraintVertical_bias="0.0" />
 
         </LinearLayout>

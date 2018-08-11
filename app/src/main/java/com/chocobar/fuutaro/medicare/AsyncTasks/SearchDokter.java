@@ -1,15 +1,14 @@
-package com.chocobar.fuutaro.medicare.AsyncTaskPopulateData;
+package com.chocobar.fuutaro.medicare.AsyncTasks;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 
-import com.chocobar.fuutaro.medicare.AdapterData;
-import com.chocobar.fuutaro.medicare.AsyncTaskActivity;
+import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
+import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
+import com.chocobar.fuutaro.medicare.fragment.DokterFragment;
 import com.chocobar.fuutaro.medicare.model.Dokter;
-import com.chocobar.fuutaro.medicare.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,28 +19,21 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
+public class SearchDokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
     private RecyclerView rView;
-    private AdapterData adapter;
+    private AdapterDokter adapter;
     ArrayList<Dokter> arrayList = new ArrayList<>();
 
     private Activity activity;
 
-    public OnSearchFinished listener;
-
-    public interface OnSearchFinished{
-        void OnSearchFinished(ArrayList<Dokter> dataDokter);
-    }
-
-    public Search(Activity activity) {
+    public SearchDokter(Activity activity) {
         this.activity = activity;
-        this.rView = MainActivity.rView;
-        this.adapter = MainActivity.adapter;
+        this.rView = DokterFragment.rView;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Dokter> arrayList) {
-        adapter = new AdapterData(arrayList, this.activity);
+        adapter = new AdapterDokter(arrayList, this.activity);
         rView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -64,7 +56,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
             //selection either SoapObject soapResponse retrieve the request or not
             if(soapResponse.toString().equals("CallSpExcecutionResponse{}") || soapResponse == null)
                 return arrayList;
-                //if request has been retrieved by SoapObject soapResponse
+            //if request has been retrieved by SoapObject soapResponse
             else{
                 String callSpExcecutionResult = soapResponse.getPropertyAsString("CallSpExcecutionResult");
                 JSONArray jArray = new JSONArray(callSpExcecutionResult);
@@ -72,6 +64,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
                 for (int i = 0; i < jArray.length(); i++){
                     Dokter dokter = new Dokter();
 
+                    //set item values and store at ArrayList
                     JSONObject dataDokter = jArray.getJSONObject(i);
                     dokter.setNama(dataDokter.getString("txtNamaDokter"));
                     dokter.setNoTelp(dataDokter.getString("txtNoHP"));
@@ -80,6 +73,7 @@ public class Search extends AsyncTask<String, Void, ArrayList<Dokter>> {
                     dokter.setKota(dataDokter.getString("txtKota"));
                     dokter.setSpesialis(dataDokter.getString("txtSpesialis"));
                     dokter.setImg(dataDokter.getString("imgAvatar"));
+                    dokter.setIdDokter(Integer.toString(dataDokter.getInt("intIDDokter")));
                     arrayList.add(dokter);
                 }
             }
