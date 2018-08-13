@@ -33,7 +33,7 @@ public class AdapterDokterSchedule extends RecyclerView.Adapter<AdapterDokterSch
     //declare onCreateViewHolder to create a ViewHolder on RecyclerView
     @Override
     public DokterScheduleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data_jadwal_praktek, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data_jadwal, parent, false);
         return new DokterScheduleHolder(v);
     }
 

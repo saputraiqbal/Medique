@@ -2,15 +2,13 @@ package com.chocobar.fuutaro.medicare.AsyncTasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
-import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
 import com.chocobar.fuutaro.medicare.adapter.AdapterFaskes;
-import com.chocobar.fuutaro.medicare.fragment.DokterFragment;
-import com.chocobar.fuutaro.medicare.fragment.FaskesFragment;
-import com.chocobar.fuutaro.medicare.model.Dokter;
+import com.chocobar.fuutaro.medicare.fragment.MainFaskesFragment;
 import com.chocobar.fuutaro.medicare.model.Faskes;
 
 import org.json.JSONArray;
@@ -31,11 +29,12 @@ public class SearchFaskes extends AsyncTask<String, Void, ArrayList<Faskes>> {
 
     public SearchFaskes(Activity activity) {
         this.activity = activity;
-        this.rView = FaskesFragment.rView;
+        this.rView = MainFaskesFragment.rView;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Faskes> arrayList) {
+        rView.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
         adapter = new AdapterFaskes(arrayList, this.activity);
         rView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -44,7 +43,7 @@ public class SearchFaskes extends AsyncTask<String, Void, ArrayList<Faskes>> {
     @Override
     protected ArrayList doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Faskes",
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchFaskes",
                 "txtKeywords	#" + strings[0] + "~intIDKota#" + strings[1] + "~intIDJenisPelayanan#" + strings[2] +
                 "~intIDJenisJamKes1#" + strings[3] + "~intIDJenisJamKes2#" + strings[4] + "~intIDJenisJamKes3#" + strings[5] +
                 "~intIDJenisJamKes4#" + strings[6] + "~intIDJenisJamKes5#" + strings[7] + "~intIDJenisJamKes6#" + strings[8] +

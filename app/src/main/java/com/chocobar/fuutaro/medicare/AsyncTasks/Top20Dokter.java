@@ -6,8 +6,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
-import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
+import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.fragment.MainDokterFragment;
 import com.chocobar.fuutaro.medicare.model.Dokter;
 
@@ -20,14 +20,14 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchDokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
+public class Top20Dokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
     private RecyclerView rView;
     private AdapterDokter adapter;
     ArrayList<Dokter> arrayList = new ArrayList<>();
 
     private Activity activity;
 
-    public SearchDokter(Activity activity) {
+    public Top20Dokter(Activity activity) {
         this.activity = activity;
         this.rView = MainDokterFragment.rView;
     }
@@ -43,8 +43,8 @@ public class SearchDokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
     @Override
     protected ArrayList doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchDokter", "txtKeywords#"+ strings[0] +"~intIDKota#"+ strings[1]
-                +"~intIDSpesialisDokter#"+ strings[2] +"~intIDJenisKelamin#" + strings[3]);
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_SearchTop20Dokter", "txtKeywords#~intIDKota#"
+                + "~intIDSpesialisDokter#~intIDJenisKelamin#");
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
