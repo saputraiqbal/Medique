@@ -9,6 +9,7 @@ import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
 import com.chocobar.fuutaro.medicare.fragment.MainDokterFragment;
+import com.chocobar.fuutaro.medicare.fragment.SearchDokterFragment;
 import com.chocobar.fuutaro.medicare.model.Dokter;
 
 import org.json.JSONArray;
@@ -29,7 +30,7 @@ public class SearchDokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
 
     public SearchDokter(Activity activity) {
         this.activity = activity;
-        this.rView = MainDokterFragment.rView;
+        this.rView = SearchDokterFragment.rView;
     }
 
     @Override

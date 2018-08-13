@@ -93,8 +93,8 @@ public class SearchActivity extends AppCompatActivity{
 
             @Override
             public void onPageSelected(int position) {
-//                hint = "Telusuri " + title;
-//                searchText.setHint(hint);
+                hint = "Telusuri " + title;
+                searchText.setHint(hint);
             }
 
             @Override

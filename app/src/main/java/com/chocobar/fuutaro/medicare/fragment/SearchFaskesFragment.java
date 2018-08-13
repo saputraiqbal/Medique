@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chocobar.fuutaro.medicare.AsyncTasks.SearchFaskes;
 import com.chocobar.fuutaro.medicare.AsyncTasks.Top20Faskes;
 import com.chocobar.fuutaro.medicare.R;
+import com.chocobar.fuutaro.medicare.activity.SearchActivity;
 
 public class SearchFaskesFragment extends Fragment{
 

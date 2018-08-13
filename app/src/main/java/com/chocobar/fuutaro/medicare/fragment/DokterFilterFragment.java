@@ -12,7 +12,7 @@ import android.widget.Spinner;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerKota;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerSpesialis;
-import com.chocobar.fuutaro.medicare.AsyncTasks.SearchDokter;
+import com.chocobar.fuutaro.medicare.AsyncTasks.Top20Dokter;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
 import com.chocobar.fuutaro.medicare.model.Kota;
@@ -107,7 +107,7 @@ public class DokterFilterFragment extends DialogFragment {
                 String valGender = Integer.toString(chooseGender);
                 valKota = chooseKotaVal(valKota);
                 valSpesialis = chooseSpesialisVal(valSpesialis);
-                new SearchDokter(getActivity()).execute("", valKota, valSpesialis, valGender);
+                new Top20Dokter(getActivity()).execute("", valKota, valSpesialis, valGender);
                 getDialog().dismiss();
             }
         });
