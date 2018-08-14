@@ -10,7 +10,7 @@
     <item
         android:title="Filter"
         android:id="@+id/action_filter"
-        android:icon="?android:attr/actionModeFindDrawable"
+        android:icon="@drawable/ic_filter_outline"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass=""/>
 </menu>

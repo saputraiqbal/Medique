@@ -85,23 +85,6 @@ public class SearchActivity extends AppCompatActivity{
 
             }
         });
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                hint = "Telusuri " + title;
-                searchText.setHint(hint);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

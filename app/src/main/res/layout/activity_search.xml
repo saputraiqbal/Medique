@@ -28,9 +28,10 @@
                 android:id="@+id/searchTxt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
-                android:singleLine="true"/>
+                android:singleLine="true" />
 
         </android.support.v7.widget.Toolbar>
 
