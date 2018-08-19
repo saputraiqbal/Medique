@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerKota;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerSpesialis;
+import com.chocobar.fuutaro.medicare.AsyncTasks.SearchDokter;
 import com.chocobar.fuutaro.medicare.AsyncTasks.Top20Dokter;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
@@ -31,9 +32,18 @@ public class DokterFilterFragment extends DialogFragment {
     private ArrayList<Kota> arrListKota = new ArrayList<>();
     private ArrayList<Spesialis> arrListSpesialis = new ArrayList<>();
     AdapterDokter adapter;
+    private String queryString;
 
     //declare default constructor
     public DokterFilterFragment() {
+    }
+
+    public static DokterFilterFragment newInstance(String query){
+        DokterFilterFragment dokterFilterFrag = new DokterFilterFragment();
+        Bundle args = new Bundle();
+        args.putString("query", query);
+        dokterFilterFrag.setArguments(args);
+        return dokterFilterFrag;
     }
 
     //declare onCreateView to create view of DialogFragment
@@ -53,6 +63,7 @@ public class DokterFilterFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        queryString = getArguments().getString("query");
         spinnerKota = view.findViewById(R.id.spinnerKota);
         spinnerSpesialis = view.findViewById(R.id.spinnerSpesialis);
         rGroupGender = view.findViewById(R.id.radioGroup);
@@ -107,7 +118,7 @@ public class DokterFilterFragment extends DialogFragment {
                 String valGender = Integer.toString(chooseGender);
                 valKota = chooseKotaVal(valKota);
                 valSpesialis = chooseSpesialisVal(valSpesialis);
-                new Top20Dokter(getActivity()).execute("", valKota, valSpesialis, valGender);
+                new SearchDokter(getActivity()).execute(queryString, valKota, valSpesialis, valGender);
                 getDialog().dismiss();
             }
         });

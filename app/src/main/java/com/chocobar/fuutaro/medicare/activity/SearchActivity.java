@@ -1,18 +1,23 @@
 package com.chocobar.fuutaro.medicare.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -41,6 +46,7 @@ public class SearchActivity extends AppCompatActivity{
 
     private String title, hint;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,20 +119,56 @@ public class SearchActivity extends AppCompatActivity{
             public void afterTextChanged(Editable s) {
             }
         });
+        searchText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    if(event.getRawX() >= (searchText.getRight() - searchText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                        searchText.getText().clear();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void searchProcess(String s){
-        new SearchDokter(SearchActivity.this).execute(s.toString(), "0", "0", "0");
-        new SearchFaskes(SearchActivity.this).execute(s.toString(), "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+        PagerAdapter pageAdp = mViewPager.getAdapter();
+        for(int i = 0; i < pageAdp.getCount(); i++){
+            Fragment viewPgFrag = (Fragment)mViewPager.getAdapter().instantiateItem(mViewPager, i);
+            if(viewPgFrag != null && viewPgFrag.isAdded()){
+                if(viewPgFrag instanceof SearchDokterFragment){
+                    SearchDokterFragment searchDokterFrag = (SearchDokterFragment) viewPgFrag;
+                    searchDokterFrag.dokterSearch(s);
+                }
+                else if(viewPgFrag instanceof SearchFaskesFragment){
+                    SearchFaskesFragment searchFaskesFrag = (SearchFaskesFragment) viewPgFrag;
+                    searchFaskesFrag.faskesSearch(s);
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home){
-            finish();
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     /**

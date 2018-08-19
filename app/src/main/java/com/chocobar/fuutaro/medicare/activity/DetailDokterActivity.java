@@ -1,12 +1,14 @@
 package com.chocobar.fuutaro.medicare.activity;
 
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -17,7 +19,6 @@ import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailDokter;
 import com.chocobar.fuutaro.medicare.AsyncTasks.ViewSchedule;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
-import com.chocobar.fuutaro.medicare.fragment.ViewProfileDokterFragment;
 import com.chocobar.fuutaro.medicare.model.DetailDokter;
 import com.chocobar.fuutaro.medicare.model.DokterSchedule;
 
@@ -27,14 +28,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DetailDokterActivity extends AppCompatActivity {
+public class DetailDokterActivity extends AppCompatActivity{
     //initate widget objects
-    public static TextView namaDokter, linkProfile, tglDaftar, linkUbahTgl;
+    public static TextView namaDokter, tglDaftar, linkUbahTgl, profile, seeProfile, txtAlamat, txtTelp;
     public static ImageView imgShowDokter;
     public static RecyclerView rViewSchedule;
+    private View beginDiv, endDiv;
 
     //initiate variable
-    private String idDokter;
+    private String idDokter, alamat, noTelp;
+    private boolean isProfileShown;
 
     //initiate DatePickerDialog for showing DatePicker dialog
     private DatePickerDialog.OnDateSetListener mDateListener;
@@ -50,27 +53,37 @@ public class DetailDokterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_dokter);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Profil Dokter");
 
         /**initiate Bundle for receiving data from AdapterDokter applied at MainActivity_recs
            and store it to idDokter variable**/
         Bundle getBundle = getIntent().getExtras();
         idDokter = getBundle.getString("setIdDokter");
+        alamat = getBundle.getString("setAlamat");
+        noTelp = getBundle.getString("setTelp");
 
         //connecting widget objects with widget layout
         imgShowDokter = findViewById(R.id.imgViewDokter);
         namaDokter = findViewById(R.id.txtViewDokterName);
-        linkProfile = findViewById(R.id.txtViewDokterDetail);
+        txtAlamat = findViewById(R.id.txtDetailAlamat);
+        txtTelp = findViewById(R.id.txtDetailTelp);
         tglDaftar = findViewById(R.id.txtViewDayReserve);
         linkUbahTgl = findViewById(R.id.txtViewChangeDate);
         rViewSchedule = findViewById(R.id.rViewShowDokterSchedule);
+        beginDiv = findViewById(R.id.profileDivStart);
+        endDiv = findViewById(R.id.profileDivEnd);
+        profile = findViewById(R.id.txtProfile);
+        seeProfile = findViewById(R.id.txtSeeProfile);
+
+        txtAlamat.setText(alamat);
+        txtTelp.setText(noTelp);
+
+        isProfileShown = false;
 
         //call ViewDetailDokter AsyncTask to get data that will show at this activity
-        new ViewDetailDokter(DetailDokterActivity.this, new ViewDetailDokter.OnProfileSet() {
-            @Override
-            public void onProfileSet(ArrayList<DetailDokter> arrDetailDokters) {
-                arrDetail = new ArrayList<>(arrDetailDokters);
-            }
-        }).execute(idDokter);
+        new ViewDetailDokter(DetailDokterActivity.this).execute(idDokter);
+
         //set text
         tglDaftar.setText(getString(R.string.set_date_reserved) + " " + setDateToday().get(0));
 
@@ -78,16 +91,20 @@ public class DetailDokterActivity extends AppCompatActivity {
         rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
         new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
 
-        //set action when linkProfile is clicked
-        linkProfile.setOnClickListener(new View.OnClickListener() {
+        seeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //calling ViewProfileDokterFragment to make a DialogFragment
-                DetailDokterActivity activity = (DetailDokterActivity) v.getContext();
-                ViewProfileDokterFragment profileFrag = ViewProfileDokterFragment.newInstance(
-                        arrDetail.get(0).getImgBase64(), arrDetail.get(0).getNama(), arrDetail.get(0).getProfileDetail());
-                profileFrag.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
-                profileFrag.show(activity.getFragmentManager(), "fragment_dokter_profile");
+                if(!isProfileShown){
+                    profile.setMaxLines(Integer.MAX_VALUE);
+                    endDiv.setVisibility(View.VISIBLE);
+                    seeProfile.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_menu_up, 0);
+                    isProfileShown = true;
+                }else{
+                    profile.setMaxLines(0);
+                    endDiv.setVisibility(View.GONE);
+                    seeProfile.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_menu_down, 0);
+                    isProfileShown = false;
+                }
             }
         });
 
@@ -121,6 +138,16 @@ public class DetailDokterActivity extends AppCompatActivity {
                 new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
             }
         };
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return false;
     }
 
     //method for set ArrayList<String> changeDate that will used when date is changed by user

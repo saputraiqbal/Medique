@@ -2,6 +2,7 @@ package com.chocobar.fuutaro.medicare.AsyncTasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
@@ -36,6 +37,7 @@ public class ViewSchedule extends AsyncTask<String, Void, ArrayList<DokterSchedu
 
     @Override
     protected void onPostExecute(ArrayList<DokterSchedule> dokterSchedules) {
+        rViewSchedule.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
         adapterSchedule = new AdapterDokterSchedule(dokterSchedules, this.activity);
         rViewSchedule.setAdapter(adapterSchedule);
         adapterSchedule.notifyDataSetChanged();

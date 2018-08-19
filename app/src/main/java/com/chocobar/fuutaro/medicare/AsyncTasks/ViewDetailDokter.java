@@ -24,25 +24,18 @@ import java.util.List;
 
 public class ViewDetailDokter extends AsyncTask<String, Void, ArrayList<DetailDokter>> {
     //initiate some objects
-    private TextView namaDokter;
     private ImageView imgShowDokter;
+    private TextView name, profile;
     private ProgressDialog progress;
-    private ArrayList<DetailDokter> arrDetailDokter;
-
-    public OnProfileSet listener = null;
-
-    //declare interface to send data from AsyncTask to Fragment
-    public interface OnProfileSet{
-        void onProfileSet(ArrayList<DetailDokter> detailDokters);
-    }
+    private ArrayList<DetailDokter>arrDetailDokter;
 
     //declare constructor
-    public ViewDetailDokter(DetailDokterActivity detailActivity, OnProfileSet listener) {
-        this.namaDokter = DetailDokterActivity.namaDokter;
+    public ViewDetailDokter(DetailDokterActivity detailActivity) {
+        this.name = DetailDokterActivity.namaDokter;
+        this.profile = DetailDokterActivity.profile;
         this.imgShowDokter = DetailDokterActivity.imgShowDokter;
         this.progress = new ProgressDialog(detailActivity);
         this.arrDetailDokter = new ArrayList<>();
-        this.listener = listener;
     }
 
     //declared for do some action before AsyncTask is work
@@ -58,7 +51,8 @@ public class ViewDetailDokter extends AsyncTask<String, Void, ArrayList<DetailDo
         if(progress.isShowing())
             progress.dismiss();
         //some widgets set the value here
-        namaDokter.setText(detailDokters.get(0).getNama());
+        name.setText(detailDokters.get(0).getNama());
+        profile.setText(detailDokters.get(0).getProfileDetail());
         if(detailDokters.get(0).getImgBase64().equals("null"))
             imgShowDokter.setBackgroundResource(R.drawable.ic_profile);
         else{
@@ -68,7 +62,6 @@ public class ViewDetailDokter extends AsyncTask<String, Void, ArrayList<DetailDo
             imgShowDokter.setImageBitmap(imgDecode);
         }
         //use interface method so that AsyncTask can send data to Fragment
-        listener.onProfileSet(detailDokters);
     }
 
     @Override

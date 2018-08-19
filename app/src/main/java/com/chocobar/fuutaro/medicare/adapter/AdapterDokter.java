@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.activity.DetailDokterActivity;
 import com.chocobar.fuutaro.medicare.R;
@@ -43,7 +44,7 @@ public class AdapterDokter extends RecyclerView.Adapter<AdapterDokter.DokterHold
     /**declare onBindViewHolder to set data on specicfied position
      * that will displayed at RecyclerView**/
     @Override
-    public void onBindViewHolder(DokterHolder holder, final int position) {
+    public void onBindViewHolder(final DokterHolder holder, final int position) {
         if(mData.get(position).getImg().equals("null")){
             holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
         }
@@ -67,6 +68,8 @@ public class AdapterDokter extends RecyclerView.Adapter<AdapterDokter.DokterHold
                 Intent intent = new Intent(ctx, DetailDokterActivity.class);
                 Bundle setBundle = new Bundle();
                 setBundle.putString("setIdDokter", mData.get(position).getIdDokter());
+                setBundle.putString("setAlamat", holder.viewAddress.getText().toString());
+                setBundle.putString("setTelp", holder.viewCallNum.getText().toString());
                 intent.putExtras(setBundle);
                 ctx.startActivity(intent);
             }

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoJamkes;
+import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoPelayanan;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.model.Faskes;
 
@@ -23,6 +25,8 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
     private Context ctx;
     private ArrayList<Faskes> mData;
     private Activity mACtivity;
+
+    private String infoPelayanan;
 
     //declare adapter constructor
     public AdapterFaskes(ArrayList<Faskes> data, Activity activity) {
@@ -40,7 +44,7 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
     /**declare onBindViewHolder to set data on specicfied position
      * that will displayed at RecyclerView**/
     @Override
-    public void onBindViewHolder(DokterHolder holder, final int position) {
+    public void onBindViewHolder(final DokterHolder holder, final int position) {
         if(mData.get(position).getImgFaskes().equals("null")){
             holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
         }
@@ -52,8 +56,20 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
         }
         holder.viewName.setText((mData.get(position)).getNamaFaskes());
         holder.viewAddress.setText(mData.get(position).getAlamat()+", "+mData.get(position).getKota()+", "+mData.get(position).getProvinsi());
-        /**holder.viewCallNum.setText(mData.get(position).getNoTelp());
-        holder.viewSpecialist.setText(mData.get(position).getSpesialis());**/
+
+        new PopulateInfoPelayanan(new PopulateInfoPelayanan.ListPelayananInfo() {
+            @Override
+            public void onPopulateList(String populated) {
+                holder.viewPelayananInfo.setText(populated);
+            }
+        }).execute(mData.get(position).getId());
+
+        new PopulateInfoJamkes(new PopulateInfoJamkes.ListPelayananInfo() {
+            @Override
+            public void onPopulateList(String populated) {
+                holder.viewJamkesInfo.setText(populated);
+            }
+        }).execute(mData.get(position).getId());
         //action taken when one of items is clicked
         /**holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +77,11 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
                 Context ctx = v.getContext();
                 /**set Intent and Bundle to initiate which activity will be activated
                  * and bundle some datas that will bring to another activity
-                Intent intent = new Intent(ctx, DetailDokterActivity.class);
-                Bundle setBundle = new Bundle();
-                setBundle.putString("setIdDokter", mData.get(position).getIdDokter());
-                intent.putExtras(setBundle);
-                ctx.startActivity(intent);
+//                Intent intent = new Intent(ctx, DetailDokterActivity.class);
+//                Bundle setBundle = new Bundle();
+//                setBundle.putString("setIdDokter", mData.get(position).getIdDokter());
+//                intent.putExtras(setBundle);
+//                ctx.startActivity(intent);
             }
         });**/
     }
@@ -80,7 +96,7 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
     public class DokterHolder extends RecyclerView.ViewHolder{
         //declare widget objects
         ImageView viewAvatar;
-        TextView viewName, viewAddress, viewCallNum, viewSpecialist;
+        TextView viewName, viewAddress, viewPelayananInfo, viewJamkesInfo;
 
         //declare constructor and apply widget objects to connected to the widgets at layout
         public DokterHolder(View itemView) {
@@ -88,8 +104,8 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
             viewAvatar = itemView.findViewById(R.id.vImage);
             viewName = itemView.findViewById(R.id.txtName);
             viewAddress = itemView.findViewById(R.id.txtAddress);
-            viewCallNum = itemView.findViewById(R.id.txtInfoRow1);
-            viewSpecialist = itemView.findViewById(R.id.txtInfoRow2);
+            viewPelayananInfo = itemView.findViewById(R.id.txtInfoRow1);
+            viewJamkesInfo = itemView.findViewById(R.id.txtInfoRow2);
         }
     }
 

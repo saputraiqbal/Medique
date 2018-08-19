@@ -44,19 +44,4 @@ public class MainDokterFragment extends Fragment {
         rView.setLayoutManager(new LinearLayoutManager(getActivity()));
         new Top20Dokter(getActivity()).execute("", "0", "0", "0");
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_filter:
-                showFilterFragment();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void showFilterFragment(){
-        DialogFragment filterFrag = new DokterFilterFragment();
-        filterFrag.show(getFragmentManager(), "fragment_dokter_filter");
-    }
 }

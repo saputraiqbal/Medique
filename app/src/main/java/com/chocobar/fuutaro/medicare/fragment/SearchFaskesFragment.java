@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +19,7 @@ import com.chocobar.fuutaro.medicare.activity.SearchActivity;
 public class SearchFaskesFragment extends Fragment{
 
     public static RecyclerView rView;
+    public String queryString = "";
 
     public SearchFaskesFragment() {
     }
@@ -35,5 +37,23 @@ public class SearchFaskesFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_filter:
+//                showFilterFragment();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void faskesSearch(String query){
+        queryString = query;
+        new SearchFaskes(getActivity()).execute(query.toString(), "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0");
+    }
+
+    public void showFilterFragment(){
+
     }
 }

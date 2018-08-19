@@ -7,10 +7,4 @@
         android:id="@+id/action_search"
         android:icon="?android:attr/actionModeWebSearchDrawable"
         app:showAsAction="always"/>
-    <item
-        android:title="Filter"
-        android:id="@+id/action_filter"
-        android:icon="@drawable/ic_filter_outline"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass=""/>
 </menu>
