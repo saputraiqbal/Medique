@@ -76,7 +76,9 @@ public class DetailDokterActivity extends AppCompatActivity{
         profile = findViewById(R.id.txtProfile);
         seeProfile = findViewById(R.id.txtSeeProfile);
 
+        namaDokter.setSelected(true);
         txtAlamat.setText(alamat);
+        txtAlamat.setSelected(true);
         txtTelp.setText(noTelp);
 
         isProfileShown = false;

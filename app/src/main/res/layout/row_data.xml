@@ -37,8 +37,9 @@
 
             <TextView
                 android:id="@+id/txtName"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="dr. Strange, SpPD-KPTI"
                 android:textSize="18dp"
                 app:layout_constraintStart_toEndOf="@+id/vImage"
@@ -46,17 +47,17 @@
 
             <TextView
                 android:id="@+id/txtAddress"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:text="Jl. Bersamamu 16, Malang"
                 android:layout_marginTop="8dp"
+                android:text="Jl. Bersamamu 16, Malang"
                 android:textSize="10dp"
                 app:layout_constraintStart_toEndOf="@+id/vImage"
                 app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
             <TextView
                 android:id="@+id/txtInfoRow1"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:singleLine="true"
@@ -67,7 +68,7 @@
 
             <TextView
                 android:id="@+id/txtInfoRow2"
-                android:layout_width="wrap_content"
+                android:layout_width="230dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:singleLine="true"
