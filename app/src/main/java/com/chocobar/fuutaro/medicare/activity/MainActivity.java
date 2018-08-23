@@ -1,6 +1,7 @@
 package com.chocobar.fuutaro.medicare.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.fragment.MainDokterFragment;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private TabLayout tabLayout;
 
+    boolean doubleBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity{
         mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabLayout);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mSectionsPagerAdapter.addFragment(new MainDokterFragment(), "Dokter");
@@ -48,6 +52,24 @@ public class MainActivity extends AppCompatActivity{
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
+
+    @Override
+    public void onBackPressed() {
+        if(doubleBackPressed){
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackPressed = true;
+        Toast.makeText(this, "Tekan sekali lagi untuk keluar", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackPressed = false;
+                finish();
+            }
+        }, 2000);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);

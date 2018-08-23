@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;

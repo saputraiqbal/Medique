@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokter;
@@ -23,6 +26,8 @@ import java.util.List;
 public class Top20Dokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
     private RecyclerView rView;
     private AdapterDokter adapter;
+    private TextView txtLoad;
+    private ProgressBar loadBar;
     ArrayList<Dokter> arrayList = new ArrayList<>();
 
     private Activity activity;
@@ -30,10 +35,23 @@ public class Top20Dokter extends AsyncTask<String, Void, ArrayList<Dokter>> {
     public Top20Dokter(Activity activity) {
         this.activity = activity;
         this.rView = MainDokterFragment.rView;
+        this.txtLoad = MainDokterFragment.load;
+        this.loadBar = MainDokterFragment.loadBar;
+        this.txtLoad.setVisibility(View.GONE);
+        this.loadBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        loadBar.setVisibility(View.VISIBLE);
+        txtLoad.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onPostExecute(ArrayList<Dokter> arrayList) {
+        loadBar.setVisibility(View.GONE);
+        txtLoad.setVisibility(View.GONE);
         rView.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
         adapter = new AdapterDokter(arrayList, this.activity);
         rView.setAdapter(adapter);

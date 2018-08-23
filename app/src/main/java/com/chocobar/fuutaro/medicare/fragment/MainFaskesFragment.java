@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.Top20Faskes;
 import com.chocobar.fuutaro.medicare.R;
@@ -16,6 +18,8 @@ import com.chocobar.fuutaro.medicare.R;
 public class MainFaskesFragment extends Fragment{
 
     public static RecyclerView rView;
+    public static TextView load;
+    public static ProgressBar loadBar;
 
     public MainFaskesFragment() {
     }
@@ -23,9 +27,10 @@ public class MainFaskesFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootview = inflater.inflate(R.layout.fragment_main, container, false);
-        rView = rootview.findViewById(R.id.listDataMain);
-        setHasOptionsMenu(true);
+        View rootview = inflater.inflate(R.layout.fragment_show_data, container, false);
+        rView = rootview.findViewById(R.id.listData);
+        load = rootview.findViewById(R.id.txtLoad);
+        loadBar = rootview.findViewById(R.id.loadBar);
         return rootview;
     }
 

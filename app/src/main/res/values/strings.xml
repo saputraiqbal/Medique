@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">MediCare</string>
+    <string name="app_name">medique</string>
+    <string name="signUp_link">"Haven't account yet?" <b>Sign up here!</b></string>
     <string name="hint_search">Search anything...</string>
-    <string name="see_profile"><u>Lihat Profil</u></string>
-    <string name="change_date"><u>Ubah Tanggal</u></string>
+    <string name="see_profile">Lihat Profil</string>
+    <string name="change_date">Ubah Tanggal</string>
     <string name="set_colon">:</string>
     <string name="set_date_reserved">Pendaftaran Layanan</string>
     <string name="antrian_popup">Antrian berhasil dipesan. Nomor antrian loket Anda</string>

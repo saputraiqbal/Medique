@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.adapter.AdapterFaskes;
+import com.chocobar.fuutaro.medicare.fragment.MainDokterFragment;
 import com.chocobar.fuutaro.medicare.fragment.MainFaskesFragment;
 import com.chocobar.fuutaro.medicare.fragment.SearchFaskesFragment;
 import com.chocobar.fuutaro.medicare.model.Faskes;

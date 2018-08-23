@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.adapter.AdapterFaskes;
+import com.chocobar.fuutaro.medicare.fragment.MainDokterFragment;
 import com.chocobar.fuutaro.medicare.fragment.MainFaskesFragment;
 import com.chocobar.fuutaro.medicare.model.Faskes;
 
@@ -23,6 +27,8 @@ import java.util.List;
 public class Top20Faskes extends AsyncTask<String, Void, ArrayList<Faskes>> {
     private RecyclerView rView;
     private AdapterFaskes adapter;
+    private TextView txtLoad;
+    private ProgressBar loadBar;
     ArrayList<Faskes> arrayList = new ArrayList<>();
 
     private Activity activity;
@@ -30,10 +36,23 @@ public class Top20Faskes extends AsyncTask<String, Void, ArrayList<Faskes>> {
     public Top20Faskes(Activity activity) {
         this.activity = activity;
         this.rView = MainFaskesFragment.rView;
+        this.txtLoad = MainDokterFragment.load;
+        this.loadBar = MainDokterFragment.loadBar;
+        this.txtLoad.setVisibility(View.GONE);
+        this.loadBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        loadBar.setVisibility(View.VISIBLE);
+        txtLoad.setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onPostExecute(ArrayList<Faskes> arrayList) {
+        loadBar.setVisibility(View.GONE);
+        txtLoad.setVisibility(View.GONE);
         rView.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
         adapter = new AdapterFaskes(arrayList, this.activity);
         rView.setAdapter(adapter);
