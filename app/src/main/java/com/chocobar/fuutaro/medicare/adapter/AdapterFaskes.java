@@ -2,8 +2,10 @@ package com.chocobar.fuutaro.medicare.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -15,11 +17,12 @@ import android.widget.TextView;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoJamkes;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoPelayanan;
 import com.chocobar.fuutaro.medicare.R;
+import com.chocobar.fuutaro.medicare.activity.DetailFaskesActivity;
 import com.chocobar.fuutaro.medicare.model.Faskes;
 
 import java.util.ArrayList;
 
-public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHolder> {
+public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.FaskesHolder> {
     //initiate some objects
     private LayoutInflater inflater;
     private Context ctx;
@@ -36,15 +39,15 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
 
     //declare onCreateViewHolder to create a ViewHolder on RecyclerView
     @Override
-    public DokterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FaskesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data, parent, false);
-        return new DokterHolder(view);
+        return new FaskesHolder(view);
     }
 
     /**declare onBindViewHolder to set data on specicfied position
      * that will displayed at RecyclerView**/
     @Override
-    public void onBindViewHolder(final DokterHolder holder, final int position) {
+    public void onBindViewHolder(final FaskesHolder holder, final int position) {
         if(mData.get(position).getImgFaskes().equals("null")){
             holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
         }
@@ -71,19 +74,21 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
             }
         }).execute(mData.get(position).getId());
         //action taken when one of items is clicked
-        /**holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context ctx = v.getContext();
                 /**set Intent and Bundle to initiate which activity will be activated
-                 * and bundle some datas that will bring to another activity
-//                Intent intent = new Intent(ctx, DetailDokterActivity.class);
-//                Bundle setBundle = new Bundle();
-//                setBundle.putString("setIdDokter", mData.get(position).getIdDokter());
-//                intent.putExtras(setBundle);
-//                ctx.startActivity(intent);
+                 * and bundle some datas that will bring to another activity**/
+                Intent intent = new Intent(ctx, DetailFaskesActivity.class);
+                Bundle setBundle = new Bundle();
+                setBundle.putString("setIdPartner", mData.get(position).getId());
+                setBundle.putString("setAlamat", holder.viewAddress.getText().toString());
+                setBundle.putString("setPelayanan", holder.viewPelayananInfo.getText().toString());
+                intent.putExtras(setBundle);
+                ctx.startActivity(intent);
             }
-        });**/
+        });
     }
 
     //declare getItemCount to get item amount that mounted to RecyclerView
@@ -93,13 +98,13 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.DokterHold
     }
 
     //declare Holder class inside adapter class
-    public class DokterHolder extends RecyclerView.ViewHolder{
+    public class FaskesHolder extends RecyclerView.ViewHolder{
         //declare widget objects
         ImageView viewAvatar;
         TextView viewName, viewAddress, viewPelayananInfo, viewJamkesInfo;
 
         //declare constructor and apply widget objects to connected to the widgets at layout
-        public DokterHolder(View itemView) {
+        public FaskesHolder(View itemView) {
             super(itemView);
             viewAvatar = itemView.findViewById(R.id.vImage);
             viewName = itemView.findViewById(R.id.txtName);

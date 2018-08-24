@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imgViewDokter"
+        android:id="@+id/imgProfile"
         android:layout_width="111dp"
         android:layout_height="106dp"
         android:layout_marginStart="16dp"
@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/ic_profile" />
 
     <TextView
-        android:id="@+id/txtViewDokterName"
+        android:id="@+id/txtProfileName"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -28,11 +28,11 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        app:layout_constraintStart_toEndOf="@+id/imgViewDokter"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtDetailAlamat"
+        android:id="@+id/txtInfo1"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -47,26 +47,30 @@
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imgViewDokter"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewDokterName" />
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toBottomOf="@+id/txtProfileName" />
 
     <TextView
-        android:id="@+id/txtDetailTelp"
+        android:id="@+id/txtInfo2"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:text="Memuat..."
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imgViewDokter"
-        app:layout_constraintTop_toBottomOf="@+id/txtDetailAlamat" />
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toBottomOf="@+id/txtInfo1" />
 
     <TextView
-        android:id="@+id/txtSeeProfile"
+        android:id="@+id/txtSeeDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -76,9 +80,9 @@
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="10sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imgViewDokter"
-        app:layout_constraintStart_toEndOf="@+id/imgViewDokter"
-        app:layout_constraintTop_toBottomOf="@+id/txtDetailTelp" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+        app:layout_constraintStart_toEndOf="@+id/imgProfile"
+        app:layout_constraintTop_toBottomOf="@+id/txtInfo2" />
 
     <View
         android:id="@+id/profileDivStart"
@@ -89,7 +93,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgViewDokter" />
+        app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
     <TextView
         android:id="@+id/txtViewDayReserve"

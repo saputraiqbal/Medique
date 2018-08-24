@@ -1,25 +1,25 @@
 package com.chocobar.fuutaro.medicare.model;
 
-public class DetailDokter {
-    private String nama;
+public class DetailFaskes {
+    private String namaFaskes;
     private String profileDetail;
     private String imgBase64;
 
-    public DetailDokter() {
+    public DetailFaskes() {
     }
 
-    public DetailDokter(String nama, String profileDetail, String imgBase64) {
-        this.nama = nama;
+    public DetailFaskes(String namaFaskes, String profileDetail, String imgBase64) {
+        this.namaFaskes = namaFaskes;
         this.profileDetail = profileDetail;
         this.imgBase64 = imgBase64;
     }
 
-    public String getNama() {
-        return nama;
+    public String getNamaFaskes() {
+        return namaFaskes;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setNamaFaskes(String namaFaskes) {
+        this.namaFaskes = namaFaskes;
     }
 
     public String getProfileDetail() {

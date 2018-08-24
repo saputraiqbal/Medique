@@ -1,24 +1,18 @@
 package com.chocobar.fuutaro.medicare.activity;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v7.widget.RecyclerView;
 
-import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailDokter;
-import com.chocobar.fuutaro.medicare.AsyncTasks.ViewSchedule;
+import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailFaskes;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
-import com.chocobar.fuutaro.medicare.model.DetailDokter;
-import com.chocobar.fuutaro.medicare.model.DokterSchedule;
+import com.chocobar.fuutaro.medicare.model.DetailFaskes;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,23 +20,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DetailDokterActivity extends AppCompatActivity{
+public class DetailFaskesActivity extends AppCompatActivity{
     //initate widget objects
-    public static TextView namaDokter, tglDaftar, linkUbahTgl, profile, seeProfile, txtAlamat, txtTelp;
-    public static ImageView imgShowDokter;
+    public static TextView namaFaskes, tglDaftar, linkUbahTgl, profile, seeProfile, txtAlamat, txtPelayanan;
+    public static ImageView imgShowFaskes;
     public static RecyclerView rViewSchedule;
     private View beginDiv, endDiv;
 
     //initiate variable
-    private String idDokter, alamat, noTelp;
+    private String idPartner, alamat, pelayanan;
     private boolean isProfileShown;
 
     //initiate DatePickerDialog for showing DatePicker dialog
     private DatePickerDialog.OnDateSetListener mDateListener;
 
     //initiate ArrayLists
-    ArrayList<DokterSchedule>arrSchedule = new ArrayList<>();
-    ArrayList<DetailDokter> arrDetail = new ArrayList<>();
+//    ArrayList<DokterSchedule>arrSchedule = new ArrayList<>();
+    ArrayList<DetailFaskes> arrDetail = new ArrayList<>();
 
     //initiate adapter
     public static AdapterDokterSchedule adapterSchedule;
@@ -52,20 +46,20 @@ public class DetailDokterActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_info);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profil Dokter");
+        getSupportActionBar().setTitle("Profil Faskes");
 
         /**initiate Bundle for receiving data from AdapterDokter applied at MainActivity_recs
-           and store it to idDokter variable**/
+           and store it to idPartner variable**/
         Bundle getBundle = getIntent().getExtras();
-        idDokter = getBundle.getString("setIdDokter");
+        idPartner = getBundle.getString("setIdPartner");
         alamat = getBundle.getString("setAlamat");
-        noTelp = getBundle.getString("setTelp");
+        pelayanan = getBundle.getString("setPelayanan");
 
         //connecting widget objects with widget layout
-        imgShowDokter = findViewById(R.id.imgProfile);
-        namaDokter = findViewById(R.id.txtProfileName);
+        imgShowFaskes = findViewById(R.id.imgProfile);
+        namaFaskes = findViewById(R.id.txtProfileName);
         txtAlamat = findViewById(R.id.txtInfo1);
-        txtTelp = findViewById(R.id.txtInfo2);
+        txtPelayanan = findViewById(R.id.txtInfo2);
         tglDaftar = findViewById(R.id.txtViewDayReserve);
         linkUbahTgl = findViewById(R.id.txtViewChangeDate);
         rViewSchedule = findViewById(R.id.rViewShowDokterSchedule);
@@ -74,22 +68,23 @@ public class DetailDokterActivity extends AppCompatActivity{
         profile = findViewById(R.id.txtProfile);
         seeProfile = findViewById(R.id.txtSeeDetail);
 
-        namaDokter.setSelected(true);
+        namaFaskes.setSelected(true);
         txtAlamat.setText(alamat);
         txtAlamat.setSelected(true);
-        txtTelp.setText(noTelp);
+        txtPelayanan.setText(pelayanan);
+        txtPelayanan.setSelected(true);
 
         isProfileShown = false;
 
         //call ViewDetailDokter AsyncTask to get data that will show at this activity
-        new ViewDetailDokter(DetailDokterActivity.this).execute(idDokter);
+        new ViewDetailFaskes(DetailFaskesActivity.this).execute(idPartner);
 
         //set text
         tglDaftar.setText(getString(R.string.set_date_reserved) + " " + setDateToday().get(0));
 
         //set RecyclerView and populate it using ViewSchedule AsynTask
-        rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
-        new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
+//        rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
+//        new ViewSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute(idPartner, setDateToday().get(1), setDateToday().get(2));
 
         seeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,35 +104,35 @@ public class DetailDokterActivity extends AppCompatActivity{
         });
 
         //set action when linkUbahTanggal is clicked
-        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //set Calendar
-                Calendar calDateOrder = Calendar.getInstance();
-                int year = calDateOrder.get(Calendar.YEAR);
-                int month = calDateOrder.get(Calendar.MONTH);
-                int date = calDateOrder.get(Calendar.DAY_OF_MONTH);
-
-                //showing DatePicker dialog
-                DatePickerDialog dialog = new DatePickerDialog(
-                        DetailDokterActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateListener, year, month, date);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setTitle("Ubah tanggal pemesanan layanan");
-                dialog.show();
-            }
-        });
+//        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //set Calendar
+//                Calendar calDateOrder = Calendar.getInstance();
+//                int year = calDateOrder.get(Calendar.YEAR);
+//                int month = calDateOrder.get(Calendar.MONTH);
+//                int date = calDateOrder.get(Calendar.DAY_OF_MONTH);
+//
+//                //showing DatePicker dialog
+//                DatePickerDialog dialog = new DatePickerDialog(
+//                        DetailFaskesActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateListener, year, month, date);
+//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                dialog.setTitle("Ubah tanggal pemesanan layanan");
+//                dialog.show();
+//            }
+//        });
 
         //apply change after set data at DatePicker dialog
-        mDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
-                //clear teh ArrayList that used for RecyclerView
-                arrSchedule.clear();
-                new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
-            }
-        };
+//        mDateListener = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
+//                //clear teh ArrayList that used for RecyclerView
+//                arrSchedule.clear();
+//                new ViewSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+//            }
+//        };
     }
 
     @Override
