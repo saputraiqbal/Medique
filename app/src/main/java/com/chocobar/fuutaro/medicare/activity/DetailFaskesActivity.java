@@ -1,18 +1,25 @@
 package com.chocobar.fuutaro.medicare.activity;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailFaskes;
+import com.chocobar.fuutaro.medicare.AsyncTasks.ViewFaskesSchedule;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
+import com.chocobar.fuutaro.medicare.adapter.AdapterFaskesSchedule;
 import com.chocobar.fuutaro.medicare.model.DetailFaskes;
+import com.chocobar.fuutaro.medicare.model.FaskesSchedule;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,11 +42,11 @@ public class DetailFaskesActivity extends AppCompatActivity{
     private DatePickerDialog.OnDateSetListener mDateListener;
 
     //initiate ArrayLists
-//    ArrayList<DokterSchedule>arrSchedule = new ArrayList<>();
+    ArrayList<FaskesSchedule>arrSchedule = new ArrayList<>();
     ArrayList<DetailFaskes> arrDetail = new ArrayList<>();
 
     //initiate adapter
-    public static AdapterDokterSchedule adapterSchedule;
+    public static AdapterFaskesSchedule adapterSchedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +89,9 @@ public class DetailFaskesActivity extends AppCompatActivity{
         //set text
         tglDaftar.setText(getString(R.string.set_date_reserved) + " " + setDateToday().get(0));
 
-        //set RecyclerView and populate it using ViewSchedule AsynTask
-//        rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
-//        new ViewSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute(idPartner, setDateToday().get(1), setDateToday().get(2));
+//        set RecyclerView and populate it using ViewDokterSchedule AsynTask
+        rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
+        new ViewFaskesSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute(idPartner, setDateToday().get(1), setDateToday().get(2));
 
         seeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,36 +110,36 @@ public class DetailFaskesActivity extends AppCompatActivity{
             }
         });
 
-        //set action when linkUbahTanggal is clicked
-//        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //set Calendar
-//                Calendar calDateOrder = Calendar.getInstance();
-//                int year = calDateOrder.get(Calendar.YEAR);
-//                int month = calDateOrder.get(Calendar.MONTH);
-//                int date = calDateOrder.get(Calendar.DAY_OF_MONTH);
-//
-//                //showing DatePicker dialog
-//                DatePickerDialog dialog = new DatePickerDialog(
-//                        DetailFaskesActivity.this,
-//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateListener, year, month, date);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.setTitle("Ubah tanggal pemesanan layanan");
-//                dialog.show();
-//            }
-//        });
+//        set action when linkUbahTanggal is clicked
+        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //set Calendar
+                Calendar calDateOrder = Calendar.getInstance();
+                int year = calDateOrder.get(Calendar.YEAR);
+                int month = calDateOrder.get(Calendar.MONTH);
+                int date = calDateOrder.get(Calendar.DAY_OF_MONTH);
 
-        //apply change after set data at DatePicker dialog
-//        mDateListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
-//                //clear teh ArrayList that used for RecyclerView
-//                arrSchedule.clear();
-//                new ViewSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
-//            }
-//        };
+                //showing DatePicker dialog
+                DatePickerDialog dialog = new DatePickerDialog(
+                        DetailFaskesActivity.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateListener, year, month, date);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setTitle("Ubah tanggal pemesanan layanan");
+                dialog.show();
+            }
+        });
+
+//        apply change after set data at DatePicker dialog
+        mDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
+                //clear teh ArrayList that used for RecyclerView
+                arrSchedule.clear();
+                new ViewFaskesSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+            }
+        };
     }
 
     @Override

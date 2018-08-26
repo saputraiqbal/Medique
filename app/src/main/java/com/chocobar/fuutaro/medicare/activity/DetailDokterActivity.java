@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDetailDokter;
-import com.chocobar.fuutaro.medicare.AsyncTasks.ViewSchedule;
+import com.chocobar.fuutaro.medicare.AsyncTasks.ViewDokterSchedule;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.adapter.AdapterDokterSchedule;
 import com.chocobar.fuutaro.medicare.model.DetailDokter;
@@ -87,9 +87,9 @@ public class DetailDokterActivity extends AppCompatActivity{
         //set text
         tglDaftar.setText(getString(R.string.set_date_reserved) + " " + setDateToday().get(0));
 
-        //set RecyclerView and populate it using ViewSchedule AsynTask
+        //set RecyclerView and populate it using ViewDokterSchedule AsynTask
         rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
-        new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
+        new ViewDokterSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
 
         seeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +135,7 @@ public class DetailDokterActivity extends AppCompatActivity{
                 tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
                 //clear teh ArrayList that used for RecyclerView
                 arrSchedule.clear();
-                new ViewSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+                new ViewDokterSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
             }
         };
     }

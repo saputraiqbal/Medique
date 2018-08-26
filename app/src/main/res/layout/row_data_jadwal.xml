@@ -85,7 +85,7 @@
         app:layout_constraintStart_toEndOf="@+id/txtKuota" />
 
     <TextView
-        android:id="@+id/txtViewInstanceType"
+        android:id="@+id/txtDetailInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -93,10 +93,10 @@
         android:text="Klinik biasa"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewInstance" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMainInfo" />
 
     <TextView
-        android:id="@+id/txtViewInstance"
+        android:id="@+id/txtMainInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -115,6 +115,6 @@
         android:text="00:00 - 23:59"
         android:textSize="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewInstanceType" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDetailInfo" />
 
 </android.support.constraint.ConstraintLayout>

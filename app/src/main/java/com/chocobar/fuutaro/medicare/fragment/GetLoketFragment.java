@@ -59,7 +59,7 @@ public class GetLoketFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().requestFeature(Window.FEATURE_CUSTOM_TITLE);
         return dialog;
     }
 

@@ -10,39 +10,39 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.chocobar.fuutaro.medicare.activity.DetailDokterActivity;
 import com.chocobar.fuutaro.medicare.R;
+import com.chocobar.fuutaro.medicare.activity.DetailDokterActivity;
+import com.chocobar.fuutaro.medicare.activity.DetailFaskesActivity;
 import com.chocobar.fuutaro.medicare.fragment.GetLoketFragment;
-import com.chocobar.fuutaro.medicare.model.DokterSchedule;
+import com.chocobar.fuutaro.medicare.model.FaskesSchedule;
 
 import java.util.ArrayList;
 
-public class AdapterDokterSchedule extends RecyclerView.Adapter<AdapterDokterSchedule.DokterScheduleHolder>{
+public class AdapterFaskesSchedule extends RecyclerView.Adapter<AdapterFaskesSchedule.FaskesScheduleHolder>{
     //initiate some objects
     private LayoutInflater inflater;
     private Context ctx;
-    private ArrayList<DokterSchedule> mData;
+    private ArrayList<FaskesSchedule> mData;
     private Activity mActivity;
 
     //declare constructor
-    public AdapterDokterSchedule(ArrayList<DokterSchedule> data, Activity activity) {
+    public AdapterFaskesSchedule(ArrayList<FaskesSchedule> data) {
         this.mData = data;
-        this.mActivity = activity;
     }
 
     //declare onCreateViewHolder to create a ViewHolder on RecyclerView
     @Override
-    public DokterScheduleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FaskesScheduleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_data_jadwal, parent, false);
-        return new DokterScheduleHolder(v);
+        return new FaskesScheduleHolder(v);
     }
 
     /**declare onBindViewHolder to set data on specicfied position
      * that will displayed at RecyclerView**/
     @Override
-    public void onBindViewHolder(DokterScheduleHolder holder, final int position) {
-        holder.instance.setText((mData.get(position)).getPartner());
-        holder.instanceType.setText((mData.get(position)).getJenisPelayanan());
+    public void onBindViewHolder(FaskesScheduleHolder holder, final int position) {
+        holder.namaPegawai.setText((mData.get(position)).getNamaPegawai());
+        holder.pelayanan.setText((mData.get(position)).getJenisPelayanan());
         holder.viewTime.setText((mData.get(position)).getStartAt() + " - " + (mData.get(position)).getEndAt());
         String stringKuota = Integer.toString((mData.get(position)).getKuota());
         String stringAntrian = Integer.toString((mData.get(position)).getJumlahAntrian());
@@ -56,7 +56,7 @@ public class AdapterDokterSchedule extends RecyclerView.Adapter<AdapterDokterSch
             @Override
             public void onClick(View v) {
                 //set DialogFragment
-                DetailDokterActivity activity = (DetailDokterActivity) v.getContext();
+                DetailFaskesActivity activity = (DetailFaskesActivity) v.getContext();
                 GetLoketFragment loketFrag = GetLoketFragment.newInstance(idPartner, idPelayanan, idJadwalPraktik);
                 loketFrag.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
                 loketFrag.show(activity.getFragmentManager(), "fragment_get_loket");
@@ -71,16 +71,16 @@ public class AdapterDokterSchedule extends RecyclerView.Adapter<AdapterDokterSch
     }
 
     //declare Holder class inside adapter class
-    public class DokterScheduleHolder extends RecyclerView.ViewHolder{
+    public class FaskesScheduleHolder extends RecyclerView.ViewHolder{
         //declare widget objects
-        TextView instance, instanceType, viewTime, kuota, antrian;
+        TextView namaPegawai, pelayanan, viewTime, kuota, antrian;
         Button booking;
 
         //declare constructor and apply widget objects to connected to the widgets at layout
-        public DokterScheduleHolder(View itemView) {
+        public FaskesScheduleHolder(View itemView) {
             super(itemView);
-            instance = itemView.findViewById(R.id.txtMainInfo);
-            instanceType = itemView.findViewById(R.id.txtDetailInfo);
+            namaPegawai = itemView.findViewById(R.id.txtMainInfo);
+            pelayanan = itemView.findViewById(R.id.txtDetailInfo);
             viewTime = itemView.findViewById(R.id.txtViewTime);
             kuota = itemView.findViewById(R.id.txtViewDokterKuota);
             antrian = itemView.findViewById(R.id.txtViewDokterAntrian);
