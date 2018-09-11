@@ -54,7 +54,7 @@ public class SearchDokterFragment extends Fragment {
     }
 
     public void showFilterFragment(){
-        DokterFilterFragment filterFrag = DokterFilterFragment.newInstance(queryString);
+        DokterFilterFragment filterFrag = DokterFilterFragment.newInstance();
         filterFrag.show(getFragmentManager(), "fragment_dokter_filter");
     }
 }

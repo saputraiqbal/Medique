@@ -3,6 +3,8 @@ package com.chocobar.fuutaro.medicare.activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,6 +24,8 @@ import com.chocobar.fuutaro.medicare.fragment.MainFaskesFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.LOGIN_STATUS;
+
 public class MainActivity extends AppCompatActivity{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -29,6 +33,8 @@ public class MainActivity extends AppCompatActivity{
     private ViewPager mViewPager;
     private Toolbar toolbar;
     private TabLayout tabLayout;
+    private ActionBarDrawerToggle mToggle;
+    private DrawerLayout mDrawerLayout;
 
     boolean doubleBackPressed = false;
 
@@ -40,8 +46,14 @@ public class MainActivity extends AppCompatActivity{
         toolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabLayout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
+        mDrawerLayout.addDrawerListener(mToggle);
+        mToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mSectionsPagerAdapter.addFragment(new MainDokterFragment(), "Dokter");
@@ -78,6 +90,8 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if(mToggle.onOptionsItemSelected(item))
+            return true;
         switch (item.getItemId()){
             case  R.id.action_search:
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);

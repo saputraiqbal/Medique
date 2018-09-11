@@ -17,6 +17,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.List;
 
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.LOGIN_STATUS;
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.USER_ID;
+
 public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
     //initialize some objects
     private ProgressDialog loginLoad;
@@ -42,6 +45,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
         if(integer == 1){
             Toast.makeText(ctx, "Login Sukses!", Toast.LENGTH_LONG).show();
             Intent enterApps = new Intent(ctx, MainActivity.class);
+            enterApps.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(enterApps);
         }
         else if (integer == 0)
@@ -77,6 +81,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
                 JSONArray jArray = new JSONArray(callSpExcecutionResult);
                 String bitExeResult = jArray.getJSONObject(0).getString("bitSuccess");
                 bitSuccessConnect = Integer.parseInt(bitExeResult);
+                LOGIN_STATUS = 1;
+                USER_ID = Integer.toString(jArray.getJSONObject(0).getInt("intIDUser"));
             }
             //if transaction failed
         }catch (Exception e){

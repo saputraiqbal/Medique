@@ -44,7 +44,7 @@ public class ViewFaskesSchedule extends AsyncTask<String, Void, ArrayList<Faskes
 
     @Override
     protected void onPostExecute(ArrayList<FaskesSchedule> faskesSchedules) {
-//        rViewSchedule.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
+        rViewSchedule.addItemDecoration(new DividerItemDecoration(this.activity, DividerItemDecoration.VERTICAL));
         arrObject.add(arrKategori);
         arrObject.add(arrSchedule);
         adapterSchedule = new AdapterFaskesCategory(arrObject, this.activity);

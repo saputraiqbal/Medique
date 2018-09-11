@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragment.DokterFilterFragment">
+    tools:context=".fragment.FaskesFilterFragment">
 
     <TextView
         android:id="@+id/txtGetKotaTitle"
@@ -29,17 +30,17 @@
         app:layout_constraintTop_toBottomOf="@+id/txtGetKotaTitle" />
 
     <TextView
-        android:id="@+id/txtGetSpesialisTitle"
+        android:id="@+id/txtGetKlinikTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Spesialis"
+        android:text="Klinik"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerKota" />
 
     <Spinner
-        android:id="@+id/spinnerSpesialis"
+        android:id="@+id/spinnerKlinik"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginEnd="16dp"
@@ -48,79 +49,47 @@
         android:dropDownWidth="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtGetSpesialisTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/txtGetKlinikTitle" />
 
     <TextView
-        android:id="@+id/txtGetGenderTitle"
+        android:id="@+id/txtGetJakesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Jenis Kelamin"
+        android:text="Jaminan Kesehatan"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerSpesialis" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerKlinik" />
+    <RelativeLayout
+        android:id="@+id/kotak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/spinner_bg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtGetGenderTitle">
-
-
-        <RadioButton
-            android:id="@+id/radioGenderMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="Laki-Laki"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioAllGender" />
-
-        <RadioButton
-            android:id="@+id/radioGenderFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="Perempuan"
-            app:layout_constraintBaseline_toBaselineOf="@+id/radioGenderMale"
-            app:layout_constraintStart_toEndOf="@+id/radioGenderMale" />
-
-        <RadioButton
-            android:id="@+id/radioAllGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="Semua"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </RadioGroup>
-
+        app:layout_constraintTop_toBottomOf="@+id/txtGetJakesTitle">
+    <Spinner
+        android:id="@+id/spinnerJakes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_marginEnd="-10dp"
+        android:spinnerMode="dropdown"
+        android:dropDownWidth="match_parent"/>
+    </RelativeLayout>
     <Button
         android:id="@+id/btnSearchFilter"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.AppCompat.Button.ButtonBar.AlertDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:text="CARI"
+        android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
-
+        app:layout_constraintTop_toBottomOf="@+id/kotak" />
 </android.support.constraint.ConstraintLayout>

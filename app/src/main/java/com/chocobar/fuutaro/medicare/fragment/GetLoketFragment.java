@@ -18,6 +18,8 @@ import com.chocobar.fuutaro.medicare.model.LoketPelayanan;
 
 import java.util.ArrayList;
 
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.USER_ID;
+
 public class GetLoketFragment extends DialogFragment {
     //initiate widget objects
     private Spinner spinnerLoket;
@@ -51,17 +53,17 @@ public class GetLoketFragment extends DialogFragment {
     //declare onCreateView to create view of DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        getDialog().setTitle("Pilih Jenis Pelayanan");
+        getDialog().setTitle("Pilih Jenis Pelayanan :");
         return inflater.inflate(R.layout.fragment_get_loket, container, false);
     }
 
-    //declared to create Dialog of DialogFragment
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.getWindow().requestFeature(Window.FEATURE_CUSTOM_TITLE);
-        return dialog;
-    }
+//    //declared to create Dialog of DialogFragment
+//    @Override
+//    public Dialog onCreateDialog(Bundle savedInstanceState) {
+//        Dialog dialog = super.onCreateDialog(savedInstanceState);
+//        dialog.getWindow().requestFeature(Window.FEATURE_CUSTOM_TITLE);
+//        return dialog;
+//    }
 
     //declare onResume
     @Override
@@ -98,7 +100,7 @@ public class GetLoketFragment extends DialogFragment {
             public void onClick(View v) {
                 String selectedLoket = spinnerLoket.getSelectedItem().toString();
                 selectedLoket = chooseLoketVal(selectedLoket);
-                new GetNomorAntrian(getActivity()).execute(getIdPartner, getIdPelayanan, "1" ,selectedLoket, getIdJadwal);
+                new GetNomorAntrian(getActivity()).execute(getIdPartner, getIdPelayanan, USER_ID ,selectedLoket, getIdJadwal);
                 getDialog().dismiss();
             }
         });

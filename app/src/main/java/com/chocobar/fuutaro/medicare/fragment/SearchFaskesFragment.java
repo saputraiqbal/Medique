@@ -43,7 +43,7 @@ public class SearchFaskesFragment extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_filter:
-//                showFilterFragment();
+                showFilterFragment();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -54,6 +54,7 @@ public class SearchFaskesFragment extends Fragment{
     }
 
     public void showFilterFragment(){
-
+        FaskesFilterFragment filterFrag = FaskesFilterFragment.newInstance();
+        filterFrag.show(getFragmentManager(), "fragment_dokter_filter");
     }
 }

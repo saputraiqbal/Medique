@@ -41,6 +41,7 @@ public class AdapterFaskesSchedule extends RecyclerView.Adapter<AdapterFaskesSch
      * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(FaskesScheduleHolder holder, final int position) {
+        holder.namaPegawai.setSelected(true);
         holder.namaPegawai.setText((mData.get(position)).getNamaPegawai());
         holder.pelayanan.setText((mData.get(position)).getJenisPelayanan());
         holder.viewTime.setText((mData.get(position)).getStartAt() + " - " + (mData.get(position)).getEndAt());

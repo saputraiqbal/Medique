@@ -41,6 +41,7 @@ public class AdapterDokterSchedule extends RecyclerView.Adapter<AdapterDokterSch
      * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(DokterScheduleHolder holder, final int position) {
+        holder.instance.setSelected(true);
         holder.instance.setText((mData.get(position)).getPartner());
         holder.instanceType.setText((mData.get(position)).getJenisPelayanan());
         holder.viewTime.setText((mData.get(position)).getStartAt() + " - " + (mData.get(position)).getEndAt());

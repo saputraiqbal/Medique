@@ -31,18 +31,13 @@ public class DokterFilterFragment extends DialogFragment {
     private int chooseGender = 0;
     private ArrayList<Kota> arrListKota = new ArrayList<>();
     private ArrayList<Spesialis> arrListSpesialis = new ArrayList<>();
-    AdapterDokter adapter;
-    private String queryString;
 
     //declare default constructor
     public DokterFilterFragment() {
     }
 
-    public static DokterFilterFragment newInstance(String query){
+    public static DokterFilterFragment newInstance(){
         DokterFilterFragment dokterFilterFrag = new DokterFilterFragment();
-        Bundle args = new Bundle();
-        args.putString("query", query);
-        dokterFilterFrag.setArguments(args);
         return dokterFilterFrag;
     }
 
@@ -63,7 +58,6 @@ public class DokterFilterFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        queryString = getArguments().getString("query");
         spinnerKota = view.findViewById(R.id.spinnerKota);
         spinnerSpesialis = view.findViewById(R.id.spinnerSpesialis);
         rGroupGender = view.findViewById(R.id.radioGroup);
@@ -118,7 +112,7 @@ public class DokterFilterFragment extends DialogFragment {
                 String valGender = Integer.toString(chooseGender);
                 valKota = chooseKotaVal(valKota);
                 valSpesialis = chooseSpesialisVal(valSpesialis);
-                new SearchDokter(getActivity()).execute(queryString, valKota, valSpesialis, valGender);
+                new SearchDokter(getActivity()).execute("", valKota, valSpesialis, valGender);
                 getDialog().dismiss();
             }
         });

@@ -8,4 +8,6 @@
     <string name="set_date_reserved">Pendaftaran Layanan</string>
     <string name="antrian_popup">Antrian berhasil dipesan. Nomor antrian loket Anda</string>
     <string name="loket_popup">Nomor loket Anda</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
