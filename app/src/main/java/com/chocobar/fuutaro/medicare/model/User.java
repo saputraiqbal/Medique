@@ -5,9 +5,9 @@ public class User {
     private String NoKTP;
     private String tempatLahir;
     private String tanggalLahir;
-    private String tglLahir;
-    private String blnLahir;
-    private String thnLahir;
+    private String tgl_Lahir;
+    private String bln_Lahir;
+    private String thn_Lahir;
     private String alamat;
     private String telp;
     private int idJamkes;
@@ -18,14 +18,14 @@ public class User {
     public User() {
     }
 
-    public User(String nama, String noKTP, String tempatLahir, String tanggalLahir, String tglLahir, String blnLahir, String thnLahir, String alamat, String telp, int idJamkes, String jamkes, String noJamkes, String txtAvatar) {
+    public User(String nama, String noKTP, String tempatLahir, String tanggalLahir, String tgl_Lahir, String bln_Lahir, String thn_Lahir, String alamat, String telp, int idJamkes, String jamkes, String noJamkes, String txtAvatar) {
         this.nama = nama;
         NoKTP = noKTP;
         this.tempatLahir = tempatLahir;
         this.tanggalLahir = tanggalLahir;
-        this.tglLahir = tglLahir;
-        this.blnLahir = blnLahir;
-        this.thnLahir = thnLahir;
+        this.tgl_Lahir = tgl_Lahir;
+        this.bln_Lahir = bln_Lahir;
+        this.thn_Lahir = thn_Lahir;
         this.alamat = alamat;
         this.telp = telp;
         this.idJamkes = idJamkes;
@@ -34,28 +34,28 @@ public class User {
         this.txtAvatar = txtAvatar;
     }
 
-    public String getTglLahir() {
-        return tglLahir;
+    public String getTgl_Lahir() {
+        return tgl_Lahir;
     }
 
-    public void setTglLahir(String tglLahir) {
-        this.tglLahir = tglLahir;
+    public void setTgl_Lahir(String tgl_Lahir) {
+        this.tgl_Lahir = tgl_Lahir;
     }
 
-    public String getBlnLahir() {
-        return blnLahir;
+    public String getBln_Lahir() {
+        return bln_Lahir;
     }
 
-    public void setBlnLahir(String blnLahir) {
-        this.blnLahir = blnLahir;
+    public void setBln_Lahir(String bln_Lahir) {
+        this.bln_Lahir = bln_Lahir;
     }
 
-    public String getThnLahir() {
-        return thnLahir;
+    public String getThn_Lahir() {
+        return thn_Lahir;
     }
 
-    public void setThnLahir(String thnLahir) {
-        this.thnLahir = thnLahir;
+    public void setThn_Lahir(String thn_Lahir) {
+        this.thn_Lahir = thn_Lahir;
     }
 
     public String getNama() {

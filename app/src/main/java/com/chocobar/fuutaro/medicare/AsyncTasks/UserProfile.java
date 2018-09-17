@@ -9,14 +9,11 @@ import android.util.Base64;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
-import com.chocobar.fuutaro.medicare.activity.DetailDokterActivity;
 import com.chocobar.fuutaro.medicare.activity.UserConfigurationActivity;
-import com.chocobar.fuutaro.medicare.model.DetailDokter;
 import com.chocobar.fuutaro.medicare.model.Jakes;
 import com.chocobar.fuutaro.medicare.model.User;
 
@@ -34,9 +31,11 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
     ImageView profilePhoto;
     EditText changeName, changeKTP, changeBirthPlace, viewBirthDate, changeAddress, changeHPNum, changeJamkesNum;
     Spinner changeJamkesType;
+    private ProgressDialog loadUser;
     private ArrayList<User> arrUser = new ArrayList<>();
     private UserConfigurationActivity userActivity;
     private Context ctx;
+    final int SPINNER_USER_PROFILE = 1;
 
     public OnFinishedPopulate listener = null;
 
@@ -45,56 +44,30 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
     }
 
     //declare constructor
-    public UserProfile(UserConfigurationActivity userActivity, OnFinishedPopulate listener) {
+    public UserProfile(UserConfigurationActivity userActivity, Context ctx, OnFinishedPopulate listener) {
         this.userActivity = userActivity;
         this.listener = listener;
+        this.ctx = ctx;
+        loadUser = new ProgressDialog(ctx);
         initiate();
+
     }
 
-    private void initiate() {
-        ctx = userActivity.getApplicationContext();
-        profilePhoto = userActivity.profilePhoto;
-        changeName = userActivity.changeName;
-        changeKTP = userActivity.changeKTP;
-        changeBirthPlace = userActivity.changeBirthPlace;
-        viewBirthDate = userActivity.viewBirthDate;
-        changeAddress = userActivity.changeAddress;
-        changeHPNum = userActivity.changeHPNum;
-        changeJamkesNum = userActivity.changeJamkesNum;
-        changeJamkesType = userActivity.changeJamkesType;
+    @Override
+    protected void onPreExecute() {
+        loadUser.setMessage("Tunggu sebentar...");
+        loadUser.show();
     }
 
     //declared for do some action when AsyncTask finished working
     @Override
     protected void onPostExecute(ArrayList<User> users) {
+        if(loadUser.isShowing())
+            loadUser.dismiss();
         //some widgets set the value here
         updateUI(users);
         //use interface method so that AsyncTask can send data to Fragment
         listener.onFinishedPopulate(users);
-    }
-
-    private void updateUI(ArrayList<User> users) {
-        changeName.setText(users.get(0).getNama());
-        changeKTP.setText(users.get(0).getNoKTP());
-        changeBirthPlace.setText(users.get(0).getTempatLahir());
-        viewBirthDate.setText(users.get(0).getTglLahir() + "-" + users.get(0).getBlnLahir() + "-" + users.get(0).getThnLahir());
-        changeAddress.setText(users.get(0).getAlamat());
-        changeHPNum.setText(users.get(0).getTelp());
-        changeJamkesNum.setText(users.get(0).getNoJamkes());
-        if(users.get(0).getTxtAvatar().equals("") || users.get(0).getTxtAvatar().equals(null) || users.get(0).getTxtAvatar().equals("null"))
-            profilePhoto.setBackgroundResource(R.drawable.ic_profile);
-        else{
-            String stringBase64 = users.get(0).getTxtAvatar().substring(users.get(0).getTxtAvatar().indexOf(",") + 1);
-            byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
-            Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);
-            profilePhoto.setImageBitmap(imgDecode);
-        }
-        new PopulateSpinnerJakes(ctx, changeJamkesType, new PopulateSpinnerJakes.OnFinishedPopulate() {
-            @Override
-            public void onFinishedPopulate(ArrayList<Jakes> dataJakes) {
-            }
-        }).execute();
-        changeJamkesType.setSelection(users.get(0).getIdJamkes());
     }
 
     @Override
@@ -129,10 +102,11 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
                 user.setTempatLahir(jArray.getJSONObject(0).getString("txtTempatLahir"));
                 StringTokenizer token = new StringTokenizer(jArray.getJSONObject(0).getString("dtTanggalLahir"), "T");
                 String dtLahir = token.nextToken();
+                user.setTanggalLahir(dtLahir);
                 token = new StringTokenizer(dtLahir, "-");
-                user.setThnLahir(token.nextToken());
-                user.setBlnLahir(token.nextToken());
-                user.setTglLahir(token.nextToken());
+                user.setThn_Lahir(token.nextToken());
+                user.setBln_Lahir(token.nextToken());
+                user.setTgl_Lahir(token.nextToken());
                 user.setAlamat(jArray.getJSONObject(0).getString("txtAlamat"));
                 user.setTelp(jArray.getJSONObject(0).getString("txtPhone"));
                 user.setIdJamkes(jArray.getJSONObject(0).getInt("intIDJaminanKesehatan"));
@@ -147,5 +121,41 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
         }
         //operation will return the integer value for execute by onPostExecute method
         return arrUser;
+    }
+
+    private void initiate() {
+        profilePhoto = userActivity.profilePhoto;
+        changeName = userActivity.changeName;
+        changeKTP = userActivity.changeKTP;
+        changeBirthPlace = userActivity.changeBirthPlace;
+        viewBirthDate = userActivity.viewBirthDate;
+        changeAddress = userActivity.changeAddress;
+        changeHPNum = userActivity.changeHPNum;
+        changeJamkesNum = userActivity.changeJamkesNum;
+        changeJamkesType = userActivity.changeJamkesType;
+    }
+
+    private void updateUI(ArrayList<User> users) {
+        changeName.setText(users.get(0).getNama());
+        changeKTP.setText(users.get(0).getNoKTP());
+        changeBirthPlace.setText(users.get(0).getTempatLahir());
+        viewBirthDate.setText(users.get(0).getTgl_Lahir() + "-" + users.get(0).getBln_Lahir() + "-" + users.get(0).getThn_Lahir());
+        changeAddress.setText(users.get(0).getAlamat());
+        changeHPNum.setText(users.get(0).getTelp());
+        changeJamkesNum.setText(users.get(0).getNoJamkes());
+        if(users.get(0).getTxtAvatar().equals("") || users.get(0).getTxtAvatar().equals(null) || users.get(0).getTxtAvatar().equals("null"))
+            profilePhoto.setBackgroundResource(R.drawable.ic_profile);
+        else{
+            String stringBase64 = users.get(0).getTxtAvatar().substring(users.get(0).getTxtAvatar().indexOf(",") + 1);
+            byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
+            Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);
+            profilePhoto.setImageBitmap(imgDecode);
+        }
+        new PopulateSpinnerJakes(ctx, changeJamkesType, SPINNER_USER_PROFILE, new PopulateSpinnerJakes.OnFinishedPopulate() {
+            @Override
+            public void onFinishedPopulate(ArrayList<Jakes> dataJakes) {
+            }
+        }).execute();
+        changeJamkesType.setSelection(users.get(0).getIdJamkes());
     }
 }

@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +20,6 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateSpinnerJakes;
+import com.chocobar.fuutaro.medicare.AsyncTasks.UpdateProfile;
 import com.chocobar.fuutaro.medicare.AsyncTasks.UserProfile;
 import com.chocobar.fuutaro.medicare.R;
 
@@ -55,9 +55,8 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
     private Uri mCropPhoto;
 
     private ArrayList<User> arrUser = new ArrayList<>();
-    private ArrayList<Jakes>arrJakes = new ArrayList<>();
 
-    String dateBirth;
+    String dateBirth, imgBase64;
     int thnLahir, blnLahir, tglLahir;
 
     private DatePickerDialog.OnDateSetListener mDateListener;
@@ -80,10 +79,46 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_save_config:
-                String pos = Integer.toString(changeJamkesType.getSelectedItemPosition());
-                Toast.makeText(UserConfigurationActivity.this, pos, Toast.LENGTH_LONG).show();
+                new UpdateProfile(UserConfigurationActivity.this).execute(
+                        changeName.getText().toString(), changeKTP.getText().toString(),
+                        changeBirthPlace.getText().toString(),dateBirth, changeAddress.getText().toString(),
+                        changeHPNum.getText().toString(), Integer.toString(changeJamkesType.getSelectedItemPosition()),
+                        changeJamkesNum.getText().toString(), imgBase64);
+                break;
         }
         return false;
+    }
+
+    @Override
+    public void onFinishedPopulate(ArrayList<User> dataUser) {
+        arrUser = new ArrayList<>(dataUser);
+        imgBase64 = arrUser.get(0).getTxtAvatar();
+        dateBirth = arrUser.get(0).getTanggalLahir();
+        thnLahir = Integer.parseInt(arrUser.get(0).getThn_Lahir());
+        blnLahir = Integer.parseInt(arrUser.get(0).getBln_Lahir()) - 1;
+        tglLahir = Integer.parseInt(arrUser.get(0).getTgl_Lahir());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.txtChangePhoto:
+                pickImage(v);
+                break;
+            case R.id.imgChangeBirthDate:
+                //set Calendar
+                int year = thnLahir;
+                int month = blnLahir;
+                int date = tglLahir;
+
+                //showing DatePicker dialog
+                DatePickerDialog dialog = new DatePickerDialog(UserConfigurationActivity.this,
+                        android.R.style.Theme_Holo_Dialog, mDateListener, year, month, date);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setTitle("Ubah tanggal lahir Anda");
+                dialog.show();
+                break;
+        }
     }
 
     @Override
@@ -110,9 +145,8 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 Bitmap imgBitmap = BitmapFactory.decodeStream(imgStream);
-                String imgBase64 = encodeToBase64(imgBitmap);
+                imgBase64 = encodeToBase64(imgBitmap);
                 profilePhoto.setImageURI(imgResultUri);
-                Toast.makeText(this, "Foto telah diganti ke Base64 " + imgBase64, Toast.LENGTH_LONG).show();
             }else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
                 Toast.makeText(this, "Mohon maaf, ada kesalahan. Silakan coba lagi...", Toast.LENGTH_SHORT).show();
             }
@@ -130,7 +164,6 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
         }
     }
 
-
     public void setupUI() {
         getSupportActionBar().setTitle("Pengaturan Profil");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -147,7 +180,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
         changeJamkesType = findViewById(R.id.spinnerChangeJamkesType);
         changeJamkesNum = findViewById(R.id.editJamkesNum);
 
-        new UserProfile(UserConfigurationActivity.this, this).execute("1");
+        new UserProfile(UserConfigurationActivity.this, UserConfigurationActivity.this, this).execute("1");
 
         txtChangePhoto.setOnClickListener(this);
 
@@ -163,36 +196,6 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
                 viewBirthDate.setText(setDateBirth(year, month, dayOfMonth).get(1));
             }
         };
-    }
-
-    @Override
-    public void onFinishedPopulate(ArrayList<User> dataUser) {
-        arrUser = new ArrayList<>(dataUser);
-        thnLahir = Integer.parseInt(arrUser.get(0).getThnLahir());
-        blnLahir = Integer.parseInt(arrUser.get(0).getBlnLahir()) - 1;
-        tglLahir = Integer.parseInt(arrUser.get(0).getTglLahir());
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.txtChangePhoto:
-                pickImage(v);
-                break;
-            case R.id.imgChangeBirthDate:
-                //set Calendar
-                int year = thnLahir;
-                int month = blnLahir;
-                int date = tglLahir;
-
-                //showing DatePicker dialog
-                DatePickerDialog dialog = new DatePickerDialog(UserConfigurationActivity.this,
-                        android.R.style.Theme_Holo_Dialog, mDateListener, year, month, date);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setTitle("Ubah tanggal lahir Anda");
-                dialog.show();
-                break;
-        }
     }
 
     //method for set ArrayList<String> setDateToday that will used when date is generated by system
@@ -214,7 +217,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
 
     public String encodeToBase64(Bitmap imgBitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imgBitmap.compress(Bitmap.CompressFormat.PNG, 30, outputStream);
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
         byte[] imgByte = outputStream.toByteArray();
         String imgEncoded = Base64.encodeToString(imgByte, Base64.DEFAULT);
         return imgEncoded;

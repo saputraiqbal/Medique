@@ -11,4 +11,6 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="permission_read_storage_rationale">Storage read permission is needed to pick files.</string>
+    <string name="request_spinner_user_profile_value"></string>
+    <string name="request_spinner_filter_faskes_value"></string>
 </resources>

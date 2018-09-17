@@ -45,6 +45,8 @@ public class FaskesFilterFragment extends DialogFragment {
     private ArrayList<Jakes> arrListJakes = new ArrayList<>();
     AdapterFaskes adapter;
 
+    final int SPINNER_FILTER_FASKES = 2;
+
     //declare default constructor
     public FaskesFilterFragment() {
     }
@@ -91,7 +93,7 @@ public class FaskesFilterFragment extends DialogFragment {
             }
         }).execute();
 
-        new PopulateSpinnerJakes(getContext(), spinnerJakes, new PopulateSpinnerJakes.OnFinishedPopulate() {
+        new PopulateSpinnerJakes(getContext(), spinnerJakes, SPINNER_FILTER_FASKES, new PopulateSpinnerJakes.OnFinishedPopulate() {
             @Override
             public void onFinishedPopulate(ArrayList<Jakes> dataJakes) {
                 arrListJakes = new ArrayList<>(dataJakes);

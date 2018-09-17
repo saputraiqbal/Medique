@@ -28,19 +28,25 @@ public class PopulateSpinnerJakes extends AsyncTask<Void, Void, ArrayList<Jakes>
     ArrayList<Jakes>populateJakes = new ArrayList<>();
     public OnFinishedPopulate listener = null;
 
+    int REQUEST_SPINNER;
+
     public interface OnFinishedPopulate {
         void onFinishedPopulate(ArrayList<Jakes> dataJakes);
     }
 
-    public PopulateSpinnerJakes(Context ctx, Spinner spin, OnFinishedPopulate listener) {
+    public PopulateSpinnerJakes(Context ctx, Spinner spin, int REQUEST_SPINNER, OnFinishedPopulate listener) {
         this.ctx = ctx;
         this.spin = spin;
+        this.REQUEST_SPINNER = REQUEST_SPINNER;
         this.listener = listener;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Jakes> arrKlinik) {
-        this.arrList.add(0, "Semua jaminan kesehatan");
+        if(REQUEST_SPINNER == 1)
+            this.arrList.add(0, "Tidak ada");
+        else if(REQUEST_SPINNER == 2)
+            this.arrList.add(0, "Semua jaminan kesehatan");
         for (int i = 0; i < arrKlinik.size(); i++){
             this.arrList.add(arrKlinik.get(i).getNamaJakes());
         }
