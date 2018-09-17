@@ -121,9 +121,7 @@ public class DetailDokterActivity extends AppCompatActivity{
                 //showing DatePicker dialog
                 DatePickerDialog dialog = new DatePickerDialog(
                         DetailDokterActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateListener, year, month, date);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.setTitle("Ubah tanggal pemesanan layanan");
+                        android.R.style.ThemeOverlay_Material_Dialog, mDateListener, year, month, date);
                 dialog.show();
             }
         });

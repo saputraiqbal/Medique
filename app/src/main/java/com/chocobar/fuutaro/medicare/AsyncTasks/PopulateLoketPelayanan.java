@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
+import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
 import com.chocobar.fuutaro.medicare.model.LoketPelayanan;
 
@@ -40,7 +41,7 @@ public class PopulateLoketPelayanan extends AsyncTask<String, Void, ArrayList<Lo
         for (int i = 0; i < arrLoket.size(); i++){
             this.arrList.add(arrLoket.get(i).getLoket());
         }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(ctx, android.R.layout.simple_spinner_item, arrList);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(ctx, R.layout.spinner_item, arrList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin.setAdapter(spinnerAdapter);
         listener.onLoketData(arrLoket);
