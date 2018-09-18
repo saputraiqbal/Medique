@@ -34,7 +34,7 @@ import com.chocobar.fuutaro.medicare.fragment.SearchFaskesFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity{
+public class SearchActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, TextView.OnEditorActionListener, TextWatcher, View.OnTouchListener{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -54,9 +54,14 @@ public class SearchActivity extends AppCompatActivity{
 
         hint = "Telusuri ";
 
+        setupUI();
+    }
+
+    public void setupUI() {
         toolbar = findViewById(R.id.toolbar);
         mViewPager = findViewById(R.id.container);
         tabLayout = findViewById(R.id.tabLayout);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -74,68 +79,10 @@ public class SearchActivity extends AppCompatActivity{
         title = tabLayout.getTabAt(0).getText().toString();
         searchText.setHint(hint + title);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                hint = "Telusuri " + tab.getText().toString();
-                searchText.setHint(hint);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH){
-                    InputMethodManager mInput = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    mInput.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        searchText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchProcess(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        searchText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                final int DRAWABLE_LEFT = 0;
-                final int DRAWABLE_TOP = 1;
-                final int DRAWABLE_RIGHT = 2;
-                final int DRAWABLE_BOTTOM = 3;
-
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    if(event.getRawX() >= (searchText.getRight() - searchText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
-                        searchText.getText().clear();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
+        tabLayout.addOnTabSelectedListener(this);
+        searchText.setOnEditorActionListener(this);
+        searchText.addTextChangedListener(this);
+        searchText.setOnTouchListener(this);
     }
 
     private void searchProcess(String s){
@@ -155,6 +102,59 @@ public class SearchActivity extends AppCompatActivity{
         }
     }
 
+    //implement View.OnTouchListener
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        final int DRAWABLE_LEFT = 0;
+        final int DRAWABLE_TOP = 1;
+        final int DRAWABLE_RIGHT = 2;
+        final int DRAWABLE_BOTTOM = 3;
+
+        if(event.getAction() == MotionEvent.ACTION_UP){
+            if(event.getRawX() >= (searchText.getRight() - searchText.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())){
+                searchText.getText().clear();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //implements TextWatcher
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        searchProcess(s.toString());
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+    //end implements TextWatcher
+
+    //implements TabLayout.OnTabSelectedListener
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        hint = "Telusuri " + tab.getText().toString();
+        searchText.setHint(hint);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+    //end implements TabLayout.OnTabSelectedListener
+
+    //implements menu settings
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -167,6 +167,18 @@ public class SearchActivity extends AppCompatActivity{
             case android.R.id.home:
                 finish();
                 return true;
+        }
+        return false;
+    }
+    //end implements menu setting
+
+    //implmenet TextView.OnEditorActionListener
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if(actionId == EditorInfo.IME_ACTION_SEARCH){
+            InputMethodManager mInput = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            mInput.hideSoftInputFromWindow(searchText.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            return true;
         }
         return false;
     }

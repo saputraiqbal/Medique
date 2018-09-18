@@ -139,7 +139,7 @@ public class DokterFilterFragment extends DialogFragment {
     private String chooseSpesialisVal(String valChosen){
         String val = "";
         if(valChosen.equals("Semua spesialis")){
-            return val = "0";
+            return "0";
         }
         else{
             for (Spesialis arrList : arrListSpesialis){

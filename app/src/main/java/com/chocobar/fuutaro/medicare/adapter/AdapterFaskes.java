@@ -48,10 +48,7 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.FaskesHold
      * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(final FaskesHolder holder, final int position) {
-        if(mData.get(position).getImgFaskes().equals("null")){
-            holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
-        }
-        else {
+        if(!mData.get(position).getImgFaskes().equals("null")){
             String stringBase64 = mData.get(position).getImgFaskes().substring(mData.get(position).getImgFaskes().indexOf(",") + 1);
             byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);

@@ -149,33 +149,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider2" />
 
-        <EditText
-            android:id="@+id/editBirthPlace"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeBirthPlace"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider2" />
+    <EditText
+        android:id="@+id/editBirthPlace"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:capitalize="sentences"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeBirthPlace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider2" />
 
-        <EditText
-            android:id="@+id/editBirthDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="none|text"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeBirthDate"
-            app:layout_constraintEnd_toStartOf="@+id/imgChangeBirthDate"
-            app:layout_constraintStart_toEndOf="@+id/divider2" />
+    <EditText
+        android:id="@+id/editBirthDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="none"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeBirthDate"
+        app:layout_constraintEnd_toStartOf="@+id/imgChangeBirthDate"
+        app:layout_constraintStart_toEndOf="@+id/divider2" />
 
         <ImageView
             android:id="@+id/imgChangeBirthDate"
@@ -190,19 +191,19 @@
             app:layout_constraintTop_toTopOf="@+id/editBirthDate"
             app:srcCompat="@drawable/ic_calendar" />
 
-        <EditText
-            android:id="@+id/editAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeAddress"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/divider2" />
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtChangeAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider2" />
 
         <EditText
             android:id="@+id/editHPNum"

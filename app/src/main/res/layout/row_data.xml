@@ -6,80 +6,73 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/vImage"
+        android:layout_width="80dp"
+        android:layout_height="95dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_user_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/infoLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vImage"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:layout_margin="8dp">
+            android:singleLine="true"
+            android:textSize="18dp"
+            app:layout_constraintStart_toEndOf="@+id/vImage"
+            app:layout_constraintTop_toTopOf="@+id/vImage" />
 
-            <ImageView
-                android:id="@+id/vImage"
-                android:layout_width="87dp"
-                android:layout_height="90dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_profile" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/txtAddress"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:orientation="vertical">
+            android:layout_marginTop="8dp"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/vImage"
+            app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
-            <TextView
-                android:id="@+id/txtName"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="dr. Strange, SpPD-KPTI"
-                android:textSize="18dp"
-                app:layout_constraintStart_toEndOf="@+id/vImage"
-                app:layout_constraintTop_toTopOf="@+id/vImage" />
+        <TextView
+            android:id="@+id/txtInfoRow1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/vImage"
+            app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
 
-            <TextView
-                android:id="@+id/txtAddress"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Jl. Bersamamu 16, Malang"
-                android:textSize="10dp"
-                app:layout_constraintStart_toEndOf="@+id/vImage"
-                app:layout_constraintTop_toBottomOf="@+id/txtName" />
-
-            <TextView
-                android:id="@+id/txtInfoRow1"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:singleLine="true"
-                android:text="08123456789"
-                android:textSize="10dp"
-                app:layout_constraintStart_toEndOf="@+id/vImage"
-                app:layout_constraintTop_toBottomOf="@+id/txtAddress" />
-
-            <TextView
-                android:id="@+id/txtInfoRow2"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:singleLine="true"
-                android:text="Spesialis Dokter Kandungan"
-                android:textSize="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/vImage"
-                app:layout_constraintStart_toEndOf="@+id/vImage"
-                app:layout_constraintTop_toBottomOf="@+id/txtInfoRow1"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/txtInfoRow2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/vImage"
+            app:layout_constraintStart_toEndOf="@+id/vImage"
+            app:layout_constraintTop_toBottomOf="@+id/txtInfoRow1"
+            app:layout_constraintVertical_bias="0.0" />
 
     </LinearLayout>
 

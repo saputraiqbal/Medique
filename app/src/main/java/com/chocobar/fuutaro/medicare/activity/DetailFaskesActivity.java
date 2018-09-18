@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DetailFaskesActivity extends AppCompatActivity{
+public class DetailFaskesActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener{
     //initate widget objects
     public static TextView namaFaskes, tglDaftar, linkUbahTgl, profile, seeProfile, txtAlamat, txtPelayanan;
     public static ImageView imgShowFaskes;
@@ -52,11 +52,16 @@ public class DetailFaskesActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_info);
+
+        setupUI();
+    }
+
+    public void setupUI() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Profil Faskes");
 
         /**initiate Bundle for receiving data from AdapterDokter applied at MainActivity_recs
-           and store it to idPartner variable**/
+         and store it to idPartner variable**/
         Bundle getBundle = getIntent().getExtras();
         idPartner = getBundle.getString("setIdPartner");
         alamat = getBundle.getString("setAlamat");
@@ -93,9 +98,29 @@ public class DetailFaskesActivity extends AppCompatActivity{
         rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
         new ViewFaskesSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute(idPartner, setDateToday().get(1), setDateToday().get(2));
 
-        seeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        seeProfile.setOnClickListener(this);
+
+//        set action when linkUbahTanggal is clicked
+        linkUbahTgl.setOnClickListener(this);
+
+//        apply change after set data at DatePicker dialog
+        mDateListener = this;
+    }
+
+    //implement DatePickerDialog.OnDateSetListener
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
+        //clear teh ArrayList that used for RecyclerView
+        arrSchedule.clear();
+        new ViewFaskesSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+    }
+
+    //implement View.OnClickListener
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.txtSeeDetail:
                 if(!isProfileShown){
                     profile.setMaxLines(Integer.MAX_VALUE);
                     endDiv.setVisibility(View.VISIBLE);
@@ -107,13 +132,8 @@ public class DetailFaskesActivity extends AppCompatActivity{
                     seeProfile.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_menu_down, 0);
                     isProfileShown = false;
                 }
-            }
-        });
-
-//        set action when linkUbahTanggal is clicked
-        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.txtViewChangeDate:
                 //set Calendar
                 Calendar calDateOrder = Calendar.getInstance();
                 int year = calDateOrder.get(Calendar.YEAR);
@@ -127,21 +147,11 @@ public class DetailFaskesActivity extends AppCompatActivity{
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.setTitle("Ubah tanggal pemesanan layanan");
                 dialog.show();
-            }
-        });
-
-//        apply change after set data at DatePicker dialog
-        mDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
-                //clear teh ArrayList that used for RecyclerView
-                arrSchedule.clear();
-                new ViewFaskesSchedule(DetailFaskesActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
-            }
-        };
+                break;
+        }
     }
 
+    //implement menu setting
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

@@ -51,10 +51,7 @@ public class AdapterDokter extends RecyclerView.Adapter<AdapterDokter.DokterHold
      * that will displayed at RecyclerView**/
     @Override
     public void onBindViewHolder(final DokterHolder holder, final int position) {
-        if(mData.get(position).getImg().equals("null")){
-            holder.viewAvatar.setBackgroundResource(R.drawable.ic_profile);
-        }
-        else {
+        if(!mData.get(position).getImg().equals("null")){
             String stringBase64 = mData.get(position).getImg().substring(mData.get(position).getImg().indexOf(",") + 1);
             byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);

@@ -61,7 +61,6 @@ public class ViewDetailFaskes extends AsyncTask<String, Void, ArrayList<DetailFa
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);
             imgShowDokter.setImageBitmap(imgDecode);
         }
-        //use interface method so that AsyncTask can send data to Fragment
     }
 
     @Override

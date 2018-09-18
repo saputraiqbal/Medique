@@ -1,119 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    card_view:cardElevation="5dp"
+    card_view:cardPreventCornerOverlap="false">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="10">
+
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/notif"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="9">
+                android:layout_weight="9"
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_rumahsakit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="RSI Gondang Legi"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorWhite"
                     android:textSize="18dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_tanggal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="01 Agustus 2018"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-            <ImageView
-                android:id="@+id/img_notif"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"/>
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
         </LinearLayout>
-        <view
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="2dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:weightSum="2"
-            android:orientation="horizontal">
+            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginTop="2dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Antrian Loket"/>
+                    android:text="No Antrian Loket" />
+
                 <TextView
                     android:id="@+id/tv_antrian_loket"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A001"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@color/colorAccent"
+                    android:textSize="36dp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_loket_jamkes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Loket BPJS"/>
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/tv_loket_now"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Antrian saat ini : A003"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginTop="2dp">
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="No Antrian Loket"/>
+                    android:text="No Antrian Loket" />
+
                 <TextView
                     android:id="@+id/tv_antrian_pelayanan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="A001"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@color/colorAccent"
+                    android:textSize="36dp"
+                    android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_pelayanan_jamkes"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Klinik Umum"/>
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/tv_pelayanan_now"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Antrian Saat Ini : D001"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

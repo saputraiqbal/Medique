@@ -14,29 +14,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".activity.MainActivity"/>-->
-        <!--<activity android:name=".activity.SearchActivity"/>-->
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.SearchActivity"/>
 
-         <!--<activity android:name=".activity.LoginActivity"-->
-         <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>-->
-         <!--<activity android:name=".activity.SignUpActivity"-->
-         <!--android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>-->
-        <!--<activity android:name=".activity.SplashActivity" android:theme="@style/SplashTheme">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <!--<activity android:name=".activity.DetailDokterActivity"-->
-            <!--android:theme="@style/ActionBarTheme"/>-->
-        <!--<activity android:name=".activity.DetailFaskesActivity"-->
-            <!--android:theme="@style/ActionBarTheme"/>-->
+         <activity android:name=".activity.LoginActivity"
+         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+         <activity android:name=".activity.SignUpActivity"
+         android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".activity.SplashActivity" android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.DetailDokterActivity"
+            android:theme="@style/ActionBarTheme"/>
+        <activity android:name=".activity.RiwayatActivity"
+            android:theme="@style/ActionBarTheme"/>
+        <activity android:name=".activity.DetailFaskesActivity"
+            android:theme="@style/ActionBarTheme"/>
         <activity android:name=".activity.UserConfigurationActivity"
             android:theme="@style/ActionBarTheme">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>

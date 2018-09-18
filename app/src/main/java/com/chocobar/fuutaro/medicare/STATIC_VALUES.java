@@ -7,4 +7,6 @@ public class STATIC_VALUES {
     public static final String URL = "http://api.emedica.co.id:81/ApiEmedicaPublic/eMedicaAPI.asmx?WSDL";
     public static int LOGIN_STATUS = 0;
     public static String USER_ID = "0";
+    public static String USERNAME = "";
+    public static String IMG_PROFILE = "";
 }

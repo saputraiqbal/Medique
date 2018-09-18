@@ -108,77 +108,12 @@ public class FaskesFilterFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        cb_bpjs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked) {
-//                    v_cb_bpjs = 1;
-//                    Toast.makeText(getActivity(), "This is my Toast message!", Toast.LENGTH_LONG).show();
-//                }
-//                else{
-//                    v_cb_bpjs = 0;}
-//            }
-//        });
-//        cb_gratis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked){
-//                    v_cb_gratis = 1;}
-//                else{
-//                    v_cb_gratis = 0;}
-//            }
-//        });
-//        cb_askes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked)
-//                    v_cb_askes = 1;
-//                else
-//                    v_cb_askes = 0;
-//            }
-//        });
-//        cb_jkn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked)
-//                    v_cb_jkn = 1;
-//                else
-//                    v_cb_jkn = 0;
-//            }
-//        });cb_axa.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked)
-//                    v_cb_axa = 1;
-//                else
-//                    v_cb_axa = 0;
-//            }
-//        });
-//        cb_prudential.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                if (isChecked)
-//                    v_cb_prudential = 1;
-//                else
-//                    v_cb_prudential = 0;
-//            }
-//        });
-
         getSearchFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String valKota = spinnerKota.getSelectedItem().toString();
                 String valKlinik = spinnerKlinik.getSelectedItem().toString();
                 String valJakes = spinnerJakes.getSelectedItem().toString();
-
-
-                //Change value from int to string
-                String val_bpjs = Integer.toString(v_cb_bpjs);
-                String val_gratis = Integer.toString(v_cb_gratis);
-                String val_askes = Integer.toString(v_cb_askes);
-                String val_jkn = Integer.toString(v_cb_jkn);
-                String val_axa = Integer.toString(v_cb_axa);
-                String val_prudential = Integer.toString(v_cb_prudential);
 
                 valKota = chooseKotaVal(valKota);
                 valKlinik = chooseKlinikVal(valKlinik);
@@ -201,7 +136,7 @@ public class FaskesFilterFragment extends DialogFragment {
     private String chooseKotaVal(String valChosen){
         String val = "";
         if(valChosen.equals("Semua kota")){
-            return val = "0";
+            return "0";
         }
         else{
             for (Kota arrList : arrListKota){
@@ -218,7 +153,7 @@ public class FaskesFilterFragment extends DialogFragment {
         String val = "";
         if(valChosen.equals("Semua klinik")){
             //Toast.makeText(getActivity(), "klinik test!", Toast.LENGTH_LONG).show();
-            return val = "0";
+            return "0";
         }
         else{
             for (Klinik arrList : arrListKlinik){
@@ -234,7 +169,7 @@ public class FaskesFilterFragment extends DialogFragment {
         String val = "";
         if(valChosen.equals("Semua jaminan kesehatan")){
             //Toast.makeText(getActivity(), "klinik test!", Toast.LENGTH_LONG).show();
-            return val = "0";
+            return "0";
         }
         else{
             for (Jakes arrList : arrListJakes){

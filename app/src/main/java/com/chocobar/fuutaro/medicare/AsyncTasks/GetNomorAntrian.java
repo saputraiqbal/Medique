@@ -3,12 +3,14 @@ package com.chocobar.fuutaro.medicare.AsyncTasks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
+import com.chocobar.fuutaro.medicare.activity.RiwayatActivity;
 
 import org.json.JSONArray;
 import org.ksoap2.serialization.SoapObject;
@@ -38,6 +40,8 @@ public class GetNomorAntrian extends AsyncTask<String, Void, String[]> {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent toHistory = new Intent(activity, RiwayatActivity.class);
+                        ctx.startActivity(toHistory);
                         activity.finish();
                     }
                 }).create().show();

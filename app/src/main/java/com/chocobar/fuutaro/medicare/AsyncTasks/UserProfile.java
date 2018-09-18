@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.R;
@@ -22,7 +24,10 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -77,7 +82,7 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
     @Override
     protected ArrayList<User> doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_getDataProfile", "intIDUser#" + strings[0]);
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_getDataProfile", "`#" + strings[0]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope)dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE)dataReceived.get(1);
@@ -100,13 +105,14 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
                 user.setNama(jArray.getJSONObject(0).getString("txtNamaUser"));
                 user.setNoKTP(jArray.getJSONObject(0).getString("txtNoKTP"));
                 user.setTempatLahir(jArray.getJSONObject(0).getString("txtTempatLahir"));
-                StringTokenizer token = new StringTokenizer(jArray.getJSONObject(0).getString("dtTanggalLahir"), "T");
-                String dtLahir = token.nextToken();
+                String dtLahir = jArray.getJSONObject(0).getString("dtTanggalLahir");
+                String[] splitDateBirthData = dtLahir.split("T");
+                dtLahir = splitDateBirthData[0];
                 user.setTanggalLahir(dtLahir);
-                token = new StringTokenizer(dtLahir, "-");
-                user.setThn_Lahir(token.nextToken());
-                user.setBln_Lahir(token.nextToken());
-                user.setTgl_Lahir(token.nextToken());
+                splitDateBirthData = dtLahir.split("-");
+                user.setThn_Lahir(splitDateBirthData[0]);
+                user.setBln_Lahir(splitDateBirthData[1]);
+                user.setTgl_Lahir(splitDateBirthData[2]);
                 user.setAlamat(jArray.getJSONObject(0).getString("txtAlamat"));
                 user.setTelp(jArray.getJSONObject(0).getString("txtPhone"));
                 user.setIdJamkes(jArray.getJSONObject(0).getInt("intIDJaminanKesehatan"));
@@ -139,7 +145,7 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
         changeName.setText(users.get(0).getNama());
         changeKTP.setText(users.get(0).getNoKTP());
         changeBirthPlace.setText(users.get(0).getTempatLahir());
-        viewBirthDate.setText(users.get(0).getTgl_Lahir() + "-" + users.get(0).getBln_Lahir() + "-" + users.get(0).getThn_Lahir());
+        viewBirthDate.setText(dateSet(Integer.parseInt(arrUser.get(0).getThn_Lahir()), Integer.parseInt(users.get(0).getBln_Lahir()) - 1, Integer.parseInt(users.get(0).getTgl_Lahir())));
         changeAddress.setText(users.get(0).getAlamat());
         changeHPNum.setText(users.get(0).getTelp());
         changeJamkesNum.setText(users.get(0).getNoJamkes());
@@ -157,5 +163,14 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
             }
         }).execute();
         changeJamkesType.setSelection(users.get(0).getIdJamkes());
+    }
+
+    private String dateSet(int year, int month, int dayOfMonth){
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, dayOfMonth);
+        Date dateSet = cal.getTime();
+        SimpleDateFormat formatView = new SimpleDateFormat("dd MMMM yyyy");
+        String format = formatView.format(dateSet);
+        return format;
     }
 }

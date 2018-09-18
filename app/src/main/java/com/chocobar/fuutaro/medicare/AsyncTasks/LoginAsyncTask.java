@@ -17,7 +17,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.List;
 
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.IMG_PROFILE;
 import static com.chocobar.fuutaro.medicare.STATIC_VALUES.LOGIN_STATUS;
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.USERNAME;
 import static com.chocobar.fuutaro.medicare.STATIC_VALUES.USER_ID;
 
 public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
@@ -83,6 +85,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, Integer>{
                 bitSuccessConnect = Integer.parseInt(bitExeResult);
                 LOGIN_STATUS = 1;
                 USER_ID = Integer.toString(jArray.getJSONObject(0).getInt("intIDUser"));
+                USERNAME = jArray.getJSONObject(0).getString("txtUsername");
+                IMG_PROFILE = jArray.getJSONObject(0).getString("txtAvatar");
             }
             //if transaction failed
         }catch (Exception e){

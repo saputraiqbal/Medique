@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DetailDokterActivity extends AppCompatActivity{
+public class DetailDokterActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener{
     //initate widget objects
     public static TextView namaDokter, tglDaftar, linkUbahTgl, profile, seeProfile, txtAlamat, txtTelp;
     public static ImageView imgShowDokter;
@@ -51,15 +51,20 @@ public class DetailDokterActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_info);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Profil Dokter");
 
         /**initiate Bundle for receiving data from AdapterDokter applied at MainActivity_recs
-           and store it to idDokter variable**/
+         and store it to idDokter variable**/
         Bundle getBundle = getIntent().getExtras();
         idDokter = getBundle.getString("setIdDokter");
         alamat = getBundle.getString("setAlamat");
         noTelp = getBundle.getString("setTelp");
+
+        setupUI();
+    }
+
+    public void setupUI() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Profil Dokter");
 
         //connecting widget objects with widget layout
         imgShowDokter = findViewById(R.id.imgProfile);
@@ -91,9 +96,29 @@ public class DetailDokterActivity extends AppCompatActivity{
         rViewSchedule.setLayoutManager(new LinearLayoutManager(this));
         new ViewDokterSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute(idDokter, setDateToday().get(1), setDateToday().get(2));
 
-        seeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        seeProfile.setOnClickListener(this);
+
+        //set action when linkUbahTanggal is clicked
+        linkUbahTgl.setOnClickListener(this);
+
+        //apply change after set data at DatePicker dialog
+        mDateListener = this;
+    }
+
+    //implement DatePickerDialog.OnDateSetListener
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
+        //clear teh ArrayList that used for RecyclerView
+        arrSchedule.clear();
+        new ViewDokterSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
+    }
+
+    //implements View.OnClickListener
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.txtSeeDetail:
                 if(!isProfileShown){
                     profile.setMaxLines(Integer.MAX_VALUE);
                     endDiv.setVisibility(View.VISIBLE);
@@ -105,13 +130,8 @@ public class DetailDokterActivity extends AppCompatActivity{
                     seeProfile.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_menu_down, 0);
                     isProfileShown = false;
                 }
-            }
-        });
-
-        //set action when linkUbahTanggal is clicked
-        linkUbahTgl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.txtViewChangeDate:
                 //set Calendar
                 Calendar calDateOrder = Calendar.getInstance();
                 int year = calDateOrder.get(Calendar.YEAR);
@@ -123,21 +143,11 @@ public class DetailDokterActivity extends AppCompatActivity{
                         DetailDokterActivity.this,
                         android.R.style.ThemeOverlay_Material_Dialog, mDateListener, year, month, date);
                 dialog.show();
-            }
-        });
-
-        //apply change after set data at DatePicker dialog
-        mDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                tglDaftar.setText(getString(R.string.set_date_reserved) + " " + changeDate(year, month, dayOfMonth).get(0));
-                //clear teh ArrayList that used for RecyclerView
-                arrSchedule.clear();
-                new ViewDokterSchedule(DetailDokterActivity.this, rViewSchedule, adapterSchedule).execute("1", changeDate(year, month, dayOfMonth).get(1), changeDate(year, month, dayOfMonth).get(2));
-            }
-        };
+                break;
+        }
     }
 
+    //implement menu setting
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

@@ -1,19 +1,19 @@
 package com.chocobar.fuutaro.medicare.fragment;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.GetNomorAntrian;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateLoketPelayanan;
 import com.chocobar.fuutaro.medicare.R;
+import com.chocobar.fuutaro.medicare.activity.RiwayatActivity;
 import com.chocobar.fuutaro.medicare.model.LoketPelayanan;
 
 import java.util.ArrayList;
@@ -32,8 +32,6 @@ public class GetLoketFragment extends DialogFragment {
 
     //initiate arrays
     private ArrayList<LoketPelayanan> daftarLoket = new ArrayList<>();
-
-    private String[] arrAntrian = new String[2];
 
     //declare default constructor
     public GetLoketFragment() {
@@ -56,14 +54,6 @@ public class GetLoketFragment extends DialogFragment {
         getDialog().setTitle("Pilih Jenis Pelayanan :");
         return inflater.inflate(R.layout.fragment_get_loket, container, false);
     }
-
-//    //declared to create Dialog of DialogFragment
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        Dialog dialog = super.onCreateDialog(savedInstanceState);
-//        dialog.getWindow().requestFeature(Window.FEATURE_CUSTOM_TITLE);
-//        return dialog;
-//    }
 
     //declare onResume
     @Override
@@ -102,6 +92,7 @@ public class GetLoketFragment extends DialogFragment {
                 selectedLoket = chooseLoketVal(selectedLoket);
                 new GetNomorAntrian(getActivity()).execute(getIdPartner, getIdPelayanan, USER_ID ,selectedLoket, getIdJadwal);
                 getDialog().dismiss();
+
             }
         });
     }

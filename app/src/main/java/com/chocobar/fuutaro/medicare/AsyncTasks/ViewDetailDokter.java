@@ -53,15 +53,12 @@ public class ViewDetailDokter extends AsyncTask<String, Void, ArrayList<DetailDo
         //some widgets set the value here
         name.setText(detailDokters.get(0).getNama());
         profile.setText(detailDokters.get(0).getProfileDetail());
-        if(detailDokters.get(0).getImgBase64().equals("null"))
-            imgShowDokter.setBackgroundResource(R.drawable.ic_profile);
-        else{
+        if(!detailDokters.get(0).getImgBase64().equals("null")){
             String stringBase64 = detailDokters.get(0).getImgBase64().substring(detailDokters.get(0).getImgBase64().indexOf(",") + 1);
             byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);
             imgShowDokter.setImageBitmap(imgDecode);
         }
-        //use interface method so that AsyncTask can send data to Fragment
     }
 
     @Override

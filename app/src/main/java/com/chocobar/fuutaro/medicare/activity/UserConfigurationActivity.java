@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.icu.text.UnicodeSetSpanner;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -47,17 +48,16 @@ import java.util.Date;
 public class UserConfigurationActivity extends AppCompatActivity implements View.OnClickListener, UserProfile.OnFinishedPopulate{
 
     public ImageView profilePhoto;
-    ImageView changeBirthDate;
-    TextView txtChangePhoto;
     public EditText changeName, changeKTP, changeBirthPlace, viewBirthDate, changeAddress, changeHPNum, changeJamkesNum;
     public Spinner changeJamkesType;
-
-    private Uri mCropPhoto;
+    ImageView changeBirthDate;
+    TextView txtChangePhoto;
 
     private ArrayList<User> arrUser = new ArrayList<>();
 
     String dateBirth, imgBase64;
     int thnLahir, blnLahir, tglLahir;
+    private Uri mCropPhoto;
 
     private DatePickerDialog.OnDateSetListener mDateListener;
 
@@ -78,13 +78,16 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_save_config:
                 new UpdateProfile(UserConfigurationActivity.this).execute(
                         changeName.getText().toString(), changeKTP.getText().toString(),
                         changeBirthPlace.getText().toString(),dateBirth, changeAddress.getText().toString(),
                         changeHPNum.getText().toString(), Integer.toString(changeJamkesType.getSelectedItemPosition()),
                         changeJamkesNum.getText().toString(), imgBase64);
-                break;
+                return true;
         }
         return false;
     }
@@ -106,14 +109,9 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
                 pickImage(v);
                 break;
             case R.id.imgChangeBirthDate:
-                //set Calendar
-                int year = thnLahir;
-                int month = blnLahir;
-                int date = tglLahir;
-
                 //showing DatePicker dialog
                 DatePickerDialog dialog = new DatePickerDialog(UserConfigurationActivity.this,
-                        android.R.style.Theme_Holo_Dialog, mDateListener, year, month, date);
+                        android.R.style.Theme_Holo_Dialog, mDateListener, thnLahir, blnLahir, tglLahir);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.setTitle("Ubah tanggal lahir Anda");
                 dialog.show();
@@ -180,6 +178,8 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
         changeJamkesType = findViewById(R.id.spinnerChangeJamkesType);
         changeJamkesNum = findViewById(R.id.editJamkesNum);
 
+        viewBirthDate.setKeyListener(null);
+
         new UserProfile(UserConfigurationActivity.this, UserConfigurationActivity.this, this).execute("1");
 
         txtChangePhoto.setOnClickListener(this);
@@ -205,7 +205,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
         cal.set(year, month, dayOfMonth);
         Date dateSet = cal.getTime();
         SimpleDateFormat formatSend = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
-        SimpleDateFormat formatView = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatView = new SimpleDateFormat("dd MMMM yyyy");
         arrDateBirth.add(formatSend.format(dateSet));
         arrDateBirth.add(formatView.format(dateSet));
         return arrDateBirth;
@@ -217,7 +217,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
 
     public String encodeToBase64(Bitmap imgBitmap) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 40, outputStream);
         byte[] imgByte = outputStream.toByteArray();
         String imgEncoded = Base64.encodeToString(imgByte, Base64.DEFAULT);
         return imgEncoded;
@@ -230,6 +230,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
                 .setAspectRatio(1, 1)
                 .setInitialCropWindowPaddingRatio(0)
                 .setMultiTouchEnabled(true)
+                .setOutputCompressFormat(Bitmap.CompressFormat.JPEG)
                 .start(this);
     }
 }
