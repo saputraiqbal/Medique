@@ -2,12 +2,14 @@ package com.chocobar.fuutaro.medicare.activity;
 
 //import anything needed for this Activity
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.SignUpAsyncTask;
@@ -24,10 +26,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     //initialize widget objects app
     EditText getFullname, getEmail, getPassword, getUsername, getConfirmPassword;
+    TextView backToLogin;
     Button btnSignup;
 
     //initalize ArrayList for storing EditText values
@@ -48,11 +51,18 @@ public class SignUpActivity extends AppCompatActivity {
         getPassword = findViewById(R.id.signUpPassword);
         getConfirmPassword = findViewById(R.id.signUpConfirmPassword);
         btnSignup = findViewById(R.id.btnSignUp);
+        backToLogin = findViewById(R.id.txtBackToLogin);
 
         //action takes when button is clicked
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignup.setOnClickListener(this);
+        //action takes when TextView is clicked
+        backToLogin.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSignUp:
                 //store sign up datas to the ArrayList
                 setSignupForm.addAll(Arrays.asList(getFullname.getText().toString(), getEmail.getText().toString(), getUsername.getText().toString(), getPassword.getText().toString()));
                 //checked if form is fulfilled
@@ -66,8 +76,12 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 else
                     Toast.makeText(getApplicationContext(),"Kolom daftar kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
-           }
-        });
+                break;
+            case R.id.txtBackToLogin:
+                Intent backToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
+                finish();
+                break;
+        }
     }
 
     //method for check whether form data is fulfilled or not

@@ -53,9 +53,8 @@ public class ViewDetailFaskes extends AsyncTask<String, Void, ArrayList<DetailFa
         //some widgets set the value here
         name.setText(detailFaskes.get(0).getNamaFaskes());
         profile.setText(detailFaskes.get(0).getProfileDetail());
-        if(detailFaskes.get(0).getImgBase64().equals("null"))
-            imgShowDokter.setBackgroundResource(R.drawable.ic_profile);
-        else{
+        if(!detailFaskes.get(0).getImgBase64().equals("null"))
+            {
             String stringBase64 = detailFaskes.get(0).getImgBase64().substring(detailFaskes.get(0).getImgBase64().indexOf(",") + 1);
             byte[] avatarByte = Base64.decode(stringBase64, Base64.DEFAULT);
             Bitmap imgDecode = BitmapFactory.decodeByteArray(avatarByte, 0, avatarByte.length);

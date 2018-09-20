@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TextView.BufferType;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,7 +31,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.List;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     //initialize widget objects app
     EditText inputUsername, inputPassword;
@@ -46,25 +50,34 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         goToSignUpActivity = findViewById(R.id.txtToSignUp);
 
+        goToSignUpActivity.setText(R.string.signUp_link, BufferType.SPANNABLE);
+        Spannable span = (Spannable) goToSignUpActivity.getText();
+        int start = getString(R.string.signUp_link).indexOf("?") + 2;
+        int end = getString(R.string.signUp_link).length();
+        span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorAccent)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         //initialize login button action
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLogin.setOnClickListener(this);
+        //action takes when text linked to SignUpActivity is clicked
+        goToSignUpActivity.setOnClickListener(this);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnLogin:
                 if(!inputUsername.getText().toString().equals("") || !inputPassword.getText().toString().equals(""))
                     //call Login AsyncTask to process login
                     new LoginAsyncTask(LoginActivity.this).execute(inputUsername.getText().toString(), inputPassword.getText().toString());
                 else
                     Toast.makeText(LoginActivity.this,"Kolom Login kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        //action takes when text linked to SignUpActivity is clicked
-        goToSignUpActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.txtToSignUp:
                 Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(signUpIntent);
-            }
-        });
+                break;
+        }
     }
+
 }

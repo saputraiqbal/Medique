@@ -2,10 +2,12 @@ package com.chocobar.fuutaro.medicare.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -18,9 +20,12 @@ import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoJamkes;
 import com.chocobar.fuutaro.medicare.AsyncTasks.PopulateInfoPelayanan;
 import com.chocobar.fuutaro.medicare.R;
 import com.chocobar.fuutaro.medicare.activity.DetailFaskesActivity;
+import com.chocobar.fuutaro.medicare.activity.LoginActivity;
 import com.chocobar.fuutaro.medicare.model.Faskes;
 
 import java.util.ArrayList;
+
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.LOGIN_STATUS;
 
 public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.FaskesHolder> {
     //initiate some objects
@@ -74,7 +79,27 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.FaskesHold
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context ctx = v.getContext();
+                final Context ctx = v.getContext();
+                if(LOGIN_STATUS == 0){
+                    AlertDialog alert = new AlertDialog.Builder(ctx).create();
+                    alert.setTitle("Mohon maaf");
+                    alert.setMessage("Silakan login terlebih dahulu untuk dapat mengakses ini");
+                    alert.setButton(AlertDialog.BUTTON_POSITIVE, "Login", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(ctx, LoginActivity.class);
+                            ctx.startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setButton(AlertDialog.BUTTON_NEGATIVE, "Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alert.show();
+                }else{
                 /**set Intent and Bundle to initiate which activity will be activated
                  * and bundle some datas that will bring to another activity**/
                 Intent intent = new Intent(ctx, DetailFaskesActivity.class);
@@ -84,6 +109,7 @@ public class AdapterFaskes extends RecyclerView.Adapter<AdapterFaskes.FaskesHold
                 setBundle.putString("setPelayanan", holder.viewPelayananInfo.getText().toString());
                 intent.putExtras(setBundle);
                 ctx.startActivity(intent);
+                }
             }
         });
     }
