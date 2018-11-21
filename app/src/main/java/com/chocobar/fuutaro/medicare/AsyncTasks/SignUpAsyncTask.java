@@ -15,18 +15,18 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SignUpAsyncTask extends AsyncTask<List<String>, Void, Integer>{
+public class SignUpAsyncTask extends AsyncTask<String, Void, Integer>{
     //initialize some objects
     private ProgressDialog signupLoad;
     private Context ctx;
-    private Activity activity;
+    SignUpActivity activity;
 
     public SignUpAsyncTask(Context ctx){
         signupLoad = new ProgressDialog(ctx);
         this.ctx = ctx;
-        this.activity = (Activity)ctx;
     }
 
     //action takes before apps AsyncTask is working
@@ -43,7 +43,7 @@ public class SignUpAsyncTask extends AsyncTask<List<String>, Void, Integer>{
             signupLoad.dismiss();
         if(integer == 1){
             Toast.makeText(ctx, "Sign up sukses!", Toast.LENGTH_LONG).show();
-            activity.finish();
+//            activity.finish();
         }
         else if (integer == 0)
             Toast.makeText(ctx, "Sign up gagal. Silahkan coba lagi", Toast.LENGTH_LONG).show();
@@ -53,19 +53,19 @@ public class SignUpAsyncTask extends AsyncTask<List<String>, Void, Integer>{
 
     //main operation of AsyncTask is work here
     @Override
-    protected Integer doInBackground(List<String>... lists) {
+    protected Integer doInBackground(String... strings) {
         //initialize return value
         Integer bitSuccessConnect = -1;
-
-        //initalize variable to store parameter value
-        List<String> setSignup = lists[0];
+//
+//        //initalize variable to store parameter value
+//        List<String> setSignup = lists[0];
 
         //calling request to webservice process from AsyncTaskActivity then store the return value
         List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_RegisterApp",
-                "txtFullName#" + setSignup.get(0)+
-                        "~txtEmail#" + setSignup.get(1)+
-                        "~txtUsername#" + setSignup.get(2)+
-                        "~txtPassword#" + setSignup.get(3));
+                "txtFullName#" + strings[0]+
+                        "~txtEmail#" + strings[1]+
+                        "~txtUsername#" + strings[2]+
+                        "~txtPassword#" + strings[3]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);

@@ -68,9 +68,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 //checked if form is fulfilled
                 if(isEditTxtEmpty(setSignupForm) && !getConfirmPassword.getText().toString().isEmpty()){
                     //checked whether confirmed password is equal by password entered by user or not
-                    if (getConfirmPassword.getText().toString().equals(setSignupForm.get(3)))
+                    if (getConfirmPassword.getText().toString().equals(getPassword.getText().toString()))
                         //call SignUp AsyncTask for process signup
-                        new SignUpAsyncTask(getApplicationContext()).execute(setSignupForm);
+                        new SignUpAsyncTask(SignUpActivity.this).execute(getFullname.getText().toString(), getEmail.getText().toString(), getUsername.getText().toString(), getPassword.getText().toString());
                     else
                         Toast.makeText(getApplicationContext(),"Harap ulangi password Anda dengan benar", Toast.LENGTH_LONG).show();
                 }
@@ -78,7 +78,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(),"Kolom daftar kosong. Harap isi terlebih dahulu", Toast.LENGTH_LONG).show();
                 break;
             case R.id.txtBackToLogin:
-                Intent backToLogin = new Intent(SignUpActivity.this, LoginActivity.class);
                 finish();
                 break;
         }
@@ -87,8 +86,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     //method for check whether form data is fulfilled or not
     public static boolean isEditTxtEmpty(ArrayList<String> checkTxt){
         for (String check : checkTxt){
-            if(check.isEmpty())
+            if(check.equals(""))
             return false;
+            break;
         }
         return true;
     }
