@@ -3,11 +3,14 @@ package com.chocobar.fuutaro.medicare.AsyncTasks;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.chocobar.fuutaro.medicare.AsyncTasks.core.AsyncTaskActivity;
 import com.chocobar.fuutaro.medicare.STATIC_VALUES;
+import com.chocobar.fuutaro.medicare.activity.LoginActivity;
+import com.chocobar.fuutaro.medicare.activity.MainActivity;
 import com.chocobar.fuutaro.medicare.activity.SignUpActivity;
 
 import org.json.JSONArray;
@@ -43,6 +46,9 @@ public class SignUpAsyncTask extends AsyncTask<String, Void, Integer>{
             signupLoad.dismiss();
         if(integer == 1){
             Toast.makeText(ctx, "Sign up sukses!", Toast.LENGTH_LONG).show();
+            Intent toMainActivity = new Intent(ctx, MainActivity.class);
+            toMainActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            ctx.startActivity(toMainActivity);
 //            activity.finish();
         }
         else if (integer == 0)
