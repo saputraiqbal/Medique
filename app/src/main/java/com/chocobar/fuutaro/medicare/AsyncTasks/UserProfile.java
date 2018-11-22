@@ -69,8 +69,11 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
     protected void onPostExecute(ArrayList<User> users) {
         if(loadUser.isShowing())
             loadUser.dismiss();
-        //some widgets set the value here
-        updateUI(users);
+        if(users.isEmpty())
+            profilePhoto.setBackgroundResource(R.drawable.ic_profile);
+        else
+            //some widgets set the value here
+            updateUI(users);
         //use interface method so that AsyncTask can send data to Fragment
         listener.onFinishedPopulate(users);
     }
@@ -82,7 +85,7 @@ public class UserProfile extends AsyncTask<String, Void, ArrayList<User>> implem
     @Override
     protected ArrayList<User> doInBackground(String... strings) {
         //calling request to webservice process from AsyncTaskActivity then store the return value
-        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_getDataProfile", "`#" + strings[0]);
+        List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_getDataProfile", "intIDUser#" + strings[0]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope)dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE)dataReceived.get(1);

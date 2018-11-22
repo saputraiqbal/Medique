@@ -54,7 +54,7 @@ public class AdapterRiwayat extends RecyclerView.Adapter<AdapterRiwayat.RiwayatH
         if(mData.get(position).getStatus().equals("1")){
             holder.notif.setBackgroundResource(R.color.colorGreen);
         }
-        else if(mData.get(position).getStatus().equals("1")){
+        else if(mData.get(position).getStatus().equals("0")){
             holder.notif.setBackgroundResource(R.color.colorGray);
         }
 

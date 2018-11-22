@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.chocobar.fuutaro.medicare.STATIC_VALUES.USER_ID;
+
 public class UserConfigurationActivity extends AppCompatActivity implements View.OnClickListener, UserProfile.OnFinishedPopulate{
 
     public ImageView profilePhoto;
@@ -82,7 +84,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
                 finish();
                 return true;
             case R.id.action_save_config:
-                new UpdateProfile(UserConfigurationActivity.this).execute(
+                new UpdateProfile(UserConfigurationActivity.this).execute(USER_ID,
                         changeName.getText().toString(), changeKTP.getText().toString(),
                         changeBirthPlace.getText().toString(),dateBirth, changeAddress.getText().toString(),
                         changeHPNum.getText().toString(), Integer.toString(changeJamkesType.getSelectedItemPosition()),
@@ -94,12 +96,14 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
 
     @Override
     public void onFinishedPopulate(ArrayList<User> dataUser) {
-        arrUser = new ArrayList<>(dataUser);
-        imgBase64 = arrUser.get(0).getTxtAvatar();
-        dateBirth = arrUser.get(0).getTanggalLahir();
-        thnLahir = Integer.parseInt(arrUser.get(0).getThn_Lahir());
-        blnLahir = Integer.parseInt(arrUser.get(0).getBln_Lahir()) - 1;
-        tglLahir = Integer.parseInt(arrUser.get(0).getTgl_Lahir());
+        if(!dataUser.isEmpty()){
+            arrUser = new ArrayList<>(dataUser);
+            imgBase64 = arrUser.get(0).getTxtAvatar();
+            dateBirth = arrUser.get(0).getTanggalLahir();
+            thnLahir = Integer.parseInt(arrUser.get(0).getThn_Lahir());
+            blnLahir = Integer.parseInt(arrUser.get(0).getBln_Lahir()) - 1;
+            tglLahir = Integer.parseInt(arrUser.get(0).getTgl_Lahir());
+        }
     }
 
     @Override
@@ -180,7 +184,7 @@ public class UserConfigurationActivity extends AppCompatActivity implements View
 
         viewBirthDate.setKeyListener(null);
 
-        new UserProfile(UserConfigurationActivity.this, UserConfigurationActivity.this, this).execute("1");
+        new UserProfile(UserConfigurationActivity.this, UserConfigurationActivity.this, this).execute(USER_ID);
 
         txtChangePhoto.setOnClickListener(this);
 

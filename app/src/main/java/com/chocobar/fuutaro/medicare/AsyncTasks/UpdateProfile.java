@@ -62,10 +62,10 @@ public class UpdateProfile extends AsyncTask<String, Void, Integer>{
 
         //calling request to webservice process from AsyncTaskActivity then store the return value
         List<Object> dataReceived = AsyncTaskActivity.doAsyncTask("User_UpdDataProfile",
-                "intIDUser#1~txtNamaUser#"+ strings[0] + "~txtNoKTP#" + strings[1]
-                        + "~txtTempatLahir#"+ strings[2] +"~dtTanggalLahir#" + strings[3]
-                        + "~txtAlamat#" + strings[4] + "~txtPhone#" + strings[5]+ "~intIDJaminanKesehatan#" + strings[6]
-                        + "~txtNoJaminanKesehatan#" + strings[7] + "~txtAvatar#" + strings[8]);
+                "intIDUser#"+ strings[0] +"~txtNamaUser#"+ strings[1] + "~txtNoKTP#" + strings[2]
+                        + "~txtTempatLahir#"+ strings[3] +"~dtTanggalLahir#" + strings[4]
+                        + "~txtAlamat#" + strings[5] + "~txtPhone#" + strings[6]+ "~intIDJaminanKesehatan#" + strings[7]
+                        + "~txtNoJaminanKesehatan#" + strings[8] + "~txtAvatar#" + strings[9]);
         //convert each List values with their match object type data
         SoapSerializationEnvelope env = (SoapSerializationEnvelope) dataReceived.get(0);
         HttpTransportSE httpTrans = (HttpTransportSE) dataReceived.get(1);
